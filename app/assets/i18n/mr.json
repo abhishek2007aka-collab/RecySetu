@@ -108,5 +108,16 @@
   "save": "सेव्ह करा",
   "saved": "सेव्ह झाले",
   "recent_instruction": "तुमचे अलीकडचे व्यवहार",
-  "recycler_home_choose": "काय करायचे आहे? चित्र दाबा"
+  "recycler_home_choose": "काय करायचे आहे? चित्र दाबा",
+  "ledger_summary": "आज {paid} रुपये मिळाले, {due} रुपये बाकी. या आठवड्यात {week} रुपये मिळाले",
+  "today_got": "आज मिळाले",
+  "today_due": "आज बाकी",
+  "this_week": "या आठवड्यात",
+  "money_due": "एकूण बाकी पैसे",
+  "add_sale": "दुसरीकडे विकले",
+  "add_sale_instruction": "काय विकले? चित्र दाबा",
+  "amount_instruction": "किती रुपये मिळाले? नंबर दाबा, मग पैसे कसे मिळाले ते निवडा",
+  "ledger_empty": "अजून कोणतीही कमाई नोंदवली नाही",
+  "sold_elsewhere": "दुसरीकडे विकले",
+  "from_recycler": "रिसायकलरला विकले"
 }

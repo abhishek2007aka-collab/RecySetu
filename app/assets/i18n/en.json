@@ -108,5 +108,16 @@
   "save": "Save",
   "saved": "Saved",
   "recent_instruction": "Your recent deals",
-  "recycler_home_choose": "What do you want to do? Tap a picture"
+  "recycler_home_choose": "What do you want to do? Tap a picture",
+  "ledger_summary": "Today you got {paid} rupees, {due} rupees still due. This week {week} rupees",
+  "today_got": "Got today",
+  "today_due": "Due today",
+  "this_week": "This week",
+  "money_due": "Total still due",
+  "add_sale": "Sold elsewhere",
+  "add_sale_instruction": "What did you sell? Tap a picture",
+  "amount_instruction": "How many rupees did you get? Tap the numbers, then choose how you were paid",
+  "ledger_empty": "No earnings recorded yet",
+  "sold_elsewhere": "Sold elsewhere",
+  "from_recycler": "Sold to recycler"
 }

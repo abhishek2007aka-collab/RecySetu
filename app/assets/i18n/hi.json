@@ -108,5 +108,16 @@
   "save": "सेव करें",
   "saved": "सेव हो गया",
   "recent_instruction": "आपके हाल के सौदे",
-  "recycler_home_choose": "क्या करना है? चित्र दबाएँ"
+  "recycler_home_choose": "क्या करना है? चित्र दबाएँ",
+  "ledger_summary": "आज {paid} रुपये मिले, {due} रुपये बाकी। इस हफ्ते {week} रुपये मिले",
+  "today_got": "आज मिले",
+  "today_due": "आज बाकी",
+  "this_week": "इस हफ्ते",
+  "money_due": "कुल बाकी पैसे",
+  "add_sale": "दूसरी जगह बेचा",
+  "add_sale_instruction": "क्या बेचा? चित्र दबाएँ",
+  "amount_instruction": "कितने रुपये मिले? नंबर दबाएँ, फिर पैसे कैसे मिले चुनें",
+  "ledger_empty": "अभी कोई कमाई दर्ज नहीं है",
+  "sold_elsewhere": "दूसरी जगह बेचा",
+  "from_recycler": "रीसाइक्लर को बेचा"
 }

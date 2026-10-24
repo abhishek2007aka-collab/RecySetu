@@ -81,3 +81,11 @@ final myHandoversProvider = StreamProvider<List<Handover>>((ref) {
   if (repo == null || uid == null) return Stream.value(const []);
   return repo.watchHandovers(uid);
 });
+
+/// Entries saved in `ledger/` (sales elsewhere, and handover entries).
+final mySavedLedgerProvider = StreamProvider<List<LedgerEntry>>((ref) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(const []);
+  return repo.watchLedger(uid);
+});
