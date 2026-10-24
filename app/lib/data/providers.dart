@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/app_providers.dart';
@@ -19,6 +20,29 @@ final catalogRepositoryProvider = Provider<CatalogRepository>(
 final recordsRepositoryProvider = Provider<RecordsRepository?>((ref) {
   final db = ref.watch(firestoreProvider);
   return db == null ? null : RecordsRepository(db);
+});
+
+final firebaseAuthProvider = Provider<FirebaseAuth?>(
+  (ref) => ref.watch(firebaseReadyProvider) ? FirebaseAuth.instance : null,
+);
+
+/// The signed-in Firebase user. Firebase keeps this on the phone, so it is
+/// available offline after the first login.
+final authUserProvider = StreamProvider<User?>((ref) {
+  final auth = ref.watch(firebaseAuthProvider);
+  return auth == null ? Stream.value(null) : auth.authStateChanges();
+});
+
+final currentUidProvider = Provider<String?>(
+  (ref) => ref.watch(authUserProvider).value?.uid,
+);
+
+/// True while this collector has writes not yet on the server.
+final pendingWritesProvider = StreamProvider<bool>((ref) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(false);
+  return repo.watchHasPendingWrites(uid);
 });
 
 final materialsProvider = StreamProvider<List<ScrapMaterial>>(

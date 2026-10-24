@@ -21,6 +21,11 @@ class RecordsRepository {
       _write('confirmations', c.handoverId, c.toMap());
   void saveLedgerEntry(LedgerEntry e) => _write('ledger', e.id, e.toMap());
 
+  /// An invited recycler links their login to their listing (allowed by
+  /// firestore.rules only when the phone number matches `ownerPhone`).
+  void claimRecycler(String recyclerId, String uid) =>
+      _write('recyclers', recyclerId, {'ownerUid': uid});
+
   Stream<AppUser?> watchUser(String uid) => _db
       .collection('users')
       .doc(uid)

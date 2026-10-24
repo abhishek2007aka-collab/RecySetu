@@ -76,8 +76,8 @@ class AudioService {
   AudioService(this._strings);
 
   final Map<String, AppStrings> _strings;
-  final _tts = FlutterTts();
-  final _player = AudioPlayer();
+  late final _tts = FlutterTts();
+  late final _player = AudioPlayer();
   late final Future<SpeechPlanner> _planner = _init();
 
   Future<SpeechPlanner> _init() async {
@@ -102,8 +102,12 @@ class AudioService {
         available[locale] = false;
       }
     }
-    await _tts.setSpeechRate(0.45);
-    await _tts.awaitSpeakCompletion(true);
+    try {
+      await _tts.setSpeechRate(0.45);
+      await _tts.awaitSpeakCompletion(true);
+    } catch (e) {
+      debugPrint('tts setup: $e');
+    }
 
     return SpeechPlanner(
       strings: _strings,
@@ -137,8 +141,12 @@ class AudioService {
   }
 
   Future<void> stop() async {
-    await _tts.stop();
-    await _player.stop();
+    try {
+      await _tts.stop();
+      await _player.stop();
+    } catch (e) {
+      debugPrint('audio stop: $e');
+    }
   }
 }
 

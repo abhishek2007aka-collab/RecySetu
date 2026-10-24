@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+
+import '../../core/theme/app_theme.dart';
+import '../../core/widgets/big_tile.dart';
+import '../../core/widgets/k_scaffold.dart';
+import '../debug/audio_debug_screen.dart';
+import 'coming_soon_screen.dart';
+
+/// S5. Collector home: 4 big tiles. Long-press the title for the audio check.
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  static const tiles = [
+    (Icons.add_a_photo, 'tile_sell', AppColors.brand),
+    (Icons.currency_rupee, 'tile_rates', Color(0xFF0D47A1)),
+    (Icons.account_balance_wallet, 'tile_earnings', Color(0xFF4A148C)),
+    (Icons.health_and_safety, 'tile_safety', AppColors.hazard),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    void open(Widget screen) =>
+        Navigator.of(context)
+            .push(MaterialPageRoute<void>(builder: (_) => screen));
+
+    return KScaffold(
+      titleKey: 'app_name',
+      instructionKey: 'home_instruction',
+      onTitleLongPress: () => open(const AudioDebugScreen()),
+      body: GridView.count(
+        crossAxisCount: 2,
+        padding: const EdgeInsets.all(16),
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        children: [
+          for (final (icon, key, colour) in tiles)
+            BigTile(
+              icon: icon,
+              labelKey: key,
+              colour: colour,
+              onTap: () => open(screenFor(key)),
+            ),
+        ],
+      ),
+    );
+  }
+
+  /// Later phases replace these placeholders.
+  static Widget screenFor(String tileKey) =>
+      ComingSoonScreen(titleKey: tileKey);
+}
