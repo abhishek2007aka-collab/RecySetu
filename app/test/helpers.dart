@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Records what would have been spoken, instead of using the TTS plugin.
 class FakeAudio implements AudioService {
   final spoken = <String>[];
+  var stops = 0;
 
   @override
   Future<void> speak(
@@ -23,7 +24,7 @@ class FakeAudio implements AudioService {
   ]) async => spoken.add(key);
 
   @override
-  Future<void> stop() async {}
+  Future<void> stop() async => stops++;
 }
 
 /// The real language files from assets/i18n.

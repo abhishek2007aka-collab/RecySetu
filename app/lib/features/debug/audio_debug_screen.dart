@@ -33,7 +33,7 @@ class AudioDebugScreen extends ConsumerWidget {
               trailing: IconButton(
                 icon: const Icon(Icons.volume_up),
                 tooltip: s.t('tap_to_hear'),
-                onPressed: () => ref.speak(key, sampleParams),
+                onPressed: () => ref.speak(key, sampleParams, true),
               ),
             ),
         ],

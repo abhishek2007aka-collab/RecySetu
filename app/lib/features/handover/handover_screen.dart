@@ -106,7 +106,7 @@ class HandoverScreen extends ConsumerWidget {
                       '${s.t(modeKey(confirmation.paymentMode))}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-              onTap: () => ref.speak(statusKey),
+              onTap: () => ref.speak(statusKey, const {}, true),
             ),
           ),
           ListTile(

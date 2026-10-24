@@ -40,3 +40,21 @@ final appStringsProvider = Provider<AppStrings>((ref) {
   final all = ref.watch(allStringsProvider);
   return all[ref.watch(languageProvider)] ?? all[defaultLanguage]!;
 });
+
+/// Voice on/off, saved on the phone. When off, the app does not talk by
+/// itself; the speaker button on each screen still reads it out when tapped.
+final voiceOnProvider = NotifierProvider<VoiceOnNotifier, bool>(
+  VoiceOnNotifier.new,
+);
+
+class VoiceOnNotifier extends Notifier<bool> {
+  static const _key = 'voice_on';
+
+  @override
+  bool build() => ref.watch(sharedPrefsProvider).getBool(_key) ?? true;
+
+  void set(bool on) {
+    state = on;
+    ref.read(sharedPrefsProvider).setBool(_key, on);
+  }
+}

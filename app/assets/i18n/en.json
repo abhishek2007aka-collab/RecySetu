@@ -130,5 +130,7 @@
   "logout_confirm": "Do you want to log out? You will need your number and PIN again",
   "logout_wait_sync": "First turn on internet so all your data is sent, then log out",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "voice_on": "Voice on",
+  "voice_off": "Voice off"
 }

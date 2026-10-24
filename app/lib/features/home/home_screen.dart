@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/big_tile.dart';
 import '../../core/widgets/k_scaffold.dart';
+import '../../core/widgets/voice_toggle.dart';
 import '../onboarding/language_pick_screen.dart';
 import '../onboarding/logout_button.dart';
 import '../debug/audio_debug_screen.dart';
@@ -37,7 +38,11 @@ class HomeScreen extends ConsumerWidget {
       titleKey: 'app_name',
       instructionKey: 'home_instruction',
       onTitleLongPress: () => open(const AudioDebugScreen()),
-      extraActions: const [ChangeLanguageButton(), LogoutButton()],
+      extraActions: const [
+        VoiceToggleButton(),
+        ChangeLanguageButton(),
+        LogoutButton(),
+      ],
       body: GridView.count(
         crossAxisCount: 2,
         padding: const EdgeInsets.all(16),

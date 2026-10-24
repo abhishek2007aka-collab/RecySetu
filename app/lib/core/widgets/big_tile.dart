@@ -41,7 +41,7 @@ class BigTile extends ConsumerWidget {
           ref.speak(labelKey);
           onTap();
         },
-        onLongPress: () => ref.speak(labelKey),
+        onLongPress: () => ref.speak(labelKey, const {}, true),
         child: Stack(
           children: [
             Center(

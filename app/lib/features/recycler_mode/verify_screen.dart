@@ -103,7 +103,7 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
               ?.copyWith(color: good ? AppColors.confirmed : AppColors.hazard),
         ),
         subtitle: h == null ? null : Text(HandoverHasher.shortRef(h.hash)),
-        onTap: () => ref.speak(verdict),
+        onTap: () => ref.speak(verdict, const {}, true),
       ),
     );
 
@@ -274,7 +274,7 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
                 s.t('flag_$f'),
                 style: const TextStyle(color: AppColors.hazard),
               ),
-              onTap: () => ref.speak('flag_$f'),
+              onTap: () => ref.speak('flag_$f', const {}, true),
             ),
           const SizedBox(height: 8),
           ActionButton(
@@ -301,6 +301,6 @@ class _Section extends ConsumerWidget {
     leading: Icon(icon, size: 32),
     title: Text(ref.watch(appStringsProvider).t(labelKey)),
     trailing: const Icon(Icons.volume_up),
-    onTap: () => ref.speak(labelKey),
+    onTap: () => ref.speak(labelKey, const {}, true),
   );
 }

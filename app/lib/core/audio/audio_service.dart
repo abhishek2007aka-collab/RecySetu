@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -157,10 +157,29 @@ final audioServiceProvider = Provider<AudioService>((ref) {
 });
 
 extension SpeakRef on WidgetRef {
-  /// Says [key] in the current language.
-  void speak(String key, [Map<String, Object> params = const {}]) {
+  /// Says [key] in the current language. Skipped when the voice is switched
+  /// off, unless [force] (the user tapped a speaker button to hear it).
+  void speak(
+    String key, [
+    Map<String, Object> params = const {},
+    bool force = false,
+  ]) {
+    if (!force && !read(voiceOnProvider)) return;
     unawaited(
       read(audioServiceProvider).speak(read(languageProvider), key, params),
     );
   }
+
+  void stopSpeaking() => unawaited(read(audioServiceProvider).stop());
+}
+
+/// Stops any speech when a screen is closed (back button or swipe), so the
+/// app goes quiet and waits for the next tap.
+class StopSpeechOnBack extends NavigatorObserver {
+  StopSpeechOnBack(this.stop);
+
+  final void Function() stop;
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) => stop();
 }

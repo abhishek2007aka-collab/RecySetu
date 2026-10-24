@@ -49,7 +49,7 @@ class SyncIcon extends ConsumerWidget {
     };
     return IconButton(
       icon: Icon(icon, color: colour),
-      onPressed: () => ref.speak(key),
+      onPressed: () => ref.speak(key, const {}, true),
     );
   }
 }

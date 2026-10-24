@@ -111,13 +111,13 @@ class _RecyclerCard extends ConsumerWidget {
         : (payoutPaise! + 50) ~/ 100;
 
     void speakRow() => ratePerKg == null
-        ? ref.speak('recycler_spoken_norate', {'name': r.name, 'km': km})
+        ? ref.speak('recycler_spoken_norate', {'name': r.name, 'km': km}, true)
         : ref.speak('recycler_spoken', {
             'name': r.name,
             'km': km,
             'rate': ratePerKg,
             'amount': payoutRupees!,
-          });
+          }, true);
 
     return Card(
       shape: RoundedRectangleBorder(

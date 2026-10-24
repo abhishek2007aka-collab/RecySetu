@@ -55,7 +55,7 @@ class RatesBoardScreen extends ConsumerWidget {
                       'low': low,
                       'high': high,
                       'trend': s.t(trendKey),
-                    }),
+                    }, true),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Column(

@@ -43,7 +43,8 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
     });
   }
 
-  void _speak() => ref.speak(widget.instructionKey, widget.instructionParams);
+  void _speak({bool force = false}) =>
+      ref.speak(widget.instructionKey, widget.instructionParams, force);
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
           IconButton(
             icon: const Icon(Icons.volume_up),
             tooltip: s.t(widget.instructionKey, widget.instructionParams),
-            onPressed: _speak,
+            onPressed: () => _speak(force: true),
           ),
         ],
       ),

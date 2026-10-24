@@ -143,7 +143,7 @@ class _Total extends ConsumerWidget {
     child: Card(
       color: colour.withValues(alpha: 0.12),
       child: InkWell(
-        onTap: () => ref.speak(labelKey),
+        onTap: () => ref.speak(labelKey, const {}, true),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
           child: Column(

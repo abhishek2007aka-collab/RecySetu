@@ -28,7 +28,7 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => ref.speak('choose_language'),
+      (_) => ref.speak('choose_language', const {}, true),
     );
   }
 
@@ -44,7 +44,7 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
     }
     setState(() => _heard = code);
     ref.read(languageProvider.notifier).select(code);
-    ref.speak('lang_name');
+    ref.speak('lang_name', const {}, true);
   }
 
   @override
@@ -61,7 +61,7 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.volume_up),
-            onPressed: () => ref.speak('choose_language'),
+            onPressed: () => ref.speak('choose_language', const {}, true),
           ),
         ],
       ),
@@ -85,7 +85,7 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
                 label: s.t('more_languages'),
                 onTap: () {
                   setState(() => _showAll = true);
-                  ref.speak('more_languages');
+                  ref.speak('more_languages', const {}, true);
                 },
               ),
           ],
