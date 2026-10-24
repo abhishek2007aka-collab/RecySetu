@@ -136,5 +136,9 @@
   "voice_off": "અવાજ બંધ",
   "grams": "ગ્રામ",
   "type_weight": "વજન લખો. પહેલા કિલો કે ગ્રામ પસંદ કરો, પછી નંબર દબાવો",
-  "weight_spoken_g": "{weight} ગ્રામ"
+  "weight_spoken_g": "{weight} ગ્રામ",
+  "tagline": "દરેક ભંગારનો સાચો ભાવ",
+  "developed_by": "દ્વારા વિકસિત",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

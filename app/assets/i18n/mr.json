@@ -136,5 +136,9 @@
   "voice_off": "आवाज बंद",
   "grams": "ग्रॅम",
   "type_weight": "वजन लिहा. आधी किलो किंवा ग्रॅम निवडा, मग नंबर दाबा",
-  "weight_spoken_g": "{weight} ग्रॅम"
+  "weight_spoken_g": "{weight} ग्रॅम",
+  "tagline": "प्रत्येक भंगाराला योग्य भाव",
+  "developed_by": "विकसित केले",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

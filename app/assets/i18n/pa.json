@@ -136,5 +136,9 @@
   "voice_off": "ਆਵਾਜ਼ ਬੰਦ",
   "grams": "ਗ੍ਰਾਮ",
   "type_weight": "ਭਾਰ ਲਿਖੋ। ਪਹਿਲਾਂ ਕਿੱਲੋ ਜਾਂ ਗ੍ਰਾਮ ਚੁਣੋ, ਫਿਰ ਨੰਬਰ ਦਬਾਓ",
-  "weight_spoken_g": "{weight} ਗ੍ਰਾਮ"
+  "weight_spoken_g": "{weight} ਗ੍ਰਾਮ",
+  "tagline": "ਹਰ ਕਬਾੜ ਦਾ ਸਹੀ ਮੁੱਲ",
+  "developed_by": "ਵੱਲੋਂ ਤਿਆਰ",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

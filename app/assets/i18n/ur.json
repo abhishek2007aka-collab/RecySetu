@@ -136,5 +136,9 @@
   "voice_off": "آواز بند",
   "grams": "گرام",
   "type_weight": "وزن لکھیں۔ پہلے کلو یا گرام چنیں، پھر نمبر دبائیں",
-  "weight_spoken_g": "{weight} گرام"
+  "weight_spoken_g": "{weight} گرام",
+  "tagline": "ہر کباڑ کا صحیح دام",
+  "developed_by": "تیار کردہ",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

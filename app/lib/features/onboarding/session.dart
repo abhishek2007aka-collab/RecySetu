@@ -16,6 +16,7 @@ class Session {
     this.unlocked = false,
     this.role,
     this.recyclerId,
+    this.splashDone = false,
   });
 
   final bool languageChosen;
@@ -26,18 +27,24 @@ class Session {
   final UserRole? role;
   final String? recyclerId;
 
+  /// Only in memory: the branded loading screen shows once per app start,
+  /// right after the PIN.
+  final bool splashDone;
+
   Session copyWith({
     bool? languageChosen,
     String? pinHash,
     bool? unlocked,
     UserRole? role,
     String? recyclerId,
+    bool? splashDone,
   }) => Session(
     languageChosen: languageChosen ?? this.languageChosen,
     pinHash: pinHash ?? this.pinHash,
     unlocked: unlocked ?? this.unlocked,
     role: role ?? this.role,
     recyclerId: recyclerId ?? this.recyclerId,
+    splashDone: splashDone ?? this.splashDone,
   );
 }
 
@@ -84,6 +91,8 @@ class SessionNotifier extends Notifier<Session> {
     state = state.copyWith(unlocked: true);
     return true;
   }
+
+  void finishSplash() => state = state.copyWith(splashDone: true);
 
   void setRole(UserRole role, {String? recyclerId}) {
     _prefs.setString(_role, role.name);

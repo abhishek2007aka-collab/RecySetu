@@ -136,5 +136,9 @@
   "voice_off": "శబ్దం ఆఫ్",
   "grams": "గ్రాములు",
   "type_weight": "బరువు రాయండి. ముందు కిలో లేదా గ్రాము ఎంచుకుని, అంకెలు నొక్కండి",
-  "weight_spoken_g": "{weight} గ్రాములు"
+  "weight_spoken_g": "{weight} గ్రాములు",
+  "tagline": "ప్రతి పాత సామానుకు న్యాయమైన ధర",
+  "developed_by": "రూపొందించినవారు",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

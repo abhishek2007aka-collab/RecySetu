@@ -136,5 +136,9 @@
   "voice_off": "ಧ್ವನಿ ಆಫ್",
   "grams": "ಗ್ರಾಂ",
   "type_weight": "ತೂಕ ಬರೆಯಿರಿ. ಮೊದಲು ಕಿಲೋ ಅಥವಾ ಗ್ರಾಂ ಆರಿಸಿ, ನಂತರ ಸಂಖ್ಯೆ ಒತ್ತಿ",
-  "weight_spoken_g": "{weight} ಗ್ರಾಂ"
+  "weight_spoken_g": "{weight} ಗ್ರಾಂ",
+  "tagline": "ಪ್ರತಿ ಗುಜರಿಗೆ ನ್ಯಾಯ ಬೆಲೆ",
+  "developed_by": "ಅಭಿವೃದ್ಧಿಪಡಿಸಿದವರು",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

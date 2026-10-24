@@ -136,5 +136,9 @@
   "voice_off": "ஒலி நிறுத்தம்",
   "grams": "கிராம்",
   "type_weight": "எடையை எழுதவும். முதலில் கிலோ அல்லது கிராம் தேர்ந்தெடுத்து, எண்களை அழுத்தவும்",
-  "weight_spoken_g": "{weight} கிராம்"
+  "weight_spoken_g": "{weight} கிராம்",
+  "tagline": "ஒவ்வொரு பழைய பொருளுக்கும் நியாய விலை",
+  "developed_by": "உருவாக்கியவர்கள்",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

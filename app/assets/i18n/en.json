@@ -135,5 +135,9 @@
   "voice_off": "Voice off",
   "grams": "grams",
   "type_weight": "Type the weight. First choose kilo or gram, then tap the numbers",
-  "weight_spoken_g": "{weight} grams"
+  "weight_spoken_g": "{weight} grams",
+  "tagline": "Fair price for every scrap",
+  "developed_by": "Developed by",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }

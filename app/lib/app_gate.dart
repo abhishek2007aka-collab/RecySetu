@@ -9,6 +9,7 @@ import 'features/onboarding/login_screen.dart';
 import 'features/onboarding/pin_screen.dart';
 import 'features/onboarding/role_screen.dart';
 import 'features/onboarding/session.dart';
+import 'features/onboarding/splash_screen.dart';
 import 'features/recycler_mode/recycler_home_screen.dart';
 
 /// Picks the first screen from the onboarding state:
@@ -30,6 +31,11 @@ class AppGate extends ConsumerWidget {
     if (user == null) return const LoginScreen();
     if (session.pinHash == null) return PinScreen(uid: user.uid, setting: true);
     if (!session.unlocked) return PinScreen(uid: user.uid, setting: false);
+    if (!session.splashDone) {
+      return SplashScreen(
+        onDone: ref.read(sessionProvider.notifier).finishSplash,
+      );
+    }
     if (session.role == null) {
       return RoleScreen(uid: user.uid, phone: user.phoneNumber ?? '');
     }

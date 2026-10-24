@@ -136,5 +136,9 @@
   "voice_off": "আওয়াজ বন্ধ",
   "grams": "গ্রাম",
   "type_weight": "ওজন লিখুন। আগে কেজি বা গ্রাম বেছে নিন, তারপর নম্বর চাপুন",
-  "weight_spoken_g": "{weight} গ্রাম"
+  "weight_spoken_g": "{weight} গ্রাম",
+  "tagline": "প্রতিটি কাবাড়ের সঠিক দাম",
+  "developed_by": "তৈরি করেছে",
+  "team_name": "ByteStorms",
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
 }
