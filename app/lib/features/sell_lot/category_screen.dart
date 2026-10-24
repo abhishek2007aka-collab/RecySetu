@@ -18,12 +18,31 @@ class CategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final materials = ref.watch(materialsProvider).value ?? const [];
+    final all = ref.watch(materialsProvider).value ?? const <ScrapMaterial>[];
     // Start loading prices now so the price screen (S9) has them at once.
     ref.watch(pricesProvider);
+    final suggested = ref.watch(suggestedMaterialProvider);
+    // The suggested material goes first; the collector can still pick any.
+    final materials = [
+      ?suggested,
+      for (final m in all)
+        if (m != suggested) m,
+    ];
+    final s = ref.watch(appStringsProvider);
+    // If the suggestion arrives after the screen opened, say it then.
+    ref.listen(suggestedMaterialProvider, (before, now) {
+      if (before == null && now != null) {
+        ref.speak('ai_suggestion', {'material': s.t(now.nameKey)});
+      }
+    });
     return KScaffold(
       titleKey: 'tile_sell',
-      instructionKey: 'category_instruction',
+      instructionKey: suggested == null
+          ? 'category_instruction'
+          : 'ai_suggestion',
+      instructionParams: {
+        'material': suggested == null ? '' : s.t(suggested.nameKey),
+      },
       body: GridView.count(
         crossAxisCount: 2,
         padding: const EdgeInsets.all(12),
@@ -33,6 +52,7 @@ class CategoryScreen extends ConsumerWidget {
           for (final m in materials)
             _MaterialTile(
               material: m,
+              suggested: m == suggested,
               onTap: () {
                 ref.read(sellDraftProvider.notifier).chooseMaterial(m.code);
                 if (m.hazard == Hazard.high) ref.speak('hazard_warning');
@@ -48,10 +68,17 @@ class CategoryScreen extends ConsumerWidget {
 }
 
 class _MaterialTile extends ConsumerWidget {
-  const _MaterialTile({required this.material, required this.onTap});
+  const _MaterialTile({
+    required this.material,
+    required this.onTap,
+    this.suggested = false,
+  });
 
   final ScrapMaterial material;
   final VoidCallback onTap;
+
+  /// Highlighted because the recogniser thinks the photo shows this.
+  final bool suggested;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,7 +91,10 @@ class _MaterialTile extends ConsumerWidget {
       color: colour.withValues(alpha: 0.10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: colour, width: high ? 3 : 1.5),
+        side: BorderSide(
+          color: suggested ? AppColors.confirmed : colour,
+          width: suggested ? 5 : (high ? 3 : 1.5),
+        ),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
@@ -93,6 +123,17 @@ class _MaterialTile extends ConsumerWidget {
                 ],
               ),
             ),
+            if (suggested)
+              Positioned(
+                top: 6,
+                left: 6,
+                child: Chip(
+                  avatar: const Icon(Icons.auto_awesome, size: 18),
+                  label: Text(s.t('suggested')),
+                  backgroundColor: AppColors.confirmed.withValues(alpha: 0.2),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
             if (high)
               const Positioned(
                 top: 8,

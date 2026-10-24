@@ -121,5 +121,7 @@
   "sold_elsewhere": "Sold elsewhere",
   "from_recycler": "Sold to recycler",
   "more_languages": "More languages",
-  "change_language": "Change language"
+  "change_language": "Change language",
+  "ai_suggestion": "Looks like {material}. Tap it if it is right, or pick the right picture",
+  "suggested": "Suggested"
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import '../../core/audio/audio_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/action_button.dart';
 import '../../core/widgets/k_scaffold.dart';
+import '../../data/providers.dart';
 import 'category_screen.dart';
 import 'sell_draft.dart';
 
@@ -25,7 +27,12 @@ class _PhotoScreenState extends ConsumerState<PhotoScreen> {
     setState(() => _busy = true);
     try {
       final photo = await ref.read(photoStoreProvider).capture();
-      if (photo != null) ref.read(sellDraftProvider.notifier).addPhoto(photo);
+      if (photo != null) {
+        final draft = ref.read(sellDraftProvider.notifier);
+        draft.addPhoto(photo);
+        // Suggest the category in the background; never blocks the flow.
+        unawaited(draft.classify(photo));
+      }
     } catch (e) {
       debugPrint('camera: $e');
       ref.speak('photo_failed');
@@ -37,6 +44,9 @@ class _PhotoScreenState extends ConsumerState<PhotoScreen> {
   @override
   Widget build(BuildContext context) {
     final photos = ref.watch(sellDraftProvider.select((d) => d.photos));
+    // Load materials and the recogniser now, so the next screen is ready.
+    ref.watch(materialsProvider);
+    ref.watch(scrapClassifierProvider);
     final full = photos.length >= SellDraft.maxPhotos;
 
     return KScaffold(

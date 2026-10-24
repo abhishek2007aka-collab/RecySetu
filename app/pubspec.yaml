@@ -51,6 +51,7 @@ dependencies:
   path_provider: ^2.1.6
   uuid: ^4.6.0
   intl: ^0.20.3
+  tflite_flutter: ^0.12.1
 
 dev_dependencies:
   flutter_test:
@@ -74,3 +75,4 @@ flutter:
   assets:
     - assets/i18n/
     - assets/seed/
+    - assets/models/

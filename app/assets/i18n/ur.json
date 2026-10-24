@@ -122,5 +122,7 @@
   "sold_elsewhere": "دوسری جگہ بیچا",
   "from_recycler": "ری سائیکلر کو بیچا",
   "more_languages": "مزید زبانیں",
-  "change_language": "زبان بدلیں"
+  "change_language": "زبان بدلیں",
+  "ai_suggestion": "لگتا ہے یہ {material} ہے۔ صحیح ہو تو دبائیں، ورنہ صحیح تصویر چنیں",
+  "suggested": "تجویز"
 }

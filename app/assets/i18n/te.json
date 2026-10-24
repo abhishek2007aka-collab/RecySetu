@@ -122,5 +122,7 @@
   "sold_elsewhere": "వేరే చోట అమ్మాను",
   "from_recycler": "రీసైక్లర్‌కు అమ్మాను",
   "more_languages": "మరిన్ని భాషలు",
-  "change_language": "భాష మార్చండి"
+  "change_language": "భాష మార్చండి",
+  "ai_suggestion": "ఇది {material} లా ఉంది. సరైనదైతే నొక్కండి, లేకపోతే సరైన బొమ్మను ఎంచుకోండి",
+  "suggested": "సూచన"
 }

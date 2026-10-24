@@ -122,5 +122,7 @@
   "sold_elsewhere": "অন্য জায়গায় বিক্রি",
   "from_recycler": "রিসাইক্লারকে বিক্রি",
   "more_languages": "আরও ভাষা",
-  "change_language": "ভাষা বদলান"
+  "change_language": "ভাষা বদলান",
+  "ai_suggestion": "মনে হচ্ছে এটা {material}। ঠিক হলে চাপুন, না হলে সঠিক ছবি বেছে নিন",
+  "suggested": "পরামর্শ"
 }

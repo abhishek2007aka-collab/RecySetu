@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/hash/handover_hasher.dart';
 import '../../core/sync/photo_store.dart';
 import '../../core/valuation/valuation.dart';
+import '../../core/vision/scrap_classifier.dart';
 import '../../data/models/catalog.dart';
 import '../../data/models/records.dart';
 import '../../data/providers.dart';
@@ -17,6 +19,7 @@ class SellDraft {
     this.weightGrams = 1000,
     this.saved = false,
     this.handover,
+    this.photoScores = const [],
   }) : lotId = lotId ?? const Uuid().v4();
 
   /// Made on the phone at the start, so saving twice never makes two lots.
@@ -29,6 +32,9 @@ class SellDraft {
   /// Set once the collector chose a recycler and the record was sealed.
   final Handover? handover;
 
+  /// Recogniser scores per photo (empty when no model is bundled).
+  final List<Map<String, double>> photoScores;
+
   static const maxPhotos = 3;
   static const maxWeightGrams = 1000 * 1000; // 1 tonne
 
@@ -38,6 +44,7 @@ class SellDraft {
     int? weightGrams,
     bool? saved,
     Handover? handover,
+    List<Map<String, double>>? photoScores,
   }) => SellDraft(
     lotId: lotId,
     photos: photos ?? this.photos,
@@ -45,6 +52,7 @@ class SellDraft {
     weightGrams: weightGrams ?? this.weightGrams,
     saved: saved ?? this.saved,
     handover: handover ?? this.handover,
+    photoScores: photoScores ?? this.photoScores,
   );
 }
 
@@ -59,8 +67,29 @@ class SellDraftNotifier extends Notifier<SellDraft> {
     state = state.copyWith(photos: [...state.photos, p]);
   }
 
-  void removePhoto(LocalPhoto p) =>
-      state = state.copyWith(photos: [...state.photos]..remove(p));
+  void removePhoto(LocalPhoto p) {
+    final i = state.photos.indexOf(p);
+    if (i < 0) return;
+    state = state.copyWith(
+      photos: [...state.photos]..removeAt(i),
+      photoScores: i < state.photoScores.length
+          ? ([...state.photoScores]..removeAt(i))
+          : state.photoScores,
+    );
+  }
+
+  /// Runs the recogniser on a new photo (if a model is bundled).
+  Future<void> classify(LocalPhoto p) async {
+    final classifier = await ref.read(scrapClassifierProvider.future);
+    if (classifier == null) return;
+    try {
+      final scores = await classifier.classify(p.path);
+      if (!state.photos.contains(p)) return;
+      state = state.copyWith(photoScores: [...state.photoScores, scores]);
+    } catch (e) {
+      debugPrint('classify: $e');
+    }
+  }
 
   void chooseMaterial(String code) =>
       state = state.copyWith(materialCode: code);
@@ -141,6 +170,33 @@ class SellDraftNotifier extends Notifier<SellDraft> {
 final sellDraftProvider = NotifierProvider<SellDraftNotifier, SellDraft>(
   SellDraftNotifier.new,
 );
+
+/// The bundled recogniser, or null when the team has not added a model.
+final scrapClassifierProvider = FutureProvider<ScrapClassifier?>((ref) async {
+  final c = await ScrapClassifier.load();
+  ref.onDispose(() => c?.close());
+  return c;
+});
+
+/// What the recogniser thinks this lot is, if it is sure enough (≥ 70%).
+final draftSuggestionProvider = Provider<Suggestion?>((ref) {
+  final scores = ref.watch(sellDraftProvider.select((d) => d.photoScores));
+  final codes = {
+    for (final m
+        in ref.watch(materialsProvider).value ?? const <ScrapMaterial>[])
+      m.code,
+  };
+  return pickSuggestion(scores, codes);
+});
+
+/// The material behind the suggestion, once materials have loaded.
+final suggestedMaterialProvider = Provider<ScrapMaterial?>((ref) {
+  final code = ref.watch(draftSuggestionProvider)?.materialCode;
+  if (code == null) return null;
+  return (ref.watch(materialsProvider).value ?? const <ScrapMaterial>[])
+      .where((m) => m.code == code)
+      .firstOrNull;
+});
 
 final photoStoreProvider = Provider<PhotoStore>((ref) => PhotoStore());
 

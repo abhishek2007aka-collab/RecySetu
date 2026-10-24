@@ -67,9 +67,15 @@ abstract final class AppTheme {
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(minimumSize: buttonSize, iconSize: 32),
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         toolbarHeight: 64,
-        titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+        // A title style replaces the default one completely, so it must
+        // carry its own colour (without it the title was white on white).
+        titleTextStyle: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: scheme.onSurface,
+        ),
       ),
     );
   }

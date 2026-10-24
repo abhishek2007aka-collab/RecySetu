@@ -122,5 +122,7 @@
   "sold_elsewhere": "ಬೇರೆಡೆ ಮಾರಿದೆ",
   "from_recycler": "ಮರುಬಳಕೆದಾರರಿಗೆ ಮಾರಿದೆ",
   "more_languages": "ಇನ್ನಷ್ಟು ಭಾಷೆಗಳು",
-  "change_language": "ಭಾಷೆ ಬದಲಿಸಿ"
+  "change_language": "ಭಾಷೆ ಬದಲಿಸಿ",
+  "ai_suggestion": "ಇದು {material} ತರಹ ಕಾಣುತ್ತದೆ. ಸರಿಯಾಗಿದ್ದರೆ ಒತ್ತಿ, ಇಲ್ಲದಿದ್ದರೆ ಸರಿಯಾದ ಚಿತ್ರ ಆರಿಸಿ",
+  "suggested": "ಸಲಹೆ"
 }
