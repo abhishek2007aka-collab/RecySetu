@@ -4,7 +4,7 @@ Smart India Hackathon 2026 · Problem statement SIH26229 · Ministry of Mines (C
 
 This document records everything the team built, step by step, in simple language: what the app does, how it works inside, the tools we used, the problems we hit and how we solved them. It is updated after every build phase.
 
-Last updated: 24 October 2026 (after Phase 8 — the full core demo flow is built)
+Last updated: 24 October 2026 (after Phase 8 + 12 languages)
 
 ## 1. The problem in one page
 
@@ -179,14 +179,26 @@ All rows are clearly marked **placeholder** for now. We will replace them with r
 
 **Goal:** the app speaks and shows text in the user's language, and switching language is instant.
 
-**Languages:**
+**Languages (12):**
 
-| Code | Language | How it's spoken |
-|---|---|---|
-| hi | Hindi (default) | Android text-to-speech |
-| en | English (for judges) | Android text-to-speech |
-| mr | Marathi | Android text-to-speech |
-| gbm | Garhwali (local language, Uttarakhand) | Recorded voice clips (Android can't speak Garhwali). Until recorded, falls back to Hindi |
+| Code | Language | How it's spoken | Why it's included |
+|---|---|---|---|
+| hi | Hindi (default) | Android text-to-speech | Most collectors understand it |
+| gbm | Garhwali | Recorded clips (Android can't speak it); Hindi voice until recorded | Local language of Uttarakhand |
+| mr | Marathi | Android text-to-speech | Required by the problem statement |
+| en | English | Android text-to-speech | For judges and recyclers |
+| bn | Bengali | Android text-to-speech | Many collectors in North Indian cities come from West Bengal |
+| bho | Bhojpuri | Hindi voice until clips are recorded | Many collectors come from Bihar and East UP |
+| pa | Punjabi | Android text-to-speech | Spoken around Roorkee / West UP / Punjab |
+| ur | Urdu | Android text-to-speech; the whole screen flips right-to-left | Widely spoken in West UP |
+| gu | Gujarati | Android text-to-speech | Large e-waste hubs in Gujarat |
+| ta | Tamil | Android text-to-speech | Large e-waste hubs in Tamil Nadu |
+| te | Telugu | Android text-to-speech | Large e-waste hubs in Telangana / Andhra |
+| kn | Kannada | Android text-to-speech | Bengaluru is a major e-waste city |
+
+**Honesty note:** the developers wrote the translations for every language except English. Each file is marked *draft — check with a native speaker*, and that check must happen before field use. Garhwali is still a copy of the Hindi text until the team translates it.
+
+**Choosing a language without reading:** the first screen shows only **4 big choices** (Hindi, Garhwali, Marathi + "More languages"), keeping to the 4-choice rule. "More" shows all 12. Each tile says its language's name out loud on the first tap and chooses it on the second. The language can be changed any time with the language (translate) button at the top of the home screen.
 
 Each language has one file, for example `assets/i18n/hi.json`. Text can have slots, e.g. *"You will get about {amount} rupees"* — the app fills in the number.
 
@@ -315,12 +327,13 @@ The screen shows this as a **QR code** plus a short reference like **A3F9-1C2B**
 
 ## 7. Testing
 
-Every important piece of logic has automatic tests that run with `flutter test`. Current status: **88 tests, all passing**, and `flutter analyze` reports no issues.
+Every important piece of logic has automatic tests that run with `flutter test`. Current status: **92 tests, all passing**, and `flutter analyze` reports no issues.
 
 | What is tested | Examples |
 |---|---|
 | Theme | Buttons are at least 56 dp |
-| Language files | Every language has exactly the same sentences as Hindi; slots are filled correctly |
+| Language files | All 12 languages have exactly the same 123 sentences as Hindi, with the same {slots}; every language name is different |
+| Language screen | First page has exactly 4 choices; More shows all 12; Urdu turns the layout right-to-left |
 | Language switching | Tapping a language changes the text instantly and remembers the choice |
 | Data models | Every record can be saved and read back unchanged; unknown values fall back safely |
 | Seed data | Prices are whole paise and low ≤ high; missing recycler rates are skipped; every row is marked placeholder |
