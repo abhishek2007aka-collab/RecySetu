@@ -171,5 +171,15 @@
   "demo_tools": "ಡೆಮೊ ಉಪಕರಣಗಳು",
   "demo_reset_safety": "ಸುರಕ್ಷತಾ ಕಾರ್ಡ್ ಮತ್ತೆ ತೋರಿಸಿ",
   "demo_set_location": "ಸ್ಥಳ: ರೂರ್ಕಿ (ಡೆಮೊ)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "ಅಥವಾ ಬೇರೆಯದನ್ನು ಆರಿಸಿ",
+  "payment_question": "ರೀಸೈಕ್ಲರ್ ನಿಮಗೆ {amount} ರೂಪಾಯಿ ಕೊಟ್ಟಿದ್ದೇನೆ ಎನ್ನುತ್ತಾರೆ, {mode}. ನಿಮಗೆ ಹಣ ಸಿಕ್ಕಿತೇ?",
+  "payment_question_short": "ಹಣ ಸಿಕ್ಕಿತೇ?",
+  "payment_yes": "ಹೌದು, ಸಿಕ್ಕಿತು",
+  "payment_no": "ಸಿಕ್ಕಿಲ್ಲ",
+  "payment_received_done": "ವ್ಯವಹಾರ ಪೂರ್ಣ. {amount} ರೂಪಾಯಿ ನಿಮ್ಮ ಗಳಿಕೆಗೆ ಸೇರಿತು",
+  "payment_not_received": "ರೀಸೈಕ್ಲರ್ ಬಳಿ ಹಣ ಕೇಳಿ. ಹಣ ಸಿಕ್ಕಾಗ ಹೌದು ಒತ್ತಿ",
+  "status_complete": "ಪೂರ್ಣ, ಹಣ ಸಿಕ್ಕಿತು",
+  "status_not_received": "ಗುಜರಿಯವರು ಹಣ ಸಿಕ್ಕಿಲ್ಲ ಎನ್ನುತ್ತಾರೆ",
+  "status_wait_collector": "ಗುಜರಿಯವರು 'ಹಣ ಸಿಕ್ಕಿತು' ಎನ್ನುವವರೆಗೆ ಕಾಯಲಾಗುತ್ತಿದೆ"
 }

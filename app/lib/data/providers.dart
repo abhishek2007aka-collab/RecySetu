@@ -82,6 +82,16 @@ final myConfirmationsProvider = StreamProvider<Map<String, Confirmation>>((
       .map((list) => {for (final c in list) c.handoverId: c});
 });
 
+/// This collector's "money received?" answers, by handover id.
+final myReceiptsProvider = StreamProvider<Map<String, Receipt>>((ref) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(const {});
+  return repo
+      .watchReceipts(uid)
+      .map((list) => {for (final r in list) r.handoverId: r});
+});
+
 /// This collector's handovers.
 final myHandoversProvider = StreamProvider<List<Handover>>((ref) {
   final repo = ref.watch(recordsRepositoryProvider);

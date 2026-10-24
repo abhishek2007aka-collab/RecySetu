@@ -318,7 +318,7 @@ The screen shows this as a **QR code** plus a short reference like **A3F9-1C2B**
 | Screen | What the recycler does |
 |---|---|
 | R1 Home | Three tiles: Scan QR, My rates, Recent deals |
-| R2 Scan + verify | Scans the collector's QR. The app **re-computes the hash from the QR's data**: green "Record is genuine", or red "Warning! The record was changed". Then the recycler enters the weight they measured and taps **Cash**, **UPI** or **Later** (money due) |
+| R2 Scan + verify | Scans the collector's QR. The app **re-computes the hash from the QR's data**: green "Record is genuine", or red "Warning! The record was changed". Then the recycler enters the weight they measured and taps **Cash** or **UPI** (paid on the spot; "pay later" was removed so kabadiwalas are never left waiting for money) |
 | R3 My rates | Changes their ₹/kg per material with −10/−1/+1/+10 buttons |
 
 **Why it can't be cheated:** if anyone changes even one digit (for example the weight from 2 kg to 9 kg) the fingerprint no longer matches and the recycler's phone shows a red warning. This needs **no internet**, because the QR carries the whole record.
@@ -570,3 +570,12 @@ The plan's target is a release app under **30 MB**, so it downloads quickly on a
 | Contact the 8 authorised recyclers | Get verified phone numbers and rates; invite them to join through the app |
 | Admin screen inside the app | So prices and recycler approvals don't need the Mac scripts |
 | Google Play Store | Developer account, privacy policy, store listing; the app is already signed for it |
+
+## Update: kabadiwala must confirm the money (v1.0.2)
+- **AI pick on top.** When the AI is sure (70% or more), its choice now appears as one big tile at the top of the screen, with the percent, and is spoken. All other materials are shown below under "Or pick another".
+- **No "pay later".** The recycler can only pay **Cash** or **UPI**, on the spot.
+- **The deal is complete only when the kabadiwala says "Yes, I got the money".** After the recycler confirms, the kabadiwala's phone asks out loud *"The recycler says they paid you ₹420, cash. Did you get the money?"* with a big green **Yes** and red **No**.
+  - **Yes** → the deal turns green "Complete" and the money is added to My earnings.
+  - **No** → it stays red ("money not received") on both phones until the kabadiwala gets paid and taps Yes.
+  - The question also pops up on the home screen, so it can't be missed.
+- **How it works inside:** the kabadiwala's answer is saved as a small **receipt** record (`receipts/{handoverId}`) that only the kabadiwala can write and only that recycler can read. Like everything else it is saved on the phone first and synced when internet returns. Earnings count a deal only after this "yes". 145 automatic tests pass.

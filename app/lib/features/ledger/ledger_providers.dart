@@ -1,16 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/ledger/deal_status.dart';
 import '../../core/ledger/ledger_summary.dart';
 import '../../data/models/records.dart';
 import '../../data/providers.dart';
 
-/// The collector's full ledger: saved entries plus confirmed handovers,
-/// newest first, no duplicates.
+/// The collector's full ledger: saved entries plus deals they said "money
+/// received" for, newest first, no duplicates.
 final ledgerProvider = Provider<List<LedgerEntry>>((ref) {
   final handovers = ref.watch(myHandoversProvider).value ?? const <Handover>[];
+  final receipts = ref.watch(myReceiptsProvider).value ?? const {};
   return mergeLedger(
     ref.watch(mySavedLedgerProvider).value ?? const [],
     (ref.watch(myConfirmationsProvider).value ?? const {}).values,
+    received: {
+      for (final r in receipts.values)
+        if (r.received) r.handoverId,
+    },
     materialByHandover: {for (final h in handovers) h.id: h.materialCode},
   );
 });
@@ -19,22 +25,26 @@ final ledgerSummaryProvider = Provider<LedgerSummary>(
   (ref) => LedgerSummary.compute(ref.watch(ledgerProvider), DateTime.now()),
 );
 
-/// Writes a ledger entry for every confirmation that does not have one yet.
-/// Watched by the collector home, so it runs whenever confirmations sync.
-/// Entry ids are fixed per handover, so this is safe to repeat.
-final ledgerAutoWriterProvider = Provider<void>((ref) {
-  final repo = ref.watch(recordsRepositoryProvider);
-  final saved = ref.watch(mySavedLedgerProvider);
-  final confirmations = ref.watch(myConfirmationsProvider).value ?? const {};
-  final handovers = ref.watch(myHandoversProvider).value ?? const <Handover>[];
-  if (repo == null || !saved.hasValue) return;
-  final have = {for (final e in saved.value!) e.id};
-  final material = {for (final h in handovers) h.id: h.materialCode};
-  for (final c in confirmations.values) {
-    if (!have.contains('h_${c.handoverId}')) {
-      repo.saveLedgerEntry(
-        entryFromConfirmation(c, materialCode: material[c.handoverId]),
-      );
-    }
+/// Recycler-confirmed deals waiting for the collector's "money received?"
+/// answer, oldest first.
+final paymentsToAnswerProvider = Provider<List<Confirmation>>(
+  (ref) => awaitingAnswer(
+    (ref.watch(myConfirmationsProvider).value ?? const {}).values,
+    ref.watch(myReceiptsProvider).value ?? const {},
+  ),
+);
+
+/// Saves the collector's answer. "Yes" completes the deal and adds it to
+/// the earnings (entry id fixed per handover, so repeating is harmless).
+void answerPayment(WidgetRef ref, Confirmation c, {required bool received}) {
+  final repo = ref.read(recordsRepositoryProvider);
+  if (repo == null) return;
+  repo.saveReceipt(receiptFor(c, received: received));
+  if (received) {
+    final material = (ref.read(myHandoversProvider).value ?? const <Handover>[])
+        .where((h) => h.id == c.handoverId)
+        .firstOrNull
+        ?.materialCode;
+    repo.saveLedgerEntry(entryFromConfirmation(c, materialCode: material));
   }
-});
+}

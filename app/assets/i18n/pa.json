@@ -171,5 +171,15 @@
   "demo_tools": "ਡੈਮੋ ਸੰਦ",
   "demo_reset_safety": "ਸੁਰੱਖਿਆ ਕਾਰਡ ਫਿਰ ਦਿਖਾਓ",
   "demo_set_location": "ਥਾਂ: ਰੁੜਕੀ (ਡੈਮੋ)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "ਜਾਂ ਕੋਈ ਹੋਰ ਚੁਣੋ",
+  "payment_question": "ਰੀਸਾਈਕਲਰ ਕਹਿੰਦਾ ਹੈ ਕਿ ਉਸਨੇ ਤੁਹਾਨੂੰ {amount} ਰੁਪਏ ਦਿੱਤੇ, {mode}। ਕੀ ਤੁਹਾਨੂੰ ਪੈਸੇ ਮਿਲ ਗਏ?",
+  "payment_question_short": "ਕੀ ਪੈਸੇ ਮਿਲ ਗਏ?",
+  "payment_yes": "ਹਾਂ, ਮਿਲ ਗਏ",
+  "payment_no": "ਨਹੀਂ ਮਿਲੇ",
+  "payment_received_done": "ਸੌਦਾ ਪੂਰਾ। {amount} ਰੁਪਏ ਤੁਹਾਡੀ ਕਮਾਈ ਵਿੱਚ ਜੁੜ ਗਏ",
+  "payment_not_received": "ਰੀਸਾਈਕਲਰ ਤੋਂ ਪੈਸੇ ਮੰਗੋ। ਪੈਸੇ ਮਿਲਣ 'ਤੇ ਹਾਂ ਦਬਾਓ",
+  "status_complete": "ਪੂਰਾ, ਪੈਸੇ ਮਿਲ ਗਏ",
+  "status_not_received": "ਕਬਾੜੀਵਾਲਾ ਕਹਿੰਦਾ ਹੈ ਪੈਸੇ ਨਹੀਂ ਮਿਲੇ",
+  "status_wait_collector": "ਕਬਾੜੀਵਾਲੇ ਦੇ 'ਪੈਸੇ ਮਿਲੇ' ਕਹਿਣ ਦੀ ਉਡੀਕ"
 }

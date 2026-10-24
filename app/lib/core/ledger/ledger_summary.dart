@@ -67,19 +67,23 @@ LedgerEntry entryFromConfirmation(Confirmation c, {String? materialCode}) =>
       materialCode: materialCode,
     );
 
-/// Ledger shown to the collector: saved entries plus any confirmation not
-/// yet written as an entry, newest first, with no duplicates.
+/// Ledger shown to the collector: saved entries plus any confirmation the
+/// collector has said "money received" for ([received] handover ids) but
+/// whose entry is not saved yet. Newest first, with no duplicates.
+/// Confirmations without that "yes" are not earnings yet.
 List<LedgerEntry> mergeLedger(
   Iterable<LedgerEntry> saved,
   Iterable<Confirmation> confirmations, {
+  Set<String> received = const {},
   Map<String, String> materialByHandover = const {},
 }) {
   final byId = <String, LedgerEntry>{
     for (final c in confirmations)
-      'h_${c.handoverId}': entryFromConfirmation(
-        c,
-        materialCode: materialByHandover[c.handoverId],
-      ),
+      if (received.contains(c.handoverId))
+        'h_${c.handoverId}': entryFromConfirmation(
+          c,
+          materialCode: materialByHandover[c.handoverId],
+        ),
   };
   for (final e in saved) {
     byId[e.id] = e;

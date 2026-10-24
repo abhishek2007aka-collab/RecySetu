@@ -171,5 +171,15 @@
   "demo_tools": "डेमो के औज़ार",
   "demo_reset_safety": "सुरक्षा कार्ड फिर से दिखाएँ",
   "demo_set_location": "जगह: रुड़की (डेमो)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "या क्वी हौर छाँटा",
+  "payment_question": "रीसाइक्लर बोलणू कि वैन तुमतैं {amount} रुपया दीनी, {mode}। क्य तुमतैं पैसा मिलिन?",
+  "payment_question_short": "क्य पैसा मिलिन?",
+  "payment_yes": "हाँ, मिलिन",
+  "payment_no": "नि मिलिन",
+  "payment_received_done": "सौदा पूरु। {amount} रुपया तुमरि कमाई मा जुड़िन",
+  "payment_not_received": "रीसाइक्लर से पैसा माँगा। पैसा मिलण पर हाँ दबावा",
+  "status_complete": "पूरु, पैसा मिलिन",
+  "status_not_received": "कबाड़ीवाला बोलणू पैसा नि मिलिन",
+  "status_wait_collector": "कबाड़ीवाला क 'पैसा मिलिन' बोलण कु इंतज़ार"
 }

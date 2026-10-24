@@ -114,5 +114,17 @@ service cloud.firestore {
             || ownsRecycler(resource.data.recyclerId));
       allow create, update: if ownsRecycler(request.resource.data.recyclerId);
     }
+
+    // The collector's "did you get the money?" answer. Only the collector of
+    // the deal writes it; the recycler of the deal can read it.
+    match /receipts/{handoverId} {
+      allow read: if signedIn()
+        && (resource.data.collectorUid == request.auth.uid
+            || ownsRecycler(resource.data.recyclerId));
+      allow create, update: if signedIn()
+        && request.resource.data.collectorUid == request.auth.uid
+        && request.resource.data.received is bool
+        && request.resource.data.amountPaise is int;
+    }
   }
 }

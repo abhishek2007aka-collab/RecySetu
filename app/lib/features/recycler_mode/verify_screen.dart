@@ -16,9 +16,12 @@ import '../../data/providers.dart';
 import '../handover/handover_screen.dart';
 import '../onboarding/session.dart';
 import '../sell_lot/weight_screen.dart';
+import 'recent_deals_screen.dart';
 
 /// R2 (part 2). Checks the QR's hash, then the recycler enters the weight
-/// they measured and how they paid, and confirms. Works offline.
+/// they measured and how they paid (cash or UPI, paid now), and confirms.
+/// Works offline. The deal completes when the collector says they got the
+/// money; the done view shows that live.
 class VerifyScreen extends ConsumerStatefulWidget {
   const VerifyScreen({super.key, required this.payload});
 
@@ -69,7 +72,7 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
         confirmedAt: DateTime.now().toUtc(),
         measuredWeightGrams: _measured,
         amountPaise: _amount,
-        paidPaise: _mode == PaymentMode.due ? 0 : _amount,
+        paidPaise: _amount,
         paymentMode: _mode!,
         flags: _flags(board),
       ),
@@ -117,13 +120,7 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
             children: [
               banner,
               if (_done)
-                const Expanded(
-                  child: Icon(
-                    Icons.check_circle,
-                    size: 160,
-                    color: AppColors.confirmed,
-                  ),
-                )
+                Expanded(child: _DoneStatus(handoverId: h!.id))
               else
                 const Spacer(),
               ActionButton(
@@ -217,7 +214,6 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
               for (final (mode, icon) in const [
                 (PaymentMode.cash, Icons.payments),
                 (PaymentMode.upi, Icons.qr_code_2),
-                (PaymentMode.due, Icons.schedule),
               ])
                 Expanded(
                   child: Padding(
@@ -283,6 +279,40 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
             colour: AppColors.confirmed,
             speakLabel: false,
             onPressed: _mode == null ? null : () => _confirm(board),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// After confirming: amber clock until the collector says "money received",
+/// then a big green tick.
+class _DoneStatus extends ConsumerWidget {
+  const _DoneStatus({required this.handoverId});
+
+  final String handoverId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final s = ref.watch(appStringsProvider);
+    final receipt = ref.watch(recyclerReceiptsProvider).value?[handoverId];
+    final (icon, colour, key) = switch (receipt?.received) {
+      true => (Icons.check_circle, AppColors.confirmed, 'status_complete'),
+      false => (Icons.warning, AppColors.hazard, 'status_not_received'),
+      null => (Icons.schedule, AppColors.pending, 'status_wait_collector'),
+    };
+    return InkWell(
+      onTap: () => ref.speak(key, const {}, true),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 140, color: colour),
+          Text(
+            s.t(key),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge
+                ?.copyWith(color: colour),
           ),
         ],
       ),

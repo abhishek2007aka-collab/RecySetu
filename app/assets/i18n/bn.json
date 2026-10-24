@@ -171,5 +171,15 @@
   "demo_tools": "ডেমো সরঞ্জাম",
   "demo_reset_safety": "নিরাপত্তা কার্ড আবার দেখান",
   "demo_set_location": "জায়গা: রুড়কি (ডেমো)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "অথবা অন্যটি বাছুন",
+  "payment_question": "রিসাইক্লার বলছেন তিনি আপনাকে {amount} টাকা দিয়েছেন, {mode}। আপনি কি টাকা পেয়েছেন?",
+  "payment_question_short": "টাকা পেয়েছেন?",
+  "payment_yes": "হ্যাঁ, পেয়েছি",
+  "payment_no": "পাইনি",
+  "payment_received_done": "লেনদেন সম্পূর্ণ। {amount} টাকা আপনার আয়ে যোগ হয়েছে",
+  "payment_not_received": "রিসাইক্লারের কাছে টাকা চান। টাকা পেলে হ্যাঁ টিপুন",
+  "status_complete": "সম্পূর্ণ, টাকা পাওয়া গেছে",
+  "status_not_received": "কাবাড়িওয়ালা বলছেন টাকা পাননি",
+  "status_wait_collector": "কাবাড়িওয়ালার 'টাকা পেয়েছি' বলার অপেক্ষা"
 }

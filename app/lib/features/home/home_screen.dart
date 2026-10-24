@@ -7,7 +7,9 @@ import '../../core/widgets/k_scaffold.dart';
 import '../../core/widgets/voice_toggle.dart';
 import '../onboarding/language_pick_screen.dart';
 import '../onboarding/logout_button.dart';
+import '../../data/providers.dart';
 import '../debug/demo_tools_screen.dart';
+import '../handover/payment_question.dart';
 import '../ledger/ledger_providers.dart';
 import '../ledger/ledger_screen.dart';
 import '../prices/rates_board_screen.dart';
@@ -29,8 +31,9 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Turn synced recycler confirmations into ledger entries.
-    ref.watch(ledgerAutoWriterProvider);
+    // Deals the recycler confirmed that still need "did you get the money?".
+    final toAnswer = ref.watch(paymentsToAnswerProvider);
+    final receipts = ref.watch(myReceiptsProvider).value ?? const {};
     void open(Widget screen) =>
         Navigator.of(context)
             .push(MaterialPageRoute<void>(builder: (_) => screen));
@@ -45,24 +48,39 @@ class HomeScreen extends ConsumerWidget {
         ChangeLanguageButton(),
         LogoutButton(),
       ],
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: const EdgeInsets.all(16),
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
+      body: Column(
         children: [
-          for (final (icon, key, colour) in tiles)
-            BigTile(
-              icon: icon,
-              labelKey: key,
-              colour: colour,
-              onTap: () {
-                if (key == 'tile_sell') {
-                  ref.read(sellDraftProvider.notifier).start();
-                }
-                open(screenFor(key));
-              },
+          if (toAnswer.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+              child: PaymentQuestionCard(
+                key: ValueKey(toAnswer.first.handoverId),
+                confirmation: toAnswer.first,
+                saidNo: receipts[toAnswer.first.handoverId] != null,
+              ),
             ),
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              padding: const EdgeInsets.all(16),
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              children: [
+                for (final (icon, key, colour) in tiles)
+                  BigTile(
+                    icon: icon,
+                    labelKey: key,
+                    colour: colour,
+                    onTap: () {
+                      if (key == 'tile_sell') {
+                        ref.read(sellDraftProvider.notifier).start();
+                      }
+                      open(screenFor(key));
+                    },
+                  ),
+              ],
+            ),
+          ),
         ],
       ),
     );

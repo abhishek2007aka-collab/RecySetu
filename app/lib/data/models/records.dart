@@ -10,6 +10,7 @@ enum LotStatus { draft, ready, handedOver }
 
 enum HandoverStatus { pending, confirmed, disputed }
 
+/// `due` (pay later) is no longer offered; kept only to read old records.
 enum PaymentMode { cash, upi, due }
 
 enum LedgerType { handover, soldElsewhere, manual }
@@ -272,6 +273,45 @@ class Confirmation {
     'paidPaise': paidPaise,
     'paymentMode': paymentMode.name,
     'flags': flags,
+  };
+}
+
+/// Written by the collector (`receipts/{handoverId}`): "yes, I got the
+/// money" or "no, not yet". A deal is complete only when [received] is true.
+class Receipt {
+  const Receipt({
+    required this.handoverId,
+    required this.collectorUid,
+    required this.recyclerId,
+    required this.received,
+    required this.amountPaise,
+    required this.answeredAt,
+  });
+
+  final String handoverId;
+  final String collectorUid;
+  final String recyclerId;
+  final bool received;
+
+  /// The amount the recycler said they paid, as seen by the collector.
+  final int amountPaise;
+  final DateTime answeredAt;
+
+  factory Receipt.fromMap(String id, Map<String, dynamic> m) => Receipt(
+    handoverId: id,
+    collectorUid: m['collectorUid'] as String? ?? '',
+    recyclerId: m['recyclerId'] as String? ?? '',
+    received: m['received'] as bool? ?? false,
+    amountPaise: readInt(m['amountPaise']) ?? 0,
+    answeredAt: readTime(m['answeredAt']) ?? DateTime.utc(1970),
+  );
+
+  Map<String, dynamic> toMap() => {
+    'collectorUid': collectorUid,
+    'recyclerId': recyclerId,
+    'received': received,
+    'amountPaise': amountPaise,
+    'answeredAt': writeTime(answeredAt),
   };
 }
 

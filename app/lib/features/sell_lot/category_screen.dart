@@ -12,8 +12,9 @@ import '../safety/safety_screen.dart';
 import 'sell_draft.dart';
 import 'weight_screen.dart';
 
-/// S7. Picture tiles, 2 columns. Dangerous materials carry a red warning
-/// badge and say a warning when chosen.
+/// S7. Picture tiles, 2 columns. When the AI is sure, its pick is shown big
+/// on top and the other materials below. Dangerous materials carry a red
+/// warning badge and say a warning when chosen.
 class CategoryScreen extends ConsumerWidget {
   const CategoryScreen({super.key});
 
@@ -25,13 +26,39 @@ class CategoryScreen extends ConsumerWidget {
     final suggested = ref.watch(suggestedMaterialProvider);
     final percent =
         ((ref.watch(draftSuggestionProvider)?.confidence ?? 0) * 100).round();
-    // The suggested material goes first; the collector can still pick any.
-    final materials = [
-      ?suggested,
+    // Everything except the suggestion; the collector can still pick any.
+    final others = [
       for (final m in all)
         if (m != suggested) m,
     ];
     final s = ref.watch(appStringsProvider);
+
+    void choose(ScrapMaterial m) {
+      ref.read(sellDraftProvider.notifier).chooseMaterial(m.code);
+      final nav = Navigator.of(context);
+      if (SafetyFirstScreen.shouldShow(ref, m)) {
+        // First time with this dangerous item: safety card first.
+        nav.push(
+          MaterialPageRoute<void>(
+            builder: (_) => SafetyFirstScreen(
+              card: SafetyFirstScreen.firstCard(m),
+              onDone: () {
+                ref
+                    .read(sharedPrefsProvider)
+                    .setBool(SafetyFirstScreen.seenKey(m.code), true);
+                nav.pushReplacement(
+                  MaterialPageRoute<void>(builder: (_) => const WeightScreen()),
+                );
+              },
+            ),
+          ),
+        );
+        return;
+      }
+      if (m.hazard == Hazard.high) ref.speak('hazard_warning');
+      nav.push(MaterialPageRoute<void>(builder: (_) => const WeightScreen()));
+    }
+
     // If the suggestion arrives after the screen opened, say it then.
     ref.listen(suggestedMaterialProvider, (before, now) {
       if (before == null && now != null) {
@@ -52,46 +79,47 @@ class CategoryScreen extends ConsumerWidget {
         'material': suggested == null ? '' : s.t(suggested.nameKey),
         'percent': percent,
       },
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: const EdgeInsets.all(12),
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        children: [
-          for (final m in materials)
-            _MaterialTile(
-              material: m,
-              suggestedPercent: m == suggested ? percent : null,
-              onTap: () {
-                ref.read(sellDraftProvider.notifier).chooseMaterial(m.code);
-                final nav = Navigator.of(context);
-                if (SafetyFirstScreen.shouldShow(ref, m)) {
-                  // First time with this dangerous item: safety card first.
-                  nav.push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => SafetyFirstScreen(
-                        card: SafetyFirstScreen.firstCard(m),
-                        onDone: () {
-                          ref
-                              .read(sharedPrefsProvider)
-                              .setBool(SafetyFirstScreen.seenKey(m.code), true);
-                          nav.pushReplacement(
-                            MaterialPageRoute<void>(
-                              builder: (_) => const WeightScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                  return;
-                }
-                if (m.hazard == Hazard.high) ref.speak('hazard_warning');
-                nav.push(
-                  MaterialPageRoute<void>(builder: (_) => const WeightScreen()),
-                );
-              },
+      body: CustomScrollView(
+        slivers: [
+          // The AI's pick pops out on top, full width; the rest below.
+          if (suggested != null) ...[
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+              sliver: SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 190,
+                  child: _MaterialTile(
+                    material: suggested,
+                    suggestedPercent: percent,
+                    onTap: () => choose(suggested),
+                  ),
+                ),
+              ),
             ),
+            SliverToBoxAdapter(
+              child: ListTile(
+                leading: const Icon(Icons.grid_view, size: 32),
+                title: Text(
+                  s.t('pick_other'),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                trailing: const Icon(Icons.volume_up),
+                onTap: () => ref.speak('pick_other', const {}, true),
+              ),
+            ),
+          ],
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(12, suggested == null ? 12 : 0, 12, 12),
+            sliver: SliverGrid.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              children: [
+                for (final m in others)
+                  _MaterialTile(material: m, onTap: () => choose(m)),
+              ],
+            ),
+          ),
         ],
       ),
     );

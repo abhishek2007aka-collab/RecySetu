@@ -171,5 +171,15 @@
   "demo_tools": "डेमो के औजार",
   "demo_reset_safety": "सुरक्षा कार्ड फेर देखाईं",
   "demo_set_location": "जगह: रुड़की (डेमो)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "भा कवनो दोसर चुनीं",
+  "payment_question": "रीसाइक्लर कहत बा कि ऊ रउआ के {amount} रुपया देले बा, {mode}। का रउआ के पइसा मिल गइल?",
+  "payment_question_short": "का पइसा मिल गइल?",
+  "payment_yes": "हँ, मिल गइल",
+  "payment_no": "ना मिलल",
+  "payment_received_done": "सौदा पूरा। {amount} रुपया रउआ कमाई में जुड़ गइल",
+  "payment_not_received": "रीसाइक्लर से पइसा माँगीं। पइसा मिले पर हँ दबाईं",
+  "status_complete": "पूरा, पइसा मिल गइल",
+  "status_not_received": "कबाड़ीवाला कहत बा पइसा ना मिलल",
+  "status_wait_collector": "कबाड़ीवाला के 'पइसा मिलल' कहे के इंतजार"
 }

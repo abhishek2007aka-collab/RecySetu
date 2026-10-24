@@ -171,5 +171,15 @@
   "demo_tools": "డెమో సాధనాలు",
   "demo_reset_safety": "భద్రతా కార్డులు మళ్ళీ చూపించు",
   "demo_set_location": "స్థలం: రూర్కీ (డెమో)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "లేదా వేరొకటి ఎంచుకోండి",
+  "payment_question": "రీసైక్లర్ మీకు {amount} రూపాయలు ఇచ్చానని చెబుతున్నారు, {mode}. మీకు డబ్బు వచ్చిందా?",
+  "payment_question_short": "డబ్బు వచ్చిందా?",
+  "payment_yes": "అవును, వచ్చింది",
+  "payment_no": "రాలేదు",
+  "payment_received_done": "ఒప్పందం పూర్తయింది. {amount} రూపాయలు మీ సంపాదనలో చేరాయి",
+  "payment_not_received": "రీసైక్లర్‌ను డబ్బు అడగండి. డబ్బు వచ్చాక అవును నొక్కండి",
+  "status_complete": "పూర్తయింది, డబ్బు వచ్చింది",
+  "status_not_received": "పాత సామాన్ల వ్యాపారి డబ్బు రాలేదని చెబుతున్నారు",
+  "status_wait_collector": "పాత సామాన్ల వ్యాపారి 'డబ్బు వచ్చింది' అనే వరకు వేచి ఉంది"
 }

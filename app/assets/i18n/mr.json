@@ -171,5 +171,15 @@
   "demo_tools": "डेमो साधने",
   "demo_reset_safety": "सुरक्षा कार्ड पुन्हा दाखवा",
   "demo_set_location": "ठिकाण: रुडकी (डेमो)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "किंवा दुसरे निवडा",
+  "payment_question": "रिसायकलर म्हणतो की त्याने तुम्हाला {amount} रुपये दिले, {mode}. तुम्हाला पैसे मिळाले का?",
+  "payment_question_short": "पैसे मिळाले का?",
+  "payment_yes": "हो, मिळाले",
+  "payment_no": "नाही मिळाले",
+  "payment_received_done": "व्यवहार पूर्ण. {amount} रुपये तुमच्या कमाईत जोडले",
+  "payment_not_received": "रिसायकलरकडे पैसे मागा. पैसे मिळाल्यावर हो दाबा",
+  "status_complete": "पूर्ण, पैसे मिळाले",
+  "status_not_received": "भंगारवाला म्हणतो पैसे मिळाले नाहीत",
+  "status_wait_collector": "भंगारवाल्याने 'पैसे मिळाले' म्हणण्याची वाट"
 }

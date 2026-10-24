@@ -171,5 +171,15 @@
   "demo_tools": "ڈیمو کے اوزار",
   "demo_reset_safety": "حفاظتی کارڈ دوبارہ دکھائیں",
   "demo_set_location": "جگہ: روڑکی (ڈیمو)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "یا کوئی اور چنیں",
+  "payment_question": "ری سائیکلر کہتا ہے کہ اس نے آپ کو {amount} روپے دیے، {mode}۔ کیا آپ کو پیسے مل گئے؟",
+  "payment_question_short": "کیا پیسے مل گئے؟",
+  "payment_yes": "ہاں، مل گئے",
+  "payment_no": "نہیں ملے",
+  "payment_received_done": "سودا مکمل۔ {amount} روپے آپ کی کمائی میں جڑ گئے",
+  "payment_not_received": "ری سائیکلر سے پیسے مانگیں۔ پیسے ملنے پر ہاں دبائیں",
+  "status_complete": "مکمل، پیسے مل گئے",
+  "status_not_received": "کباڑی والا کہتا ہے پیسے نہیں ملے",
+  "status_wait_collector": "کباڑی والے کے 'پیسے ملے' کہنے کا انتظار"
 }

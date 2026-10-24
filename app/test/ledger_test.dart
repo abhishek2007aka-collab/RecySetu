@@ -120,10 +120,19 @@ void main() {
       expect(e.materialCode, 'PCB');
     });
 
+    test('a confirmation is not earnings until "money received"', () {
+      expect(mergeLedger(const [], [_c('h1')]), isEmpty);
+      expect(
+        mergeLedger(const [], [_c('h1')], received: {'h1'}).single.id,
+        'h_h1',
+      );
+    });
+
     test('no duplicates when the entry is already saved', () {
       final merged = mergeLedger(
         [entryFromConfirmation(_c('h1'))],
         [_c('h1'), _c('h2')],
+        received: {'h1', 'h2'},
       );
       expect(merged.map((e) => e.id).toSet(), {'h_h1', 'h_h2'});
       expect(merged, hasLength(2));
@@ -150,23 +159,12 @@ void main() {
         prefs: await freshPrefs({'language': 'en'}),
         audio: audio,
         overrides: [
+          // An old "pay later" entry (no longer offered for new deals).
           mySavedLedgerProvider.overrideWith(
-            (ref) =>
-                Stream.value([_e('cash', now, amount: 44000, paid: 44000)]),
-          ),
-          myConfirmationsProvider.overrideWith(
-            (ref) => Stream.value({
-              'h9': Confirmation(
-                handoverId: 'h9',
-                collectorUid: 'u',
-                recyclerId: 'r',
-                confirmedAt: now,
-                measuredWeightGrams: 1000,
-                amountPaise: 20000,
-                paidPaise: 0,
-                paymentMode: PaymentMode.due,
-              ),
-            }),
+            (ref) => Stream.value([
+              _e('cash', now, amount: 44000, paid: 44000),
+              _e('old', now, amount: 20000, paid: 0, mode: PaymentMode.due),
+            ]),
           ),
           myHandoversProvider.overrideWith((ref) => Stream.value(const [])),
         ],

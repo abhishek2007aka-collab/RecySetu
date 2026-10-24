@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/records.dart';
 
-/// Lots, handovers, confirmations, ledger entries and user profiles.
+/// Lots, handovers, confirmations, receipts, ledger entries and user profiles.
 ///
 /// Writes are fire-and-forget on purpose: Firestore saves them to the phone
 /// at once and sends them when internet returns. `await`ing a write would
@@ -21,6 +21,7 @@ class RecordsRepository {
   void saveHandover(Handover h) => _write('handovers', h.id, h.toMap());
   void saveConfirmation(Confirmation c) =>
       _write('confirmations', c.handoverId, c.toMap());
+  void saveReceipt(Receipt r) => _write('receipts', r.handoverId, r.toMap());
   void saveLedgerEntry(LedgerEntry e) => _write('ledger', e.id, e.toMap());
 
   void setLotStatus(String lotId, String collectorUid, LotStatus status) =>
@@ -78,6 +79,16 @@ class RecordsRepository {
   Stream<List<Confirmation>> watchConfirmations(String collectorUid) =>
       _mine('confirmations', collectorUid, Confirmation.fromMap);
 
+  Stream<List<Receipt>> watchReceipts(String collectorUid) =>
+      _mine('receipts', collectorUid, Receipt.fromMap);
+
+  /// The collectors' answers ("money received?") for a recycler's deals.
+  Stream<List<Receipt>> watchRecyclerReceipts(String recyclerId) => _db
+      .collection('receipts')
+      .where('recyclerId', isEqualTo: recyclerId)
+      .snapshots()
+      .map((s) => [for (final d in s.docs) Receipt.fromMap(d.id, d.data())]);
+
   Stream<List<LedgerEntry>> watchLedger(String collectorUid) =>
       _mine('ledger', collectorUid, LedgerEntry.fromMap);
 
@@ -93,11 +104,11 @@ class RecordsRepository {
             ],
           );
 
-  /// How many of this collector's records (lots, handovers, ledger entries)
+  /// How many of this collector's records (lots, handovers, receipts, ledger)
   /// are saved on the phone but not yet on the server. Used by the sync icon
   /// and by logout (which must not lose unsent records).
   Stream<int> watchPendingCount(String collectorUid) {
-    const collections = ['lots', 'handovers', 'ledger'];
+    const collections = ['lots', 'handovers', 'receipts', 'ledger'];
     final latest = <String, int>{};
     late final StreamController<int> out;
     final subs = <StreamSubscription<int>>[];

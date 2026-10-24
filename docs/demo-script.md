@@ -25,7 +25,7 @@
 
 **0:40 — Sell scrap with AI and spoken price (50 s)**
 - **कबाड़ बेचें** → take a photo of the **bottle** → Next.
-- The AI highlights **मिला प्लास्टिक** with **"सुझाव 9x%"** and **says** it. Point out: on the phone, no internet.
+- The AI's pick **pops up big on top**: **मिला प्लास्टिक** with **"सुझाव 9x%"**, and the app **says** it. The other materials are below (*या कोई और चुनें*). Point out: on the phone, no internet.
 - (Optional: retake with the **cable** or the **phone** to show other categories.)
 - Tap it → weight: type **350 ग्राम** on the keypad (or use +/−). Price updates live on the button.
 - Next → the app **speaks**: *"लगभग … रुपये मिलेंगे"*. "Prices are from published scrap rates, with sources."
@@ -37,11 +37,12 @@
 **1:55 — Tamper-proof handover (35 s)**
 - Phone A shows a **QR receipt** and a short reference (spoken letter by letter), status amber *waiting*.
 - Phone B (also offline): **Scan QR** → green **"Record is genuine"**. Explain: SHA-256 fingerprint; change any number and it turns **red**.
-- Phone B: adjust measured weight, tap **नकद (Cash)** → **Confirm**.
+- Phone B: adjust measured weight, tap **नकद (Cash)** or **UPI** (money is paid now; there is no "pay later") → **Confirm**. Phone B shows amber *waiting for the kabadiwala to say money received*.
 
 **2:30 — Sync and earnings (25 s)**
 - Turn **airplane mode OFF** on both phones. Sync icon: grey → amber with a number → **green**.
-- Phone A's receipt turns **green "Confirmed"** and speaks the payment. **मेरी कमाई (My earnings)** shows today's total and money due.
+- Phone A **asks out loud**: *"Recycler says they paid ₹… cash. Did you get the money?"* Tap **हाँ, मिल गए** (green). Only now is the deal complete: the receipt turns **green "Complete"** and **मेरी कमाई (My earnings)** adds the money.
+- Phone B's deal turns green too once it syncs. (If the kabadiwala taps **नहीं मिले**, both phones show red until he gets paid and taps Yes.)
 
 **2:55 — Close (5 s)**
 "Offline, spoken, 12 languages, AI on the phone, real authorised recyclers, tamper-proof receipts. RecySetu, by ByteStorms."

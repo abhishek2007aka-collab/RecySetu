@@ -91,7 +91,7 @@ void main() {
     });
   });
 
-  testWidgets('suggested tile comes first, is badged and spoken', (
+  testWidgets('suggested tile pops out on top, rest below, spoken', (
     tester,
   ) async {
     phoneScreen(tester);
@@ -129,7 +129,15 @@ void main() {
     expect(find.text('Suggested 88%'), findsOneWidget);
     final crt = tester.getTopLeft(find.text('Old TV'));
     final pcb = tester.getTopLeft(find.text('Circuit board'));
-    expect(crt.dx < pcb.dx || crt.dy < pcb.dy, isTrue);
+    expect(crt.dy < pcb.dy, isTrue);
+    expect(find.text('Or pick another'), findsOneWidget);
+    // The suggestion is full width, wider than a normal 2-column tile.
+    double width(String label) => tester
+        .getSize(
+          find.ancestor(of: find.text(label), matching: find.byType(InkWell)),
+        )
+        .width;
+    expect(width('Old TV') > width('Circuit board') * 1.5, isTrue);
     expect(audio.spoken, contains('ai_suggestion'));
   });
 
@@ -147,6 +155,7 @@ void main() {
     await tester.pump();
     expect(find.textContaining('Suggested'), findsNothing);
     expect(audio.spoken.first, 'category_instruction');
-    expect(find.byType(GridView), findsOneWidget);
+    expect(find.byType(SliverGrid), findsOneWidget);
+    expect(find.text('Or pick another'), findsNothing);
   });
 }

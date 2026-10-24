@@ -171,5 +171,15 @@
   "demo_tools": "ડેમો સાધનો",
   "demo_reset_safety": "સલામતી કાર્ડ ફરી બતાવો",
   "demo_set_location": "જગ્યા: રૂડકી (ડેમો)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "અથવા બીજું પસંદ કરો",
+  "payment_question": "રીસાયકલર કહે છે કે તેણે તમને {amount} રૂપિયા આપ્યા, {mode}. શું તમને પૈસા મળી ગયા?",
+  "payment_question_short": "પૈસા મળ્યા?",
+  "payment_yes": "હા, મળી ગયા",
+  "payment_no": "નથી મળ્યા",
+  "payment_received_done": "સોદો પૂરો. {amount} રૂપિયા તમારી કમાણીમાં ઉમેરાયા",
+  "payment_not_received": "રીસાયકલર પાસે પૈસા માંગો. પૈસા મળે ત્યારે હા દબાવો",
+  "status_complete": "પૂરું, પૈસા મળી ગયા",
+  "status_not_received": "ભંગારવાળા કહે છે પૈસા નથી મળ્યા",
+  "status_wait_collector": "ભંગારવાળાના 'પૈસા મળ્યા' કહેવાની રાહ"
 }

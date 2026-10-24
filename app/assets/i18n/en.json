@@ -170,5 +170,15 @@
   "demo_tools": "Demo tools",
   "demo_reset_safety": "Show safety cards again",
   "demo_set_location": "Location: Roorkee (demo)",
-  "brand": "RecySetu"
+  "brand": "RecySetu",
+  "pick_other": "Or pick another",
+  "payment_question": "The recycler says they paid you {amount} rupees, {mode}. Did you get the money?",
+  "payment_question_short": "Did you get the money?",
+  "payment_yes": "Yes, got it",
+  "payment_no": "Not received",
+  "payment_received_done": "Deal complete. {amount} rupees added to your earnings",
+  "payment_not_received": "Ask the recycler to pay you. Tap Yes when you get the money",
+  "status_complete": "Complete, money received",
+  "status_not_received": "Kabadiwala says money not received",
+  "status_wait_collector": "Waiting for the kabadiwala to say money received"
 }
