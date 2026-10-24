@@ -4,7 +4,7 @@ Smart India Hackathon 2026 · Problem statement SIH26229 · Ministry of Mines (C
 
 This document records everything the team built, step by step, in simple language: what the app does, how it works inside, the tools we used, the problems we hit and how we solved them. It is updated after every build phase.
 
-Last updated: 24 October 2026 (after Phase 8 + 12 languages)
+Last updated: 24 October 2026, night (core app + AI recogniser + real data, tested on a real phone)
 
 ## 1. The problem in one page
 
@@ -93,6 +93,7 @@ The full step-by-step guide for teammates is in `docs/SETUP.md`.
 | `flutter test` failed: "CarbonCore/Folders.h file not found" | The Mac's Command Line Tools installation was damaged (a file was missing) | Deleted and reinstalled the Command Line Tools |
 | Android NDK download (900 MB) kept stalling | Slow internet; Android's downloader deletes the partial file if stopped | Downloaded it with `curl` in resume mode, verified the official SHA-1 checksum, then installed it manually |
 | Wanted minimum Android 6 (API 23) | Current Flutter no longer supports Android 6 | Set the minimum to Android 7 (API 24); almost no phones still run Android 6 |
+| Wikimedia stopped our photo downloads ("too many requests") | We downloaded too fast | Used Wikimedia's standard image size and waited between downloads |
 
 ### Firebase setup (done in the browser by the team)
 
@@ -325,15 +326,97 @@ The screen shows this as a **QR code** plus a short reference like **A3F9-1C2B**
 - **"Sold elsewhere"** button: pick what was sold, type the rupees on the big keypad, tap **Cash** or **UPI**. This keeps the record honest when scrap goes to a local dealer.
 - "Today" and "this week" use the phone's **local time** (weeks start on Monday), while everything is stored in UTC.
 
+### Phase 12a — AI that recognises the scrap from the photo ✓
+
+**What it does:** after the collector takes a photo, a small AI model **on the phone** (no internet needed) guesses what the scrap is. If it is at least **70% sure**, that picture tile moves to the top with a green border and a badge like **"Suggested 92%"**, and the app says *"Looks like Mixed plastic, 92 percent sure. Tap it if it is right."* If it is less sure, it suggests nothing. The collector always makes the final choice.
+
+**How we trained it (on the team's Mac):**
+
+1. **Photos:** 744 photos in 9 folders: the 8 scrap types plus **OTHER** ("not scrap": hands, tables, bags). About 600 are free photos from **Wikimedia Commons** (every author and licence recorded in `data/photos/CREDITS.csv`) and the rest were taken by our team. **We looked at every downloaded photo** and removed about 300 unsuitable ones (people, charts, roofs, power lines).
+2. **Model:** MobileNetV2, a small image model made for phones, already trained on millions of general photos. We only taught it our 9 categories ("transfer learning").
+3. **Close-up practice:** during training it also sees random **zoomed-in crops**, so it can recognise a phone from just its **camera, ports or buttons**, or a cable from just its end.
+4. **Honest test:** 20% of the photos were **held back and never used for training**. The final phone file was tested on them.
+5. **Size:** the finished model is **2.7 MB** (int8 TensorFlow Lite).
+
+**Result: 80% correct on 137 photos it had never seen.**
+
+| Category | Accuracy | Category | Accuracy |
+|---|---|---|---|
+| Phone battery (Li-ion) | 100% | Circuit board | 75% |
+| OTHER (not scrap) | 100% | CRT TV | 73% |
+| Copper wire / cable | 86% | Vehicle battery (lead-acid) | 57% |
+| Mixed plastic | 81% | Motor | 50% |
+| Phone | 79% | | |
+
+Weak spots, honestly: lead-acid batteries (only 37 photos) get confused with lithium batteries, and motors (42 photos) are hard. More team photos will fix this. Several plastic photos show the same bottle, so the plastic score may be higher than real-world use.
+
+**What the AI looks at ("heat maps"):** to prove it isn't guessing from the background, we coloured the area of each photo that made the decision. Red = what the AI looked at. It focuses on the **cable coil, the phone keypad and screen**, not the table.
+
+![Heat maps: left = photo, right = red where the AI looked. Cables (top), phones (bottom).](images/ai_heatmaps.jpg)
+
+### Real data instead of made-up data
+
+**Real authorised recyclers.** We replaced the fake recyclers with the **8 authorised e-waste recyclers of Uttarakhand** from the official **CPCB list (as on 08-06-2023)**, for example M/s Attero Recycling (Bhagwanpur, Roorkee), M/s Root Recycling (Padli Gurjar, Roorkee), M/s Starto Metal Recycle Plant (Roorkee) and M/s Resource E-Waste Solution (Bhadrabad, Haridwar). Names, addresses and registration details are exactly as in the government list. The list gives no phone numbers or rates, so **we did not make any up**: the app shows *"Rate not known"* and the call button stays off until a verified number is added. Map positions are approximate (village or town centre, from OpenStreetMap).
+
+Because the real recyclers publish no rates, we changed the ranking rule: **authorised recyclers with unknown rates are now shown too**, ranked by distance and pickup only. Unauthorised ones are still always hidden.
+
+**Real scrap prices.** 7 of 8 prices now come from published scrap-rate websites (2025–2026). Each row in `data/prices.csv` records where the number came from:
+
+| Material | ₹ per kg | Source (simplified) |
+|---|---|---|
+| Circuit board | 80 – 200 | recyclinginindia.com, May 2026 |
+| Copper wire / cable | 100 – 450 | reuze.in (wiring) and recyclinginindia.com (copper with insulation) |
+| Phone battery | 80 – 130 | reuze.in (battery) |
+| Vehicle battery | 60 – 120 | todaypricerates.com (lead-acid) |
+| CRT TV | 3 – 10 | ₹50–200 per TV ÷ about 20 kg |
+| Mixed plastic | 8 – 14 | recyclinginindia.com; a Roorkee dealer lists ₹13 |
+| Old phone | 125 – 310 | ₹20–50 per dead phone ÷ about 0.16 kg |
+| Motor | 40 – 55 | **Placeholder**: no published rate found |
+
+**Real facts for the presentation** (sources in `data/regional_facts.md`):
+
+| Fact | Figure |
+|---|---|
+| E-waste generated in India, 2024–25 | **13.97 lakh tonnes** (CPCB, Parliament reply) |
+| Uttarakhand e-waste collected/processed, 2024–25 | **1,13,562 tonnes** (Parliament reply) |
+| Authorised recyclers in Uttarakhand | **8**, total capacity **1,53,068 tonnes/year** (CPCB list) |
+| Share of recycling done by the informal sector | **about 90–95%** (ICRIER study; formal share is rising) |
+
+### Features added after testing on a real phone
+
+We installed the app on a **Motorola Edge 50 Fusion (Android 16)** and tested it live. Based on what we saw, we added:
+
+| Feature | What it does |
+|---|---|
+| **Logout** | A button on the home screen. It asks "Do you want to log out?" with big Yes / No buttons (spoken). If some data has not been sent yet, it refuses and says "turn on internet first", because logging out then would lose that data. |
+| **Back stops the voice** | Pressing Back (button or swipe) stops any speech immediately; the app then waits quietly for the next tap. |
+| **Voice on / off switch** | A switch on the home screen, remembered on the phone. When off, the app does not talk by itself, but the speaker button on each screen still reads that screen out when tapped, so a person who can't read can always get help. |
+| **Type the weight in kg or grams** | Besides the +/− buttons, a keypad button lets the collector type "350 grams" or "12 kilo". Below 1 kg the app shows and speaks grams. |
+| **Live price while setting weight** | The fair price ("~₹300") is shown under the weight and on the Next button, and changes as the weight changes. |
+
+**Problems found on the real phone, and fixes:**
+
+| Problem | Fix |
+|---|---|
+| Login failed: "SMS unable to be sent until this region enabled" | Firebase blocks SMS to every country by default. We allowed **India** in Authentication → Settings → SMS region policy. |
+| Screen titles were white on white (invisible) | The title style had no colour set; we gave it the theme's text colour. |
+| The Android build failed after adding the AI library | The library mixed Java 11 and Kotlin 17 settings; we told the build tool to accept that. |
+| A row on the weight screen didn't fit a small 360-pixel-wide screen | Caught by an automatic test on a phone-sized screen; we simplified the row. |
+
 ## 7. Testing
 
-Every important piece of logic has automatic tests that run with `flutter test`. Current status: **92 tests, all passing**, and `flutter analyze` reports no issues.
+Every important piece of logic has automatic tests that run with `flutter test`. Current status: **109 tests, all passing**, and `flutter analyze` reports no issues.
 
 | What is tested | Examples |
 |---|---|
 | Theme | Buttons are at least 56 dp |
 | Language files | All 12 languages have exactly the same 123 sentences as Hindi, with the same {slots}; every language name is different |
 | Language screen | First page has exactly 4 choices; More shows all 12; Urdu turns the layout right-to-left |
+| AI recogniser | labels.txt is read correctly; centre crop is exact; suggestion only at 70%+; OTHER is never suggested; several photos are averaged; the suggested tile comes first and is spoken |
+| Real data | Real recyclers carry the CPCB reference and no invented phone or rates; unknown rates are listed after known ones |
+| Logout | Asks first; No keeps you logged in; Yes forgets PIN and role but keeps the language; refused while data is unsent |
+| Voice | Voice off = nothing automatic but the speaker button still works; switching on says so; Back stops speech |
+| Weight | Typing 350 grams and 12 kilo works; grams shown below 1 kg; live price on the Next button |
 | Language switching | Tapping a language changes the text instantly and remembers the choice |
 | Data models | Every record can be saved and read back unchanged; unknown values fall back safely |
 | Seed data | Prices are whole paise and low ≤ high; missing recycler rates are skipped; every row is marked placeholder |
@@ -353,17 +436,22 @@ Every important piece of logic has automatic tests that run with `flutter test`.
 
 ### App size
 
+**Honest note:** adding the on-phone AI (about 7 MB of TensorFlow Lite code plus the 2.7 MB model) pushed the main APK over the target. Shrinking it is planned for the polish phase.
+
 The plan's target is a release app under **30 MB**, so it downloads quickly on a cheap data pack. We build one APK per phone processor type ("split per ABI"), so each phone downloads only what it needs:
 
 | APK | For which phones | Size |
 |---|---|---|
 | `app-armeabi-v7a-release.apk` | Older and very cheap 32-bit phones | 22.8 MB |
-| `app-arm64-v8a-release.apk` | Most phones from the last ~7 years | 27.1 MB |
+| `app-arm64-v8a-release.apk` | Most phones from the last ~7 years | 27.1 MB, now **37.2 MB** with the AI library and 12 languages |
 | `app-x86_64-release.apk` | Emulators / Chromebooks | 29.6 MB |
 
 ## 8. Data honesty
 
-- All prices, recyclers and areas are **placeholders** until the field study is done, and they are marked that way in the data.
+- **Recyclers** are real, from the official CPCB list (2023); no phone numbers or rates were invented. One clearly named "DEMO Recycler (test account - not real)" exists only for the two-phone demo.
+- **Prices** are published web rates with a source on every row, except motors (placeholder). They still need checking with 2–3 local dealers (our field study).
+- **Materials** list and **training photos**: team choices and free Wikimedia photos with full credits.
+- **Translations** were written by the developers and must be checked by native speakers.
 - We never invent real business names or phone numbers.
 - The QR hash proves a record **was not changed after it was created**. It is not a legal signature, and we say so in the app.
 
@@ -385,12 +473,18 @@ The plan's target is a release app under **30 MB**, so it downloads quickly on a
 | Haversine | A formula for the straight-line distance between two GPS points on the Earth |
 | Ledger | A record of money earned, paid and still owed |
 | Thumbnail | A small, low-resolution copy of a photo |
+| AI model | A small program that learned from example photos to recognise objects |
+| Training / held-out photos | Photos used to teach the AI / photos kept aside to test it honestly |
+| Heat map | A picture showing which part of a photo the AI used to decide |
+| CPCB | Central Pollution Control Board, which publishes the list of authorised recyclers |
 
 ## 10. What's next
 
 | Phase | What it adds |
 |---|---|
-| Test on a real phone | Install the APK, log in with a test number, run the full demo in airplane mode, then two phones (collector + recycler) |
+| Two-phone test | Collector phone + recycler phone (+91 99999 00002): QR scan, confirm, ledger update after sync |
+| More team photos | OTHER photos of the demo table and floor; more batteries and motors, to raise AI accuracy |
+| Shrink the app | Bring the APK back under 30 MB |
 | 9 | Safety guide: picture cards with audio (no burning cables, don't break TVs, batteries away from fire/water, gloves for circuit boards) |
 | 10 | Sync robustness checklist (airplane mode at each step, app killed mid-flow, phone restarted) |
 | 11 | Polish: check every screen against the design rules; largest font size; release APK size |
