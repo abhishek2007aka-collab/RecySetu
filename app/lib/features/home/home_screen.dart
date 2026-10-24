@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/widgets/big_tile.dart';
 import '../../core/widgets/k_scaffold.dart';
 import '../debug/audio_debug_screen.dart';
+import '../prices/rates_board_screen.dart';
 import '../sell_lot/photo_screen.dart';
 import '../sell_lot/sell_draft.dart';
 import 'coming_soon_screen.dart';
@@ -56,6 +57,7 @@ class HomeScreen extends ConsumerWidget {
   /// Later phases replace these placeholders.
   static Widget screenFor(String tileKey) => switch (tileKey) {
     'tile_sell' => const PhotoScreen(),
+    'tile_rates' => const RatesBoardScreen(),
     _ => ComingSoonScreen(titleKey: tileKey),
   };
 }

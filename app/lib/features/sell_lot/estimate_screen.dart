@@ -11,15 +11,13 @@ import '../../core/widgets/k_scaffold.dart';
 import '../../data/models/catalog.dart';
 import '../../data/providers.dart';
 import '../home/coming_soon_screen.dart';
+import '../recyclers/recyclers_screen.dart';
 import 'sell_draft.dart';
 
 /// S9. Speaks the fair price ("about ₹340") and saves the lot as a draft.
 /// Works fully offline: prices come from the phone's cache or seed data.
 class EstimateScreen extends ConsumerStatefulWidget {
-  const EstimateScreen({super.key, this.next});
-
-  /// Screen opened by "Find recycler" (Phase 6 passes the recycler list).
-  final Widget Function()? next;
+  const EstimateScreen({super.key});
 
   @override
   ConsumerState<EstimateScreen> createState() => _EstimateScreenState();
@@ -154,9 +152,16 @@ class _EstimateScreenState extends ConsumerState<EstimateScreen> {
                   ? null
                   : () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) =>
-                            widget.next?.call() ??
-                            const ComingSoonScreen(titleKey: 'find_recycler'),
+                        builder: (_) => RecyclersScreen(
+                          onSelect: (context, choice) => Navigator.of(context)
+                              .push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) => const ComingSoonScreen(
+                                    titleKey: 'select',
+                                  ),
+                                ),
+                              ),
+                        ),
                       ),
                     ),
             ),
