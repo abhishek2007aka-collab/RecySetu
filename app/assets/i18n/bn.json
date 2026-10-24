@@ -123,6 +123,6 @@
   "from_recycler": "রিসাইক্লারকে বিক্রি",
   "more_languages": "আরও ভাষা",
   "change_language": "ভাষা বদলান",
-  "ai_suggestion": "মনে হচ্ছে এটা {material}। ঠিক হলে চাপুন, না হলে সঠিক ছবি বেছে নিন",
+  "ai_suggestion": "মনে হচ্ছে এটা {material}, {percent} শতাংশ নিশ্চিত। ঠিক হলে চাপুন, না হলে সঠিক ছবি বেছে নিন",
   "suggested": "পরামর্শ"
 }

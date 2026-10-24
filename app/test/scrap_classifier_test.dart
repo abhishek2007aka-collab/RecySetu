@@ -126,7 +126,7 @@ void main() {
     );
     await tester.pump();
     await tester.pump();
-    expect(find.text('Suggested'), findsOneWidget);
+    expect(find.text('Suggested 88%'), findsOneWidget);
     final crt = tester.getTopLeft(find.text('Old TV'));
     final pcb = tester.getTopLeft(find.text('Circuit board'));
     expect(crt.dx < pcb.dx || crt.dy < pcb.dy, isTrue);
@@ -145,7 +145,7 @@ void main() {
       ),
     );
     await tester.pump();
-    expect(find.text('Suggested'), findsNothing);
+    expect(find.textContaining('Suggested'), findsNothing);
     expect(audio.spoken.first, 'category_instruction');
     expect(find.byType(GridView), findsOneWidget);
   });

@@ -22,6 +22,8 @@ class CategoryScreen extends ConsumerWidget {
     // Start loading prices now so the price screen (S9) has them at once.
     ref.watch(pricesProvider);
     final suggested = ref.watch(suggestedMaterialProvider);
+    final percent =
+        ((ref.watch(draftSuggestionProvider)?.confidence ?? 0) * 100).round();
     // The suggested material goes first; the collector can still pick any.
     final materials = [
       ?suggested,
@@ -32,7 +34,12 @@ class CategoryScreen extends ConsumerWidget {
     // If the suggestion arrives after the screen opened, say it then.
     ref.listen(suggestedMaterialProvider, (before, now) {
       if (before == null && now != null) {
-        ref.speak('ai_suggestion', {'material': s.t(now.nameKey)});
+        final p = ((ref.read(draftSuggestionProvider)?.confidence ?? 0) * 100)
+            .round();
+        ref.speak('ai_suggestion', {
+          'material': s.t(now.nameKey),
+          'percent': p,
+        });
       }
     });
     return KScaffold(
@@ -42,6 +49,7 @@ class CategoryScreen extends ConsumerWidget {
           : 'ai_suggestion',
       instructionParams: {
         'material': suggested == null ? '' : s.t(suggested.nameKey),
+        'percent': percent,
       },
       body: GridView.count(
         crossAxisCount: 2,
@@ -52,7 +60,7 @@ class CategoryScreen extends ConsumerWidget {
           for (final m in materials)
             _MaterialTile(
               material: m,
-              suggested: m == suggested,
+              suggestedPercent: m == suggested ? percent : null,
               onTap: () {
                 ref.read(sellDraftProvider.notifier).chooseMaterial(m.code);
                 if (m.hazard == Hazard.high) ref.speak('hazard_warning');
@@ -71,14 +79,16 @@ class _MaterialTile extends ConsumerWidget {
   const _MaterialTile({
     required this.material,
     required this.onTap,
-    this.suggested = false,
+    this.suggestedPercent,
   });
 
   final ScrapMaterial material;
   final VoidCallback onTap;
 
-  /// Highlighted because the recogniser thinks the photo shows this.
-  final bool suggested;
+  /// Set (0-100) when the recogniser thinks the photo shows this material.
+  final int? suggestedPercent;
+
+  bool get suggested => suggestedPercent != null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -129,7 +139,7 @@ class _MaterialTile extends ConsumerWidget {
                 left: 6,
                 child: Chip(
                   avatar: const Icon(Icons.auto_awesome, size: 18),
-                  label: Text(s.t('suggested')),
+                  label: Text('${s.t('suggested')} $suggestedPercent%'),
                   backgroundColor: AppColors.confirmed.withValues(alpha: 0.2),
                   visualDensity: VisualDensity.compact,
                 ),

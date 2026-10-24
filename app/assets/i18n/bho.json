@@ -123,6 +123,6 @@
   "from_recycler": "रीसाइक्लर के बेचलीं",
   "more_languages": "अउरी भाषा",
   "change_language": "भाषा बदलीं",
-  "ai_suggestion": "लागत बा ई {material} ह। सही होखे त दबाईं, ना त सही फोटो चुनीं",
+  "ai_suggestion": "लागत बा ई {material} ह, {percent} प्रतिशत भरोसा। सही होखे त दबाईं, ना त सही फोटो चुनीं",
   "suggested": "सुझाव"
 }
