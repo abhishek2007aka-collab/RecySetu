@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/widgets/big_tile.dart';
 import '../../core/widgets/k_scaffold.dart';
+import '../onboarding/language_pick_screen.dart';
 import 'my_rates_screen.dart';
 import 'recent_deals_screen.dart';
 import 'scan_screen.dart';
@@ -19,6 +20,7 @@ class RecyclerHomeScreen extends StatelessWidget {
     return KScaffold(
       titleKey: 'role_recycler',
       instructionKey: 'recycler_home_choose',
+      extraActions: const [ChangeLanguageButton()],
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

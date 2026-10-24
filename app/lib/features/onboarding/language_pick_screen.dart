@@ -8,9 +8,13 @@ import '../../core/theme/app_theme.dart';
 import 'session.dart';
 
 /// S1. Tapping a language says its name (in that language); tapping the
-/// same one again chooses it.
+/// same one again chooses it. First page: 3 featured languages + "more",
+/// so the screen keeps to 4 choices (CLAUDE.md rule 2).
 class LanguagePickScreen extends ConsumerStatefulWidget {
-  const LanguagePickScreen({super.key});
+  const LanguagePickScreen({super.key, this.changing = false});
+
+  /// True when opened from home to change language: choosing goes back.
+  final bool changing;
 
   @override
   ConsumerState<LanguagePickScreen> createState() => _LanguagePickScreenState();
@@ -18,6 +22,7 @@ class LanguagePickScreen extends ConsumerStatefulWidget {
 
 class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
   String? _heard;
+  bool _showAll = false;
 
   @override
   void initState() {
@@ -29,7 +34,12 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
 
   void _tap(String code) {
     if (_heard == code) {
-      ref.read(sessionProvider.notifier).chooseLanguage(code);
+      if (widget.changing) {
+        ref.read(languageProvider.notifier).select(code);
+        Navigator.of(context).pop();
+      } else {
+        ref.read(sessionProvider.notifier).chooseLanguage(code);
+      }
       return;
     }
     setState(() => _heard = code);
@@ -41,6 +51,10 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
   Widget build(BuildContext context) {
     final all = ref.watch(allStringsProvider);
     final s = ref.watch(appStringsProvider);
+    final shown = _showAll
+        ? appLanguages
+        : [for (final c in featuredLanguages) languageByCode(c)];
+
     return Scaffold(
       appBar: AppBar(
         title: const Icon(Icons.translate, size: 36),
@@ -57,13 +71,22 @@ class _LanguagePickScreenState extends ConsumerState<LanguagePickScreen> {
           padding: const EdgeInsets.all(16),
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
+          childAspectRatio: _showAll ? 1.4 : 1,
           children: [
-            for (final l in appLanguages)
+            for (final l in shown)
               _LanguageTile(
                 name: all[l.code]!.t('lang_name'),
                 heard: _heard == l.code,
                 okLabel: s.t('ok'),
                 onTap: () => _tap(l.code),
+              ),
+            if (!_showAll)
+              _MoreTile(
+                label: s.t('more_languages'),
+                onTap: () {
+                  setState(() => _showAll = true);
+                  ref.speak('more_languages');
+                },
               ),
           ],
         ),
@@ -111,7 +134,12 @@ class _LanguageTile extends StatelessWidget {
               color: heard ? AppColors.confirmed : scheme.primary,
             ),
             const SizedBox(height: 8),
-            Text(name, style: Theme.of(context).textTheme.headlineMedium),
+            FittedBox(
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
             if (heard)
               Text(okLabel, style: Theme.of(context).textTheme.titleLarge),
           ],
@@ -119,4 +147,52 @@ class _LanguageTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class _MoreTile extends StatelessWidget {
+  const _MoreTile({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    child: InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.language, size: 48),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// Top-bar button that opens the language screen to change language later.
+class ChangeLanguageButton extends ConsumerWidget {
+  const ChangeLanguageButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => IconButton(
+    icon: const Icon(Icons.translate),
+    tooltip: ref.watch(appStringsProvider).t('change_language'),
+    onPressed: () {
+      ref.speak('change_language');
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => const LanguagePickScreen(changing: true),
+        ),
+      );
+    },
+  );
 }

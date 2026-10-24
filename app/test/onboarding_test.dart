@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kabadiwala_connect/app.dart';
 import 'package:kabadiwala_connect/app_gate.dart';
+import 'package:kabadiwala_connect/core/audio/audio_service.dart';
 import 'package:kabadiwala_connect/core/app_providers.dart';
 import 'package:kabadiwala_connect/core/sync/sync_status.dart';
 import 'package:kabadiwala_connect/data/models/catalog.dart';
@@ -124,5 +126,46 @@ void main() {
     await tester.tap(find.text('Sell scrap'));
     await tester.pumpAndSettle();
     expect(audio.spoken, contains('tile_sell'));
+  });
+
+  testWidgets('language screen: 4 choices first, More shows all 12', (
+    tester,
+  ) async {
+    phoneScreen(tester);
+    await tester.pumpWidget(
+      testApp(const LanguagePickScreen(), prefs: await freshPrefs()),
+    );
+    await tester.pump();
+    final tiles = find.descendant(
+      of: find.byType(GridView),
+      matching: find.byType(InkWell),
+    );
+    expect(tiles, findsNWidgets(4));
+    await tester.tap(find.text('और भाषाएँ'));
+    await tester.pump();
+    for (final name in ['বাংলা', 'भोजपुरी', 'ਪੰਜਾਬੀ', 'தமிழ்', 'English']) {
+      await tester.scrollUntilVisible(find.text(name), 200);
+      expect(find.text(name), findsOneWidget, reason: name);
+    }
+  });
+
+  testWidgets('Urdu turns the layout right-to-left', (tester) async {
+    phoneScreen(tester);
+    final prefs = await freshPrefs({'language': 'ur'});
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          sharedPrefsProvider.overrideWithValue(prefs),
+          allStringsProvider.overrideWithValue(realStrings()),
+          audioServiceProvider.overrideWithValue(FakeAudio()),
+        ],
+        child: const KabadiwalaApp(),
+      ),
+    );
+    await tester.pump();
+    final dir = Directionality.of(
+      tester.element(find.byType(LanguagePickScreen)),
+    );
+    expect(dir, TextDirection.rtl);
   });
 }

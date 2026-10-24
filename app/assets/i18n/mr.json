@@ -1,4 +1,5 @@
 {
+  "_review": "Draft translation written by the developers. Check every line with a native Marathi speaker before field use.",
   "app_name": "कबाडीवाला कनेक्ट",
   "firebase_ready": "सर्व्हर जोडला",
   "firebase_not_ready": "सर्व्हर अजून जोडला नाही",
@@ -119,5 +120,7 @@
   "amount_instruction": "किती रुपये मिळाले? नंबर दाबा, मग पैसे कसे मिळाले ते निवडा",
   "ledger_empty": "अजून कोणतीही कमाई नोंदवली नाही",
   "sold_elsewhere": "दुसरीकडे विकले",
-  "from_recycler": "रिसायकलरला विकले"
+  "from_recycler": "रिसायकलरला विकले",
+  "more_languages": "अधिक भाषा",
+  "change_language": "भाषा बदला"
 }

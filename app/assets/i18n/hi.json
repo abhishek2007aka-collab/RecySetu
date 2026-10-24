@@ -119,5 +119,7 @@
   "amount_instruction": "कितने रुपये मिले? नंबर दबाएँ, फिर पैसे कैसे मिले चुनें",
   "ledger_empty": "अभी कोई कमाई दर्ज नहीं है",
   "sold_elsewhere": "दूसरी जगह बेचा",
-  "from_recycler": "रीसाइक्लर को बेचा"
+  "from_recycler": "रीसाइक्लर को बेचा",
+  "more_languages": "और भाषाएँ",
+  "change_language": "भाषा बदलें"
 }

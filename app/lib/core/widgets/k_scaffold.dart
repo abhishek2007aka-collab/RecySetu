@@ -17,6 +17,7 @@ class KScaffold extends ConsumerStatefulWidget {
     this.instructionParams = const {},
     this.showSync = true,
     this.onTitleLongPress,
+    this.extraActions = const [],
   });
 
   final String titleKey;
@@ -25,6 +26,9 @@ class KScaffold extends ConsumerStatefulWidget {
   final Widget body;
   final bool showSync;
   final VoidCallback? onTitleLongPress;
+
+  /// Extra top-bar buttons, e.g. "change language" on the home screens.
+  final List<Widget> extraActions;
 
   @override
   ConsumerState<KScaffold> createState() => _KScaffoldState();
@@ -51,6 +55,7 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
           child: Text(s.t(widget.titleKey)),
         ),
         actions: [
+          ...widget.extraActions,
           if (widget.showSync) const SyncIcon(),
           IconButton(
             icon: const Icon(Icons.volume_up),

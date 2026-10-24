@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -29,5 +30,37 @@ void main() {
     for (final lang in appLanguages) {
       expect(_keys(lang.code), _keys('hi'), reason: lang.code);
     }
+  });
+
+  test('every translation keeps the same {slots} as Hindi', () {
+    final slot = RegExp(r'\{(\w+)\}');
+    Map<String, String> raw(String code) => (jsonDecode(
+      File('assets/i18n/$code.json').readAsStringSync(),
+    ) as Map<String, dynamic>).map((k, v) => MapEntry(k, '$v'));
+    final hi = raw('hi');
+    for (final lang in appLanguages) {
+      final other = raw(lang.code);
+      for (final key in hi.keys.where((k) => !k.startsWith('_'))) {
+        List<String> slots(String s) =>
+            slot.allMatches(s).map((m) => m[1]!).toList()..sort();
+        expect(
+          slots(other[key]!),
+          slots(hi[key]!),
+          reason: '${lang.code}.$key',
+        );
+      }
+    }
+  });
+
+  test('12 languages, each with its own name in its own script', () {
+    expect(appLanguages, hasLength(12));
+    final names = {
+      for (final l in appLanguages)
+        AppStrings.fromJson(
+          l.code,
+          File('assets/i18n/${l.code}.json').readAsStringSync(),
+        ).t('lang_name'),
+    };
+    expect(names, hasLength(12));
   });
 }

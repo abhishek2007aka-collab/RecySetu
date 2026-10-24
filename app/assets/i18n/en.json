@@ -119,5 +119,7 @@
   "amount_instruction": "How many rupees did you get? Tap the numbers, then choose how you were paid",
   "ledger_empty": "No earnings recorded yet",
   "sold_elsewhere": "Sold elsewhere",
-  "from_recycler": "Sold to recycler"
+  "from_recycler": "Sold to recycler",
+  "more_languages": "More languages",
+  "change_language": "Change language"
 }

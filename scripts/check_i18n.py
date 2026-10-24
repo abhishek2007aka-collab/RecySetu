@@ -18,7 +18,7 @@ I18N = ROOT / "app" / "assets" / "i18n"
 AUDIO = ROOT / "app" / "assets" / "audio"
 
 # Languages with no Android TTS voice: every key needs a recorded clip.
-RECORDED_ONLY = {"gbm"}
+RECORDED_ONLY = {"gbm", "bho"}
 NUMBER_CLIPS = [f"num/{n}" for n in range(100)] + [
     "hundred", "thousand", "lakh", "rupees", "kilo", "about",
 ]
