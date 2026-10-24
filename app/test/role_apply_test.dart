@@ -29,6 +29,7 @@ List _recyclers() => [
     (ref) => Stream.value([
       _r('official'),
       _r('demo', ownerPhone: '+919999900002', placeholder: true),
+      _r('test', placeholder: true),
     ]),
   ),
 ];
@@ -80,7 +81,7 @@ void main() {
       expect(find.byType(RecyclerApplyScreen), findsOneWidget);
       expect(prefs.getString('role'), isNull);
 
-      // Official, unclaimed recyclers are offered; the demo row is not.
+      // Unclaimed listings are offered; the demo row (already invited) is not.
       expect(find.text('Recycler official'), findsOneWidget);
       expect(find.text('Recycler demo'), findsNothing);
 

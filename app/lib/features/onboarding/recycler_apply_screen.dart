@@ -68,10 +68,10 @@ class _RecyclerApplyScreenState extends ConsumerState<RecyclerApplyScreen> {
   @override
   Widget build(BuildContext context) {
     final s = ref.watch(appStringsProvider);
-    // Real authorised recyclers nobody has claimed yet (no demo rows).
+    // Authorised listings nobody has claimed or been invited to yet.
     final listed = [
       for (final r in ref.watch(recyclersProvider).value ?? const <Recycler>[])
-        if (r.authorised && !r.placeholder && r.ownerUid == null) r,
+        if (r.authorised && r.ownerUid == null && r.ownerPhone == null) r,
     ];
 
     return KScaffold(

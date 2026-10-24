@@ -210,5 +210,29 @@
       "PHONE": 26000
     },
     "placeholder": true
+  },
+  {
+    "id": "test_recycler_1",
+    "name": "TEST Recycler (fake - for testing only)",
+    "phone": "",
+    "lat": 29.865,
+    "lng": 77.885,
+    "address": "Fake test address - Roorkee",
+    "authorised": true,
+    "authorisationRef": "TEST-CPCB-0001 (fake)",
+    "offersPickup": true,
+    "ownerPhone": null,
+    "ownerUid": null,
+    "ratesPaisePerKg": {
+      "PCB": 16000,
+      "CABLE_CU": 32000,
+      "BATTERY_LI": 10000,
+      "BATTERY_PB": 9000,
+      "CRT": 600,
+      "MOTOR": 4500,
+      "PLASTIC_MIX": 1100,
+      "PHONE": 20000
+    },
+    "placeholder": true
   }
 ]

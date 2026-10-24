@@ -11,3 +11,4 @@ rec_placeholder_a,DEMO Recycler (test account - not real),+910000000001,29.87500
 rec_placeholder_b,Old placeholder B (hidden),+910000000002,30.34000,78.06000,Placeholder address B,false,,false,,220,400,80,,15,50,,230,true,placeholder (retired),made up
 rec_placeholder_c,Old placeholder C (hidden),+910000000003,30.27000,77.99000,Placeholder address C,false,,true,,190,390,90,100,,45,20,,true,placeholder (retired),made up
 rec_placeholder_d,Old placeholder D (hidden),+910000000004,30.30000,78.04000,Placeholder address D,false,,true,,250,450,95,105,20,55,25,260,true,placeholder (retired),made up
+test_recycler_1,TEST Recycler (fake - for testing only),,29.86500,77.88500,Fake test address - Roorkee,true,TEST-CPCB-0001 (fake),true,,160,320,100,90,6,45,11,200,true,fake listing to test the apply-and-approve flow,made up
