@@ -64,18 +64,21 @@ void main() {
   });
 
   group('ranking (§6.3)', () {
-    test('hides unauthorised and recyclers without a rate', () {
+    test('hides unauthorised; unknown rates are listed after known ones', () {
       final ranked = rankRecyclers(
         recyclers: [
+          _r('norate', rates: {'CRT': 5000}),
           _r('ok'),
           _r('unauth', authorised: false, rates: {'PCB': 99999}),
-          _r('norate', rates: {'CRT': 5000}),
           _r('zero', rates: {'PCB': 0}),
         ],
         materialCode: 'PCB',
         from: roorkee,
       );
-      expect(ranked.map((r) => r.recycler.id), ['ok']);
+      expect(ranked.map((r) => r.recycler.id), ['ok', 'norate', 'zero']);
+      expect(ranked[1].ratePaisePerKg, isNull);
+      // Unknown rate scores on distance only: 0.35 at 0 km.
+      expect(ranked[1].score, closeTo(0.35, 1e-9));
     });
 
     test('best rate + near + pickup wins; score matches the formula', () {

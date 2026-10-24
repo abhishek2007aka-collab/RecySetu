@@ -168,4 +168,51 @@ void main() {
     );
     expect(dir, TextDirection.rtl);
   });
+
+  testWidgets('logout asks first, then forgets PIN and role', (tester) async {
+    phoneScreen(tester);
+    final prefs = await freshPrefs({
+      'language': 'en',
+      'language_chosen': true,
+      'pin_hash': 'x',
+      'role': 'collector',
+    });
+    final audio = FakeAudio();
+    await tester.pumpWidget(
+      testApp(const HomeScreen(), prefs: prefs, audio: audio),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.logout));
+    await tester.pumpAndSettle();
+    expect(audio.spoken.last, 'logout_confirm');
+
+    await tester.tap(find.text('No'));
+    await tester.pumpAndSettle();
+    expect(prefs.getString('pin_hash'), 'x');
+
+    await tester.tap(find.byIcon(Icons.logout));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Yes'));
+    await tester.pumpAndSettle();
+    expect(prefs.getString('pin_hash'), isNull);
+    expect(prefs.getString('role'), isNull);
+    expect(prefs.getString('language'), 'en');
+  });
+
+  testWidgets('logout is refused while data is still unsent', (tester) async {
+    phoneScreen(tester);
+    final prefs = await freshPrefs({'language': 'en', 'pin_hash': 'x'});
+    final audio = FakeAudio();
+    await tester.pumpWidget(
+      testApp(const HomeScreen(), prefs: prefs, audio: audio, unsentData: true),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.logout));
+    await tester.pumpAndSettle();
+    expect(audio.spoken.last, 'logout_wait_sync');
+    expect(find.text('Yes'), findsNothing);
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(prefs.getString('pin_hash'), 'x');
+  });
 }

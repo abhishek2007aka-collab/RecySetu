@@ -56,10 +56,12 @@ class RecyclersScreen extends ConsumerWidget {
                     itemBuilder: (context, i) => _RecyclerCard(
                       rank: i + 1,
                       choice: ranked[i],
-                      payoutPaise: Valuation.paiseFor(
-                        draft.weightGrams,
-                        ranked[i].ratePaisePerKg,
-                      ),
+                      payoutPaise: ranked[i].ratePaisePerKg == null
+                          ? null
+                          : Valuation.paiseFor(
+                              draft.weightGrams,
+                              ranked[i].ratePaisePerKg!,
+                            ),
                       onSelect: () => onSelect(context, ranked[i]),
                     ),
                   ),
@@ -92,7 +94,9 @@ class _RecyclerCard extends ConsumerWidget {
 
   final int rank;
   final RankedRecycler choice;
-  final int payoutPaise;
+
+  /// Null when the recycler's rate is not known.
+  final int? payoutPaise;
   final VoidCallback onSelect;
 
   @override
@@ -100,15 +104,20 @@ class _RecyclerCard extends ConsumerWidget {
     final s = ref.watch(appStringsProvider);
     final r = choice.recycler;
     final km = choice.distanceKm.toStringAsFixed(1);
-    final ratePerKg = (choice.ratePaisePerKg + 50) ~/ 100;
-    final payoutRupees = (payoutPaise + 50) ~/ 100;
+    final rate = choice.ratePaisePerKg;
+    final ratePerKg = rate == null ? null : (rate + 50) ~/ 100;
+    final payoutRupees = payoutPaise == null
+        ? null
+        : (payoutPaise! + 50) ~/ 100;
 
-    void speakRow() => ref.speak('recycler_spoken', {
-      'name': r.name,
-      'km': km,
-      'rate': ratePerKg,
-      'amount': payoutRupees,
-    });
+    void speakRow() => ratePerKg == null
+        ? ref.speak('recycler_spoken_norate', {'name': r.name, 'km': km})
+        : ref.speak('recycler_spoken', {
+            'name': r.name,
+            'km': km,
+            'rate': ratePerKg,
+            'amount': payoutRupees!,
+          });
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -151,21 +160,26 @@ class _RecyclerCard extends ConsumerWidget {
                   _Fact(Icons.place, s.t('km', {'km': km})),
                   _Fact(
                     Icons.currency_rupee,
-                    '${Fmt.indian(ratePerKg)}${s.t('per_kg_short')}',
+                    ratePerKg == null
+                        ? s.t('rate_unknown')
+                        : '${Fmt.indian(ratePerKg)}${s.t('per_kg_short')}',
                   ),
                   if (r.offersPickup)
                     _Fact(Icons.local_shipping, s.t('pickup')),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(
-                '~₹${Fmt.indian(payoutRupees)}',
-                style: const TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.confirmed,
-                ),
-              ),
+              if (payoutRupees != null)
+                Text(
+                  '~₹${Fmt.indian(payoutRupees)}',
+                  style: const TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.confirmed,
+                  ),
+                )
+              else
+                Text(r.address, style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 8),
               Row(
                 children: [

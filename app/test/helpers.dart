@@ -46,13 +46,14 @@ Widget testApp(
   required SharedPreferences prefs,
   FakeAudio? audio,
   List overrides = const [],
+  bool unsentData = false,
 }) => ProviderScope(
   overrides: [
     sharedPrefsProvider.overrideWithValue(prefs),
     allStringsProvider.overrideWithValue(realStrings()),
     audioServiceProvider.overrideWithValue(audio ?? FakeAudio()),
     onlineProvider.overrideWith((ref) => Stream.value(true)),
-    pendingWritesProvider.overrideWith((ref) => Stream.value(false)),
+    pendingWritesProvider.overrideWith((ref) => Stream.value(unsentData)),
     ...overrides.cast(),
   ],
   child: MaterialApp(home: child),

@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/widgets/big_tile.dart';
 import '../../core/widgets/k_scaffold.dart';
 import '../onboarding/language_pick_screen.dart';
+import '../onboarding/logout_button.dart';
 import '../debug/audio_debug_screen.dart';
 import '../ledger/ledger_providers.dart';
 import '../ledger/ledger_screen.dart';
@@ -36,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
       titleKey: 'app_name',
       instructionKey: 'home_instruction',
       onTitleLongPress: () => open(const AudioDebugScreen()),
-      extraActions: const [ChangeLanguageButton()],
+      extraActions: const [ChangeLanguageButton(), LogoutButton()],
       body: GridView.count(
         crossAxisCount: 2,
         padding: const EdgeInsets.all(16),

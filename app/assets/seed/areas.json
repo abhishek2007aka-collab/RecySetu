@@ -2,22 +2,22 @@
   {
     "id": "area_1",
     "nameKey": "area_1",
-    "lat": 30.3165,
-    "lng": 78.0322,
-    "placeholder": true
+    "lat": 29.86935,
+    "lng": 77.89021,
+    "placeholder": false
   },
   {
     "id": "area_2",
     "nameKey": "area_2",
-    "lat": 30.34,
-    "lng": 78.06,
-    "placeholder": true
+    "lat": 29.93845,
+    "lng": 78.1453,
+    "placeholder": false
   },
   {
     "id": "area_3",
     "nameKey": "area_3",
-    "lat": 30.27,
-    "lng": 77.99,
-    "placeholder": true
+    "lat": 29.74744,
+    "lng": 78.02381,
+    "placeholder": false
   }
 ]

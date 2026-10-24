@@ -10,9 +10,9 @@
   "mat_MOTOR": "Motor",
   "mat_PLASTIC_MIX": "Mixed plastic",
   "mat_PHONE": "Old phone",
-  "area_1": "Area 1",
-  "area_2": "Area 2",
-  "area_3": "Area 3",
+  "area_1": "Roorkee",
+  "area_2": "Haridwar",
+  "area_3": "Laksar",
   "per_kg": "per kg",
   "lang_name": "English",
   "price_estimate": "You will get about {amount} rupees",
@@ -123,5 +123,12 @@
   "more_languages": "More languages",
   "change_language": "Change language",
   "ai_suggestion": "Looks like {material}, {percent} percent sure. Tap it if it is right, or pick the right picture",
-  "suggested": "Suggested"
+  "suggested": "Suggested",
+  "rate_unknown": "Rate not known",
+  "recycler_spoken_norate": "{name}. {km} kilometres away. Rate not known, call and ask",
+  "logout": "Log out",
+  "logout_confirm": "Do you want to log out? You will need your number and PIN again",
+  "logout_wait_sync": "First turn on internet so all your data is sent, then log out",
+  "yes": "Yes",
+  "no": "No"
 }

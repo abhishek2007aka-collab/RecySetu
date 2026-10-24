@@ -65,6 +65,18 @@ List _catalog() => [
       _r('A', pcb: 21000),
       _r('B', pcb: 20000, lat: 29.95),
       _r('Shady', authorised: false, pcb: 99900),
+      Recycler(
+        id: 'official',
+        name: 'Official Recycler',
+        phone: '',
+        lat: 29.87,
+        lng: 77.89,
+        address: 'Industrial Area, Roorkee',
+        authorised: true,
+        authorisationRef: 'CPCB list',
+        offersPickup: false,
+        ratesPaisePerKg: const {},
+      ),
     ]),
   ),
   areasProvider.overrideWith(
@@ -119,7 +131,7 @@ void main() {
     await choosePcb(tester);
     expect(audio.spoken.last, 'location_why');
 
-    await tester.tap(find.text('Area 1'));
+    await tester.tap(find.text('Roorkee'));
     await tester.pumpAndSettle();
     expect(prefs.getDouble('my_lat'), 29.86);
     expect(find.text('Recycler A'), findsOneWidget);
@@ -150,5 +162,30 @@ void main() {
     expect(find.text('~₹210'), findsOneWidget);
     await tester.tap(find.text('Choose').first);
     expect(chosen, 'A');
+  });
+
+  testWidgets('official recycler with unknown rate: listed, says so, no call', (
+    tester,
+  ) async {
+    phoneScreen(tester);
+    final audio = FakeAudio();
+    await tester.pumpWidget(
+      testApp(
+        RecyclersScreen(onSelect: (_, _) {}),
+        prefs: await freshPrefs({
+          'language': 'en',
+          'my_lat': 29.86,
+          'my_lng': 77.89,
+        }),
+        audio: audio,
+        overrides: _catalog(),
+      ),
+    );
+    await choosePcb(tester);
+    await tester.scrollUntilVisible(find.text('Official Recycler'), 200);
+    expect(find.text('Rate not known'), findsOneWidget);
+    expect(find.text('Industrial Area, Roorkee'), findsOneWidget);
+    await tester.tap(find.text('Official Recycler'));
+    expect(audio.spoken.last, 'recycler_spoken_norate');
   });
 }

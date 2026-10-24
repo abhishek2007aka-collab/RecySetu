@@ -53,10 +53,17 @@ class _EstimateScreenState extends ConsumerState<EstimateScreen> {
         .handOver(
           collectorUid: uid,
           recyclerId: choice.recycler.id,
-          agreedPaise: Valuation.paiseFor(
-            ref.read(sellDraftProvider).weightGrams,
-            choice.ratePaisePerKg,
-          ),
+          // Unknown rate (e.g. official-list recycler): agree on the board estimate.
+          agreedPaise: switch (choice.ratePaisePerKg) {
+            final rate? => Valuation.paiseFor(
+              ref.read(sellDraftProvider).weightGrams,
+              rate,
+            ),
+            null =>
+              ref.read(sellDraftProvider).weightGrams == 0
+                  ? 0
+                  : _boardMidPaise(),
+          },
           lat: where?.lat ?? 0,
           lng: where?.lng ?? 0,
         );
@@ -67,6 +74,16 @@ class _EstimateScreenState extends ConsumerState<EstimateScreen> {
             HandoverScreen(handover: h, recyclerName: choice.recycler.name),
       ),
     );
+  }
+
+  int _boardMidPaise() {
+    final price = ref.read(draftPriceProvider);
+    if (price == null) return 0;
+    final e = Valuation.estimate(
+      ref.read(sellDraftProvider).weightGrams,
+      price,
+    );
+    return (e.lowPaise + e.highPaise) ~/ 2;
   }
 
   @override

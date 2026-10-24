@@ -42,9 +42,16 @@ void main() {
       expect(b.offersPickup, isFalse);
     });
 
-    test('every seed row is marked as placeholder', () {
-      for (final name in ['materials', 'prices', 'recyclers', 'areas']) {
+    test('every seed row is a placeholder or comes from the official list', () {
+      for (final name in ['materials', 'prices']) {
         expect(_seed(name).every((r) => r['placeholder'] == true), isTrue);
+      }
+      for (final r in _seed('recyclers')) {
+        if (r['placeholder'] == true) continue;
+        // Real recyclers: official CPCB reference, no invented phone or rates.
+        expect(r['authorisationRef'], startsWith('CPCB list'));
+        expect(r['phone'], isEmpty);
+        expect(r['ratesPaisePerKg'], isEmpty);
       }
     });
   });

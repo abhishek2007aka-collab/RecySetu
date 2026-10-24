@@ -30,12 +30,14 @@ UA = "KabadiwalaConnect-SIH/0.1 (student hackathon project; training data collec
 # Material code -> Wikimedia Commons categories (checked to contain photos).
 SOURCES = {
     "PCB": ["Printed_circuit_boards"],
-    "CABLE_CU": ["Copper_wire", "Electric_cables", "Power_cables"],
+    "CABLE_CU": ["Copper_wire", "Electric_cables", "Power_cables", "Mobile_phone_chargers",
+                 "Earphones", "Extension_cords", "USB_cables"],
     "BATTERY_LI": ["Lithium-ion_batteries", "Laptop_batteries", "Mobile_phone_batteries"],
     "BATTERY_PB": ["Lead-acid_batteries"],
     "CRT": ["CRT_television_sets", "CRT_monitors"],
     "MOTOR": ["Electric_motors"],
-    "PHONE": ["Mobile_phones", "Nokia_mobile_phones", "Feature_phones"],
+    "PHONE": ["Mobile_phones", "Nokia_mobile_phones", "Feature_phones", "Smartphones",
+              "Disassembled_mobile_phones"],
     # All plastic items count as mixed plastic (bottles, caps, containers).
     "PLASTIC_MIX": ["Plastic_bottles", "PET_bottles", "Plastic_containers", "Plastic_waste"],
 }
@@ -82,6 +84,7 @@ def files_in(category: str):
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-class", type=int, default=80)
+    ap.add_argument("--only", nargs="*", help="material codes to fetch (default: all)")
     args = ap.parse_args()
 
     credits_path = PHOTOS / "CREDITS.csv"
@@ -91,8 +94,14 @@ def main() -> None:
         with credits_path.open() as f:
             rows = list(csv.DictReader(f))
             seen = {r["file"] for r in rows}
+    # Never fetch again a photo that was checked and rejected by hand.
+    rejected = ROOT / "data" / "photos_rejected"
+    if rejected.exists():
+        seen |= {p.name for p in rejected.rglob("wm_*")}
 
     for code, categories in SOURCES.items():
+        if args.only and code not in args.only:
+            continue
         folder = PHOTOS / code
         folder.mkdir(parents=True, exist_ok=True)
         have = len([r for r in rows if r["class"] == code])

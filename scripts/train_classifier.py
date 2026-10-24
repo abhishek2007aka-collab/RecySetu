@@ -83,7 +83,10 @@ def dataset(items, training: bool) -> tf.data.Dataset:
         augment = tf.keras.Sequential([
             tf.keras.layers.RandomFlip("horizontal"),
             tf.keras.layers.RandomRotation(0.1),
-            tf.keras.layers.RandomZoom(0.15),
+            # Zoom IN up to 45% (close-up crops of camera, ports, buttons, a
+            # cable end...) so a part of the object is enough to recognise it.
+            tf.keras.layers.RandomZoom(height_factor=(-0.45, 0.1)),
+            tf.keras.layers.RandomTranslation(0.1, 0.1),
             tf.keras.layers.RandomBrightness(0.2, value_range=(0, 255)),
             tf.keras.layers.RandomContrast(0.2),
         ])
@@ -139,6 +142,48 @@ def tflite_predict(model_bytes: bytes, items) -> list[int]:
     return preds
 
 
+def explain(model, items, used, out_dir: Path, classes=("PHONE", "CABLE_CU", "PLASTIC_MIX"),
+            per_class=6) -> list[Path]:
+    """Grad-CAM heat maps: which part of the photo made the model decide.
+
+    Red = the area that pushed the model most towards the class it chose
+    (for a phone we hope: camera, ports, buttons, screen edge — not the table).
+    """
+    rescale = next(l for l in model.layers if isinstance(l, tf.keras.layers.Rescaling))
+    base = next(l for l in model.layers if isinstance(l, tf.keras.Model))
+    gap = next(l for l in model.layers if isinstance(l, tf.keras.layers.GlobalAveragePooling2D))
+    dense = model.layers[-1]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for old in out_dir.glob("*.jpg"):
+        old.unlink()
+    written = []
+    for c in classes:
+        if c not in used:
+            continue
+        k = used.index(c)
+        for n, (p, _) in enumerate([it for it in items if it[1] == k][:per_class]):
+            img = load_image(tf.constant(str(p)))
+            x = img[None]
+            with tf.GradientTape() as tape:
+                feats = base(rescale(x), training=False)
+                tape.watch(feats)
+                probs = dense(gap(feats))
+                top = int(tf.argmax(probs[0]))
+                score = probs[:, top]
+            grads = tape.gradient(score, feats)[0]
+            cam = tf.nn.relu(tf.reduce_sum(feats[0] * tf.reduce_mean(grads, axis=(0, 1)), -1))
+            cam = cam / (tf.reduce_max(cam) + 1e-8)
+            cam = tf.image.resize(cam[..., None], (SIZE, SIZE))[..., 0].numpy()
+            heat = np.stack([cam * 255, np.zeros_like(cam), (1 - cam) * 80], -1)
+            blend = np.clip(img.numpy() * 0.55 + heat * 0.45, 0, 255).astype(np.uint8)
+            pair = np.concatenate([img.numpy().astype(np.uint8), blend], axis=1)
+            guess = used[top]
+            path = out_dir / f"{c}_{n + 1}_guess-{guess}_{float(probs[0, top]):.0%}.jpg"
+            path.write_bytes(tf.io.encode_jpeg(pair, quality=85).numpy())
+            written.append(path)
+    return written
+
+
 def report(used, counts, test, preds, skipped, size_kb) -> str:
     n = len(used)
     cm = np.zeros((n, n), dtype=int)
@@ -170,10 +215,12 @@ def report(used, counts, test, preds, skipped, size_kb) -> str:
     if skipped:
         lines += ["", f"Skipped (fewer than {MIN_PHOTOS} photos): "
                   + ", ".join(f"{c} ({counts.get(c, 0)})" for c in skipped)]
-    lines += ["", "Caveats: the photos were taken by the team, so real-world accuracy "
-              "on other phones, lighting and scrap may be lower. The app only "
-              "*suggests* a category when it is at least 70% sure; the collector "
-              "always makes the final choice."]
+    lines += ["", "Caveats: the photos are a mix of the team's own photos and free "
+              "Wikimedia Commons photos (credits in data/photos/CREDITS.csv). Several "
+              "team photos show the same object, so held-out photos can look very like "
+              "training photos and inflate accuracy; real-world accuracy on other phones, "
+              "lighting and scrap may be lower. The app only *suggests* a category when "
+              "it is at least 70% sure; the collector always makes the final choice."]
     return "\n".join(lines) + "\n"
 
 
@@ -218,7 +265,12 @@ def main() -> None:
     (OUT_DIR / "model.tflite").write_bytes(tflite)
     (OUT_DIR / "labels.txt").write_text("".join(f"{i} {c}\n" for i, c in enumerate(used)))
     REPORT.parent.mkdir(exist_ok=True)
+    heatmaps = explain(model, test, used, REPORT.parent / "heatmaps")
     text = report(used, counts, test, preds, skipped, len(tflite) / 1024)
+    if heatmaps:
+        text += (f"\n**What the model looks at:** {len(heatmaps)} heat-map images of held-out "
+                 f"photos are in `{REPORT.parent.name}/heatmaps/` (left: photo, right: red = "
+                 "the area that decided the answer).\n")
     REPORT.write_text(text)
     print(text)
     print(f"Model written to {OUT_DIR}/ — rebuild the app to use it.")
