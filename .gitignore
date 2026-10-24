@@ -18,3 +18,7 @@ __pycache__/
 
 # Analysis outputs
 analysis/*.png
+
+# Training photos (large) and the ML environment stay out of git
+data/photos/*/
+.venv-ml/
