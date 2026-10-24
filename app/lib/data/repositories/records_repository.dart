@@ -21,6 +21,19 @@ class RecordsRepository {
       _write('confirmations', c.handoverId, c.toMap());
   void saveLedgerEntry(LedgerEntry e) => _write('ledger', e.id, e.toMap());
 
+  /// Small photo thumbnail stored as `lots/{lotId}/photos/{index}`.
+  void savePhotoThumb({
+    required String lotId,
+    required int index,
+    required String collectorUid,
+    required String sha256Hex,
+    required String thumbBase64,
+  }) => _write('lots/$lotId/photos', '$index', {
+    'collectorUid': collectorUid,
+    'sha256': sha256Hex,
+    'jpegBase64': thumbBase64,
+  });
+
   /// An invited recycler links their login to their listing (allowed by
   /// firestore.rules only when the phone number matches `ownerPhone`).
   void claimRecycler(String recyclerId, String uid) =>

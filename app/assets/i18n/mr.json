@@ -45,5 +45,18 @@
   "sync_offline": "इंटरनेट नाही, तरीही काम चालू राहील",
   "recycler_home_instruction": "क्यूआर कोड स्कॅन करा",
   "ok": "ठीक आहे",
-  "delete": "पुसा"
+  "delete": "पुसा",
+  "photo_instruction": "भंगाराचा फोटो घ्या. तीन फोटो पर्यंत घेऊ शकता",
+  "take_photo": "फोटो घ्या",
+  "next": "पुढे",
+  "photo_failed": "फोटो आला नाही, पुन्हा प्रयत्न करा",
+  "category_instruction": "हे काय आहे? चित्र दाबा",
+  "hazard_warning": "धोकादायक! काळजीपूर्वक हाताळा",
+  "weight_instruction": "किती वजन आहे? अधिक आणि उणे दाबा",
+  "weight_spoken": "{weight} किलो",
+  "kg": "किलो",
+  "estimate_title": "तुम्हाला मिळतील",
+  "find_recycler": "रिसायकलर शोधा",
+  "no_price": "याचा भाव अजून माहीत नाही",
+  "saved_offline": "सेव्ह झाले"
 }

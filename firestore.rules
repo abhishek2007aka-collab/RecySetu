@@ -68,6 +68,14 @@ service cloud.firestore {
       allow create: if signedIn() && request.resource.data.collectorUid == request.auth.uid;
       allow update: if signedIn() && resource.data.collectorUid == request.auth.uid
         && request.resource.data.collectorUid == request.auth.uid;
+
+      // Photo thumbnails (free-plan fallback for Cloud Storage).
+      match /photos/{n} {
+        allow read: if signedIn() && resource.data.collectorUid == request.auth.uid;
+        allow create, update: if signedIn()
+          && request.resource.data.collectorUid == request.auth.uid
+          && request.resource.data.jpegBase64.size() < 300000;
+      }
     }
     match /ledger/{id} {
       allow read, delete: if signedIn() && resource.data.collectorUid == request.auth.uid;

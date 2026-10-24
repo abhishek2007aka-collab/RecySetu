@@ -45,5 +45,18 @@
   "sync_offline": "इंटरनेट नहीं है, फिर भी काम चलता रहेगा",
   "recycler_home_instruction": "क्यूआर कोड स्कैन करें",
   "ok": "ठीक है",
-  "delete": "मिटाएँ"
+  "delete": "मिटाएँ",
+  "photo_instruction": "कबाड़ की फोटो लें। तीन फोटो तक ले सकते हैं",
+  "take_photo": "फोटो लें",
+  "next": "आगे",
+  "photo_failed": "फोटो नहीं खिंची, फिर से कोशिश करें",
+  "category_instruction": "यह क्या है? चित्र दबाएँ",
+  "hazard_warning": "खतरनाक! ध्यान से संभालें",
+  "weight_instruction": "कितना वज़न है? प्लस और माइनस दबाएँ",
+  "weight_spoken": "{weight} किलो",
+  "kg": "किलो",
+  "estimate_title": "आपको मिलेगा",
+  "find_recycler": "रीसाइक्लर खोजें",
+  "no_price": "इसका भाव अभी पता नहीं है",
+  "saved_offline": "सेव हो गया"
 }

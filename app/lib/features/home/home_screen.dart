@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/big_tile.dart';
 import '../../core/widgets/k_scaffold.dart';
 import '../debug/audio_debug_screen.dart';
+import '../sell_lot/photo_screen.dart';
+import '../sell_lot/sell_draft.dart';
 import 'coming_soon_screen.dart';
 
 /// S5. Collector home: 4 big tiles. Long-press the title for the audio check.
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   static const tiles = [
@@ -18,7 +21,7 @@ class HomeScreen extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     void open(Widget screen) =>
         Navigator.of(context)
             .push(MaterialPageRoute<void>(builder: (_) => screen));
@@ -38,7 +41,12 @@ class HomeScreen extends StatelessWidget {
               icon: icon,
               labelKey: key,
               colour: colour,
-              onTap: () => open(screenFor(key)),
+              onTap: () {
+                if (key == 'tile_sell') {
+                  ref.read(sellDraftProvider.notifier).start();
+                }
+                open(screenFor(key));
+              },
             ),
         ],
       ),
@@ -46,6 +54,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   /// Later phases replace these placeholders.
-  static Widget screenFor(String tileKey) =>
-      ComingSoonScreen(titleKey: tileKey);
+  static Widget screenFor(String tileKey) => switch (tileKey) {
+    'tile_sell' => const PhotoScreen(),
+    _ => ComingSoonScreen(titleKey: tileKey),
+  };
 }
