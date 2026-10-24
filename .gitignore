@@ -1,0 +1,20 @@
+# Secrets — never commit
+scripts/serviceAccount.json
+*serviceAccount*.json
+.env
+*.keystore
+*.jks
+app/android/key.properties
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# macOS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Analysis outputs
+analysis/*.png

@@ -1,0 +1,6 @@
+{
+  "app_name": "Kabadiwala Connect",
+  "home_placeholder": "Coming soon",
+  "firebase_ready": "Server connected",
+  "firebase_not_ready": "Server not set up yet"
+}
