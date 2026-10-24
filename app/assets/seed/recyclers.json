@@ -132,14 +132,14 @@
     "ownerPhone": "+919999900002",
     "ownerUid": null,
     "ratesPaisePerKg": {
-      "PCB": 21000,
-      "CABLE_CU": 41000,
-      "BATTERY_LI": 8500,
-      "BATTERY_PB": 9500,
-      "CRT": 1800,
-      "MOTOR": 5200,
-      "PLASTIC_MIX": 2200,
-      "PHONE": 24000
+      "PCB": 15000,
+      "CABLE_CU": 30000,
+      "BATTERY_LI": 11000,
+      "BATTERY_PB": 10000,
+      "CRT": 800,
+      "MOTOR": 5000,
+      "PLASTIC_MIX": 1200,
+      "PHONE": 25000
     },
     "placeholder": true
   },

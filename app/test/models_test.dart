@@ -30,7 +30,7 @@ void main() {
         expect(p.lowPaisePerKg, lessThanOrEqualTo(p.highPaisePerKg));
       }
       final pcb = _seed('prices').map(Price.fromMap).first;
-      expect(pcb.lowPaisePerKg, 18000); // ₹180 in the CSV
+      expect(pcb.lowPaisePerKg, 8000); // ₹80 in the CSV
     });
 
     test('recyclers keep only the rates that exist', () {
@@ -43,8 +43,15 @@ void main() {
     });
 
     test('every seed row is a placeholder or comes from the official list', () {
-      for (final name in ['materials', 'prices']) {
-        expect(_seed(name).every((r) => r['placeholder'] == true), isTrue);
+      expect(_seed('materials').every((r) => r['placeholder'] == true), isTrue);
+      // Prices: published web rates (source noted in data/prices.csv) or
+      // clearly marked placeholders.
+      for (final r in _seed('prices')) {
+        expect(
+          r['placeholder'] == true || r['source'] == 'web_listing',
+          isTrue,
+          reason: '${r['materialCode']}',
+        );
       }
       for (final r in _seed('recyclers')) {
         if (r['placeholder'] == true) continue;

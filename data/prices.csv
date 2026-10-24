@@ -1,9 +1,9 @@
-material_code,low_rs_per_kg,high_rs_per_kg,week_ago_mid_rs_per_kg,informal_dealer_rs_per_kg,transport_cost_rs_per_kg,source,placeholder
-PCB,180,220,190,120,5,field_study,true
-CABLE_CU,350,420,400,280,5,field_study,true
-BATTERY_LI,60,90,75,40,5,field_study,true
-BATTERY_PB,80,100,95,65,5,field_study,true
-CRT,10,20,15,5,5,field_study,true
-MOTOR,40,55,48,30,5,field_study,true
-PLASTIC_MIX,15,25,20,10,3,field_study,true
-PHONE,150,250,200,100,5,field_study,true
+material_code,low_rs_per_kg,high_rs_per_kg,week_ago_mid_rs_per_kg,informal_dealer_rs_per_kg,transport_cost_rs_per_kg,source,placeholder,notes
+PCB,80,200,,,,web_listing,false,"recyclinginindia.com: Circuit Boards (PCBs) Rs 80-200/kg (updated 13 May 2026)"
+CABLE_CU,100,450,,,,web_listing,false,"reuze.in: Electrical Wiring Rs 100-300/kg; recyclinginindia.com: Copper Mixed (with insulation) Rs 400-450/kg (13 May 2026)"
+BATTERY_LI,80,130,,,,web_listing,false,"reuze.in: Battery Rs 80-130/kg (battery type not stated)"
+BATTERY_PB,60,120,,,,web_listing,false,"resale.todaypricerates.com: Lead-acid Batteries Rs 60-120/kg (2025 table)"
+CRT,3,10,,,,web_listing,false,"Per piece Rs 50-200 (recyclinginindia.com CRT monitor Rs 50-150/unit; reuze.in CRT TV Rs 100-200/piece) divided by a typical 20 kg CRT TV"
+MOTOR,40,55,,,,placeholder,true,"No published per-kg rate found for electric motors: PLACEHOLDER, ask local dealers"
+PLASTIC_MIX,8,14,,,,web_listing,false,"recyclinginindia.com: Mixed Hard Plastic Rs 8-14/kg (13 May 2026); IndiaMART Roorkee dealer: waste mix plastic Rs 13/kg"
+PHONE,125,310,,,,web_listing,false,"Per dead phone Rs 20-50 (low end of reuze.in Rs 20-500/piece and recyclinginindia.com Rs 50-500/unit) divided by a typical 0.16 kg phone"

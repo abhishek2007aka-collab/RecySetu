@@ -1,66 +1,66 @@
 [
   {
     "materialCode": "PCB",
-    "currentLowPaisePerKg": 18000,
-    "currentHighPaisePerKg": 22000,
-    "weekAgoMidPaisePerKg": 19000,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 8000,
+    "currentHighPaisePerKg": 20000,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   },
   {
     "materialCode": "CABLE_CU",
-    "currentLowPaisePerKg": 35000,
-    "currentHighPaisePerKg": 42000,
-    "weekAgoMidPaisePerKg": 40000,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 10000,
+    "currentHighPaisePerKg": 45000,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   },
   {
     "materialCode": "BATTERY_LI",
-    "currentLowPaisePerKg": 6000,
-    "currentHighPaisePerKg": 9000,
-    "weekAgoMidPaisePerKg": 7500,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 8000,
+    "currentHighPaisePerKg": 13000,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   },
   {
     "materialCode": "BATTERY_PB",
-    "currentLowPaisePerKg": 8000,
-    "currentHighPaisePerKg": 10000,
-    "weekAgoMidPaisePerKg": 9500,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 6000,
+    "currentHighPaisePerKg": 12000,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   },
   {
     "materialCode": "CRT",
-    "currentLowPaisePerKg": 1000,
-    "currentHighPaisePerKg": 2000,
-    "weekAgoMidPaisePerKg": 1500,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 300,
+    "currentHighPaisePerKg": 1000,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   },
   {
     "materialCode": "MOTOR",
     "currentLowPaisePerKg": 4000,
     "currentHighPaisePerKg": 5500,
-    "weekAgoMidPaisePerKg": 4800,
-    "source": "field_study",
+    "weekAgoMidPaisePerKg": null,
+    "source": "placeholder",
     "placeholder": true
   },
   {
     "materialCode": "PLASTIC_MIX",
-    "currentLowPaisePerKg": 1500,
-    "currentHighPaisePerKg": 2500,
-    "weekAgoMidPaisePerKg": 2000,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 800,
+    "currentHighPaisePerKg": 1400,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   },
   {
     "materialCode": "PHONE",
-    "currentLowPaisePerKg": 15000,
-    "currentHighPaisePerKg": 25000,
-    "weekAgoMidPaisePerKg": 20000,
-    "source": "field_study",
-    "placeholder": true
+    "currentLowPaisePerKg": 12500,
+    "currentHighPaisePerKg": 31000,
+    "weekAgoMidPaisePerKg": null,
+    "source": "web_listing",
+    "placeholder": false
   }
 ]
