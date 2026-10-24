@@ -4,7 +4,22 @@ Smart India Hackathon 2026 · Problem statement SIH26229 · Ministry of Mines (C
 
 This document records everything the team built, step by step, in simple language: what the app does, how it works inside, the tools we used, the problems we hit and how we solved them. It is updated after every build phase.
 
-Last updated: 24 October 2026, night (core app + AI recogniser + real data, tested on a real phone)
+Last updated: 24 October 2026, 11:30 pm. **Final hackathon build (version 1.0.0)**, all phases done, tested on a real phone.
+
+## At a glance: final status
+
+| Area | Status |
+|---|---|
+| Core demo flow: photo → category → weight → spoken price → recyclers → QR handover → recycler confirms → ledger → sync | ✅ Done, works offline, tested on a real phone |
+| All plan phases 0–13 | ✅ Done (Phase 12b admin price editor replaced by Firestore console + scripts) |
+| Languages | ✅ 12 (Hindi, Garhwali, Marathi, English, Bengali, Bhojpuri, Punjabi, Urdu, Gujarati, Tamil, Telugu, Kannada) |
+| On-phone AI scrap recogniser | ✅ 80% on held-out photos, suggests only when 70%+ sure |
+| Real data | ✅ 8 authorised recyclers (CPCB list), 7 of 8 prices from published rates, Uttarakhand facts |
+| Automatic tests | ✅ 136 passing, `flutter analyze` clean |
+| Release | ✅ Signed with the ByteStorms key, uploaded to Firebase App Distribution (1.0.0) |
+| App size | ⚠️ 34.6 MB for most phones (target 30 MB); 28.7 MB for older phones |
+| Still to do by the team | Field study (check prices with local dealers), native-speaker check of translations, more training photos for batteries and motors |
+
 
 ## 1. The problem in one page
 
@@ -403,9 +418,66 @@ We installed the app on a **Motorola Edge 50 Fusion (Android 16)** and tested it
 | The Android build failed after adding the AI library | The library mixed Java 11 and Kotlin 17 settings; we told the build tool to accept that. |
 | A row on the weight screen didn't fit a small 360-pixel-wide screen | Caught by an automatic test on a phone-sized screen; we simplified the row. |
 
+### Who can be a recycler: apply and verify
+
+At first the app only offered recycler mode to phone numbers we had linked by hand. After testing, we changed it so that **everyone is asked** after the PIN: 🧑 **Kabadiwala** or 🏭 **Recycler**.
+
+| Who taps "Recycler" | What happens |
+|---|---|
+| A number already linked to an authorised recycler | Recycler mode opens |
+| Anyone else | A **"Join as a recycler"** form: pick your business from the **official CPCB list**, or type the name and **registration number**, then **Send application** |
+| After sending | "Your application is being checked" ⏳, with the option to use the app as a kabadiwala meanwhile |
+| After the team approves | "Approved! Open recycler mode" ✅ |
+
+**Why not let anyone be a recycler?** A recycler confirms payments (which become the kabadiwala's earnings record), sets rates shown to everyone, and carries an "Authorised" badge. A cheat could fake all of that. So the **server's security rules** let an applicant save only a *pending* application, and only for the phone number Firebase verified at login. Only the team can approve, using `scripts/approve_recycler.py`.
+
+We tested this end to end on the real phone with a clearly labelled **fake test listing** ("TEST Recycler (fake - for testing only)", TEST-CPCB-0001): +91 99999 00003 applied, the team approved it, and the phone opened recycler mode.
+
+### Loading screen and app icon
+
+After the PIN, a 2-second **branded loading screen** shows the **logo** (green recycling arrows with a gold ₹ coin, "recycle e-waste, get a fair price"), the app name, a tagline (*"हर कबाड़ का सही दाम"*, Fair price for every scrap) and the credit **"Developed by ⚡ ByteStorms"**, Smart India Hackathon 2026 · SIH26229. A tap skips it. The same logo is the **phone's app icon**, in classic and adaptive versions for Android 8+.
+
+![The app icon: classic round (left) and how Android 8+ shows it as a circle or rounded square.](images/app_icon_preview.png)
+
+### Phase 9 — Safety guide ✓
+
+The **Safety** tile shows 5 big picture cards with a red "NO" sign or a green tick. Tapping a card reads it aloud:
+
+| Card | Message (simplified) |
+|---|---|
+| Never burn cables | The smoke is poisonous; strip wires with a tool |
+| Don't break old TVs | The picture tube contains lead and can explode; give the whole TV to the recycler |
+| Batteries away from fire and water | Swollen or broken batteries can catch fire; don't press or puncture them |
+| Wear gloves | Handle circuit boards and broken items with gloves; wash hands after |
+| Never use acid | Acid burns and poisons soil and water; sell boards to a recycler |
+
+The **first time** a collector picks a dangerous item (batteries, old TVs), its safety card opens and plays **before** the weight screen. A test checks that every high-hazard material has a card with text in all 12 languages.
+
+### Phase 10 — Sync you can see ✓
+
+The cloud icon on every screen now shows **how many records are waiting** to be sent (a small amber number), and turns green when everything has reached the server. Logout refuses while anything is unsent, so nothing is lost. `docs/offline-test.md` is a printed checklist for testing on a real cheap phone: airplane mode at each step, the app killed mid-sale, the phone restarted with unsent records, two phones both offline, and logout safety.
+
+### Phase 11 — Polish ✓
+
+- **Huge fonts:** many older users set the phone's font to the maximum. We added automatic tests that open every main screen at **2× text size** on a small 360-pixel phone, in Hindi and Tamil. They found 3 screens whose tiles overflowed; we made tile icons and labels **shrink to fit**.
+- **Smaller app:** removed an unused 2.5 MB AI graphics library and moved debugging information out of the app.
+- **Top bar:** the home screens show the small logo instead of a long title, so the five buttons fit.
+
+### Phase 13 — Demo mode and demo script ✓
+
+- **Demo tools** (long-press the logo on the home screen): show the safety cards again, set the location to Roorkee if indoor GPS is slow, and open the audio check. They never delete records.
+- **`docs/demo-script.md`**: a timed **3-minute demo** with two phones, offline the whole time, switching languages, AI recognition, spoken price, real recyclers, tamper-proof QR, and finally sync. It includes a "what to do if something goes wrong" table.
+
+### Release: a real app, no cables
+
+- **Signing:** release builds are signed with the team's own key ("CN=ByteStorms"). The key and its password are kept **outside git**; the team must keep a private backup, because Android only accepts updates signed with the same key. Its fingerprints are registered with Firebase so phone login works.
+- **Sharing:** `release/KabadiwalaConnect-most-phones.apk` (34.6 MB) and `...-old-phones.apk` (28.7 MB) can be sent by WhatsApp or Drive and installed like any app.
+- **Updates over the internet:** version **1.0.0** is uploaded to **Firebase App Distribution**. Testers added in the Firebase console get an email and can install and update it without cables.
+- After installing, the app needs **no cable and no laptop**: it talks to Firebase over the internet, and works offline in between.
+
 ## 7. Testing
 
-Every important piece of logic has automatic tests that run with `flutter test`. Current status: **109 tests, all passing**, and `flutter analyze` reports no issues.
+Every important piece of logic has automatic tests that run with `flutter test`. Current status: **136 tests, all passing**, and `flutter analyze` reports no issues.
 
 | What is tested | Examples |
 |---|---|
@@ -417,6 +489,11 @@ Every important piece of logic has automatic tests that run with `flutter test`.
 | Logout | Asks first; No keeps you logged in; Yes forgets PIN and role but keeps the language; refused while data is unsent |
 | Voice | Voice off = nothing automatic but the speaker button still works; switching on says so; Back stops speech |
 | Weight | Typing 350 grams and 12 kilo works; grams shown below 1 kg; live price on the Next button |
+| Recycler join | Everyone is asked; only linked numbers open recycler mode; others get the apply form; pending vs approved screens |
+| Loading screen | Shows logo, name, tagline, ByteStorms; moves on after 2 s; a tap skips it once |
+| Safety | Every dangerous material has a card in all 12 languages; first-time card plays before the weight screen; demo reset |
+| Big fonts | 7 main screens at 2× text on a 360 dp phone, in Hindi and Tamil, without overflow |
+| Sync icon | Shows the number of unsent records |
 | Language switching | Tapping a language changes the text instantly and remembers the choice |
 | Data models | Every record can be saved and read back unchanged; unknown values fall back safely |
 | Seed data | Prices are whole paise and low ≤ high; missing recycler rates are skipped; every row is marked placeholder |
@@ -442,9 +519,11 @@ The plan's target is a release app under **30 MB**, so it downloads quickly on a
 
 | APK | For which phones | Size |
 |---|---|---|
-| `app-armeabi-v7a-release.apk` | Older and very cheap 32-bit phones | 22.8 MB |
-| `app-arm64-v8a-release.apk` | Most phones from the last ~7 years | 27.1 MB, now **37.2 MB** with the AI library and 12 languages |
-| `app-x86_64-release.apk` | Emulators / Chromebooks | 29.6 MB |
+| `app-armeabi-v7a-release.apk` | Older and very cheap 32-bit phones | **28.7 MB** ✅ |
+| `app-arm64-v8a-release.apk` | Most phones from the last ~7 years | **34.6 MB** ⚠️ |
+| `app-x86_64-release.apk` | Emulators / Chromebooks | 38.9 MB |
+
+**Why the main version is above 30 MB, honestly:** the on-phone AI (4.3 MB engine + 2.7 MB model) and the **offline** QR scanner (5.8 MB) live inside the app. We could save 5.8 MB by letting Google Play services download the scanner later, but then a new recycler phone could not scan QR codes offline until it had been online once, which breaks our "works offline" rule. We chose offline reliability over the last 4.6 MB.
 
 ## 8. Data honesty
 
@@ -478,16 +557,14 @@ The plan's target is a release app under **30 MB**, so it downloads quickly on a
 | Heat map | A picture showing which part of a photo the AI used to decide |
 | CPCB | Central Pollution Control Board, which publishes the list of authorised recyclers |
 
-## 10. What's next
+## 10. What's next (after the hackathon)
 
-| Phase | What it adds |
+| Item | Why |
 |---|---|
-| Two-phone test | Collector phone + recycler phone (+91 99999 00002): QR scan, confirm, ledger update after sync |
-| More team photos | OTHER photos of the demo table and floor; more batteries and motors, to raise AI accuracy |
-| Shrink the app | Bring the APK back under 30 MB |
-| 9 | Safety guide: picture cards with audio (no burning cables, don't break TVs, batteries away from fire/water, gloves for circuit boards) |
-| 10 | Sync robustness checklist (airplane mode at each step, app killed mid-flow, phone restarted) |
-| 11 | Polish: check every screen against the design rules; largest font size; release APK size |
-| 12 | Optional: on-device scrap recogniser, admin price editor, recorded Garhwali audio, earnings comparison chart |
-| 13 | Demo mode and a 3-minute demo script |
-| Team (field study) | Replace placeholder prices and recyclers with real data; record Garhwali clips; test with a real collector |
+| Field study in Roorkee and Haridwar | Check prices with 2–3 local dealers; replace the motor placeholder; real collector usability test (can a non-reader finish a sale?) |
+| Native-speaker check of all translations | The developers wrote them; Garhwali is still a Hindi copy |
+| Recorded voice clips for Garhwali and Bhojpuri | Android has no voice for them; the app is ready to play recorded clips |
+| More training photos for batteries and motors | The AI's weakest classes (57% and 50%) |
+| Contact the 8 authorised recyclers | Get verified phone numbers and rates; invite them to join through the app |
+| Admin screen inside the app | So prices and recycler approvals don't need the Mac scripts |
+| Google Play Store | Developer account, privacy policy, store listing; the app is already signed for it |

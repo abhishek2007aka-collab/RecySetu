@@ -70,3 +70,22 @@ Versions below are what we use; newer patch versions are fine.
 - Android 7 (API 24) is the oldest version we support. Flutter no longer
   supports Android 6.
 - Never commit `scripts/serviceAccount.json` (it is in `.gitignore`).
+
+## Release builds and the signing key (team lead only)
+- Release APKs are signed with `app/android/upload-keystore.jks`, whose password is in
+  `app/android/key.properties`. **Both are git-ignored.** Keep a private backup (e.g. a
+  private Google Drive folder shared only with the team lead). Android only accepts an
+  update signed with the same key; if the key is lost, every user must uninstall and reinstall.
+- Without these files, `flutter build apk --release` falls back to the debug key, so teammates
+  can still build and test.
+- Build the shareable APKs:
+  ```
+  cd app
+  flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/debug-symbols
+  ```
+- Send an update to testers over the internet (Firebase App Distribution):
+  ```
+  firebase appdistribution:distribute build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
+    --app 1:590851251845:android:0e5337418fa8177bc6d3ec --testers "friend@example.com" \
+    --release-notes "What changed"
+  ```
