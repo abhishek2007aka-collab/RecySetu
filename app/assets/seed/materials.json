@@ -1,0 +1,82 @@
+[
+  {
+    "code": "PCB",
+    "nameKey": "mat_PCB",
+    "iconAsset": "memory",
+    "hazard": "low",
+    "safetyCardIds": [
+      "gloves_pcb",
+      "no_acid"
+    ],
+    "placeholder": true
+  },
+  {
+    "code": "CABLE_CU",
+    "nameKey": "mat_CABLE_CU",
+    "iconAsset": "cable",
+    "hazard": "low",
+    "safetyCardIds": [
+      "no_burning"
+    ],
+    "placeholder": true
+  },
+  {
+    "code": "BATTERY_LI",
+    "nameKey": "mat_BATTERY_LI",
+    "iconAsset": "battery_li",
+    "hazard": "high",
+    "safetyCardIds": [
+      "battery_fire_water"
+    ],
+    "placeholder": true
+  },
+  {
+    "code": "BATTERY_PB",
+    "nameKey": "mat_BATTERY_PB",
+    "iconAsset": "battery_pb",
+    "hazard": "high",
+    "safetyCardIds": [
+      "battery_fire_water",
+      "no_acid"
+    ],
+    "placeholder": true
+  },
+  {
+    "code": "CRT",
+    "nameKey": "mat_CRT",
+    "iconAsset": "tv",
+    "hazard": "high",
+    "safetyCardIds": [
+      "no_break_crt"
+    ],
+    "placeholder": true
+  },
+  {
+    "code": "MOTOR",
+    "nameKey": "mat_MOTOR",
+    "iconAsset": "motor",
+    "hazard": "none",
+    "safetyCardIds": [],
+    "placeholder": true
+  },
+  {
+    "code": "PLASTIC_MIX",
+    "nameKey": "mat_PLASTIC_MIX",
+    "iconAsset": "plastic",
+    "hazard": "none",
+    "safetyCardIds": [
+      "no_burning"
+    ],
+    "placeholder": true
+  },
+  {
+    "code": "PHONE",
+    "nameKey": "mat_PHONE",
+    "iconAsset": "phone",
+    "hazard": "low",
+    "safetyCardIds": [
+      "battery_fire_water"
+    ],
+    "placeholder": true
+  }
+]

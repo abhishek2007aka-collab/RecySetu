@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'core/app_providers.dart';
 import 'core/i18n/app_strings.dart';
 import 'firebase_options.dart';
 

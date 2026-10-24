@@ -1,0 +1,94 @@
+[
+  {
+    "id": "rec_placeholder_a",
+    "name": "Placeholder Recycler A",
+    "phone": "+910000000001",
+    "lat": 30.3165,
+    "lng": 78.0322,
+    "address": "Placeholder address A",
+    "authorised": true,
+    "authorisationRef": "PLACEHOLDER-REG-001",
+    "offersPickup": true,
+    "ownerPhone": "+919999900002",
+    "ownerUid": null,
+    "ratesPaisePerKg": {
+      "PCB": 21000,
+      "CABLE_CU": 41000,
+      "BATTERY_LI": 8500,
+      "BATTERY_PB": 9500,
+      "CRT": 1800,
+      "MOTOR": 5200,
+      "PLASTIC_MIX": 2200,
+      "PHONE": 24000
+    },
+    "placeholder": true
+  },
+  {
+    "id": "rec_placeholder_b",
+    "name": "Placeholder Recycler B",
+    "phone": "+910000000002",
+    "lat": 30.34,
+    "lng": 78.06,
+    "address": "Placeholder address B",
+    "authorised": true,
+    "authorisationRef": "PLACEHOLDER-REG-002",
+    "offersPickup": false,
+    "ownerPhone": null,
+    "ownerUid": null,
+    "ratesPaisePerKg": {
+      "PCB": 22000,
+      "CABLE_CU": 40000,
+      "BATTERY_LI": 8000,
+      "CRT": 1500,
+      "MOTOR": 5000,
+      "PHONE": 23000
+    },
+    "placeholder": true
+  },
+  {
+    "id": "rec_placeholder_c",
+    "name": "Placeholder Recycler C",
+    "phone": "+910000000003",
+    "lat": 30.27,
+    "lng": 77.99,
+    "address": "Placeholder address C",
+    "authorised": true,
+    "authorisationRef": "PLACEHOLDER-REG-003",
+    "offersPickup": true,
+    "ownerPhone": null,
+    "ownerUid": null,
+    "ratesPaisePerKg": {
+      "PCB": 19000,
+      "CABLE_CU": 39000,
+      "BATTERY_LI": 9000,
+      "BATTERY_PB": 10000,
+      "MOTOR": 4500,
+      "PLASTIC_MIX": 2000
+    },
+    "placeholder": true
+  },
+  {
+    "id": "rec_placeholder_d",
+    "name": "Placeholder Unauthorised D",
+    "phone": "+910000000004",
+    "lat": 30.3,
+    "lng": 78.04,
+    "address": "Placeholder address D",
+    "authorised": false,
+    "authorisationRef": "",
+    "offersPickup": true,
+    "ownerPhone": null,
+    "ownerUid": null,
+    "ratesPaisePerKg": {
+      "PCB": 25000,
+      "CABLE_CU": 45000,
+      "BATTERY_LI": 9500,
+      "BATTERY_PB": 10500,
+      "CRT": 2000,
+      "MOTOR": 5500,
+      "PLASTIC_MIX": 2500,
+      "PHONE": 26000
+    },
+    "placeholder": true
+  }
+]

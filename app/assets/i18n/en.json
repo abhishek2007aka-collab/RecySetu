@@ -2,5 +2,17 @@
   "app_name": "Kabadiwala Connect",
   "home_placeholder": "Coming soon",
   "firebase_ready": "Server connected",
-  "firebase_not_ready": "Server not set up yet"
+  "firebase_not_ready": "Server not set up yet",
+  "mat_PCB": "Circuit board",
+  "mat_CABLE_CU": "Copper wire",
+  "mat_BATTERY_LI": "Phone battery",
+  "mat_BATTERY_PB": "Vehicle battery",
+  "mat_CRT": "Old TV",
+  "mat_MOTOR": "Motor",
+  "mat_PLASTIC_MIX": "Mixed plastic",
+  "mat_PHONE": "Old phone",
+  "area_1": "Area 1",
+  "area_2": "Area 2",
+  "area_3": "Area 3",
+  "per_kg": "per kg"
 }

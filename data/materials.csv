@@ -1,0 +1,9 @@
+code,name_key,icon,hazard,safety_card_ids,placeholder
+PCB,mat_PCB,memory,low,gloves_pcb;no_acid,true
+CABLE_CU,mat_CABLE_CU,cable,low,no_burning,true
+BATTERY_LI,mat_BATTERY_LI,battery_li,high,battery_fire_water,true
+BATTERY_PB,mat_BATTERY_PB,battery_pb,high,battery_fire_water;no_acid,true
+CRT,mat_CRT,tv,high,no_break_crt,true
+MOTOR,mat_MOTOR,motor,none,,true
+PLASTIC_MIX,mat_PLASTIC_MIX,plastic,none,no_burning,true
+PHONE,mat_PHONE,phone,low,battery_fire_water,true

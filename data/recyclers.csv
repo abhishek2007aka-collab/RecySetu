@@ -1,0 +1,5 @@
+id,name,phone,lat,lng,address,authorised,authorisation_ref,offers_pickup,owner_phone,rate_PCB,rate_CABLE_CU,rate_BATTERY_LI,rate_BATTERY_PB,rate_CRT,rate_MOTOR,rate_PLASTIC_MIX,rate_PHONE,placeholder
+rec_placeholder_a,Placeholder Recycler A,+910000000001,30.3165,78.0322,Placeholder address A,true,PLACEHOLDER-REG-001,true,+919999900002,210,410,85,95,18,52,22,240,true
+rec_placeholder_b,Placeholder Recycler B,+910000000002,30.3400,78.0600,Placeholder address B,true,PLACEHOLDER-REG-002,false,,220,400,80,,15,50,,230,true
+rec_placeholder_c,Placeholder Recycler C,+910000000003,30.2700,77.9900,Placeholder address C,true,PLACEHOLDER-REG-003,true,,190,390,90,100,,45,20,,true
+rec_placeholder_d,Placeholder Unauthorised D,+910000000004,30.3000,78.0400,Placeholder address D,false,,true,,250,450,95,105,20,55,25,260,true

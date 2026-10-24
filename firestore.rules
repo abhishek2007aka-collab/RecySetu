@@ -1,0 +1,98 @@
+rules_version = '2';
+
+// Prototype-level rules (PLAN.md §5). Deploy with:
+//   firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return signedIn() && userDoc().role == 'admin';
+    }
+
+    function recycler(id) {
+      return get(/databases/$(database)/documents/recyclers/$(id)).data;
+    }
+
+    function ownsRecycler(id) {
+      return signedIn() && recycler(id).ownerUid == request.auth.uid;
+    }
+
+    // ---- Shared data: everyone signed in reads, only admin writes ----
+    match /materials/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /prices/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /areas/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /recyclers/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+      // An invited recycler links their login to this listing (only ownerUid changes).
+      allow update: if signedIn()
+        && request.auth.token.phone_number == resource.data.ownerPhone
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ownerUid']);
+      // The linked recycler edits their own rates (screen R3).
+      allow update: if signedIn()
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ratesPaisePerKg']);
+    }
+
+    // ---- Each user's own profile ----
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && (request.resource.data.role == 'collector'
+            || (request.resource.data.role == 'recycler'
+                && recycler(request.resource.data.recyclerId).ownerPhone
+                   == request.auth.token.phone_number));
+    }
+
+    // ---- Collector-owned records ----
+    match /lots/{id} {
+      allow read, delete: if signedIn() && resource.data.collectorUid == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.collectorUid == request.auth.uid;
+      allow update: if signedIn() && resource.data.collectorUid == request.auth.uid
+        && request.resource.data.collectorUid == request.auth.uid;
+    }
+    match /ledger/{id} {
+      allow read, delete: if signedIn() && resource.data.collectorUid == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.collectorUid == request.auth.uid;
+      allow update: if signedIn() && resource.data.collectorUid == request.auth.uid
+        && request.resource.data.collectorUid == request.auth.uid;
+    }
+
+    // ---- Handovers: collector creates; record is then frozen ----
+    match /handovers/{id} {
+      allow read: if signedIn()
+        && (resource.data.collectorUid == request.auth.uid
+            || ownsRecycler(resource.data.recyclerId));
+      allow create: if signedIn() && request.resource.data.collectorUid == request.auth.uid;
+      // Re-sending the identical record (offline retry) is allowed; changes are not.
+      allow update: if signedIn() && resource.data.collectorUid == request.auth.uid
+        && request.resource.data == resource.data;
+    }
+
+    // ---- Confirmations: written by the recycler who received the lot ----
+    match /confirmations/{handoverId} {
+      allow read: if signedIn()
+        && (resource.data.collectorUid == request.auth.uid
+            || ownsRecycler(resource.data.recyclerId));
+      allow create, update: if ownsRecycler(request.resource.data.recyclerId);
+    }
+  }
+}

@@ -70,6 +70,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Later phases add assets/seed/, assets/audio/<lang>/, assets/icons/, assets/safety/.
+  # Later phases add assets/audio/<lang>/, assets/icons/, assets/safety/.
   assets:
     - assets/i18n/
+    - assets/seed/

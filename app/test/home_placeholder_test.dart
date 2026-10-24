@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kabadiwala_connect/app.dart';
+import 'package:kabadiwala_connect/core/app_providers.dart';
 import 'package:kabadiwala_connect/core/i18n/app_strings.dart';
 import 'package:kabadiwala_connect/core/theme/app_theme.dart';
 

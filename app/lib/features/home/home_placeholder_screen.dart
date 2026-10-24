@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app.dart';
+import '../../core/app_providers.dart';
+import '../../core/theme/app_icons.dart';
 import '../../core/theme/app_theme.dart';
+import '../../data/providers.dart';
 
-/// Phase 0 placeholder. Phase 3 replaces it with the real 4-tile home (S5).
+/// Phase 0/1 placeholder: Firebase status + materials with prices.
+/// Phase 3 replaces it with the real 4-tile home (S5).
 class HomePlaceholderScreen extends ConsumerWidget {
   const HomePlaceholderScreen({super.key});
 
@@ -12,36 +15,36 @@ class HomePlaceholderScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final s = ref.watch(appStringsProvider);
     final firebaseReady = ref.watch(firebaseReadyProvider);
-    final theme = Theme.of(context);
+    final materials = ref.watch(materialsProvider).value ?? const [];
+    final prices = {
+      for (final p in ref.watch(pricesProvider).value ?? const [])
+        p.materialCode: p,
+    };
 
     return Scaffold(
       appBar: AppBar(title: Text(s.t('app_name'))),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.recycling,
-                size: 120,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                s.t('home_placeholder'),
-                style: theme.textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 32),
-              _FirebaseStatus(
-                ready: firebaseReady,
-                label: s.t(
-                  firebaseReady ? 'firebase_ready' : 'firebase_not_ready',
-                ),
-              ),
-            ],
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _FirebaseStatus(
+            ready: firebaseReady,
+            label: s.t(firebaseReady ? 'firebase_ready' : 'firebase_not_ready'),
           ),
-        ),
+          const SizedBox(height: 16),
+          for (final m in materials)
+            ListTile(
+              minTileHeight: AppTheme.minTouch,
+              leading: AppIcons.material(m.iconAsset, size: 40),
+              title: Text(s.t(m.nameKey)),
+              trailing: prices[m.code] == null
+                  ? null
+                  : Text(
+                      '₹${prices[m.code]!.lowPaisePerKg ~/ 100}–'
+                      '${prices[m.code]!.highPaisePerKg ~/ 100} ${s.t('per_kg')}',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+            ),
+        ],
       ),
     );
   }

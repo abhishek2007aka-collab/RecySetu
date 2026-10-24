@@ -1,0 +1,9 @@
+material_code,low_rs_per_kg,high_rs_per_kg,week_ago_mid_rs_per_kg,informal_dealer_rs_per_kg,transport_cost_rs_per_kg,source,placeholder
+PCB,180,220,190,120,5,field_study,true
+CABLE_CU,350,420,400,280,5,field_study,true
+BATTERY_LI,60,90,75,40,5,field_study,true
+BATTERY_PB,80,100,95,65,5,field_study,true
+CRT,10,20,15,5,5,field_study,true
+MOTOR,40,55,48,30,5,field_study,true
+PLASTIC_MIX,15,25,20,10,3,field_study,true
+PHONE,150,250,200,100,5,field_study,true

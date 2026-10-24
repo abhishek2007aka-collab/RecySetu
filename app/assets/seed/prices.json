@@ -1,0 +1,66 @@
+[
+  {
+    "materialCode": "PCB",
+    "currentLowPaisePerKg": 18000,
+    "currentHighPaisePerKg": 22000,
+    "weekAgoMidPaisePerKg": 19000,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "CABLE_CU",
+    "currentLowPaisePerKg": 35000,
+    "currentHighPaisePerKg": 42000,
+    "weekAgoMidPaisePerKg": 40000,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "BATTERY_LI",
+    "currentLowPaisePerKg": 6000,
+    "currentHighPaisePerKg": 9000,
+    "weekAgoMidPaisePerKg": 7500,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "BATTERY_PB",
+    "currentLowPaisePerKg": 8000,
+    "currentHighPaisePerKg": 10000,
+    "weekAgoMidPaisePerKg": 9500,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "CRT",
+    "currentLowPaisePerKg": 1000,
+    "currentHighPaisePerKg": 2000,
+    "weekAgoMidPaisePerKg": 1500,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "MOTOR",
+    "currentLowPaisePerKg": 4000,
+    "currentHighPaisePerKg": 5500,
+    "weekAgoMidPaisePerKg": 4800,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "PLASTIC_MIX",
+    "currentLowPaisePerKg": 1500,
+    "currentHighPaisePerKg": 2500,
+    "weekAgoMidPaisePerKg": 2000,
+    "source": "field_study",
+    "placeholder": true
+  },
+  {
+    "materialCode": "PHONE",
+    "currentLowPaisePerKg": 15000,
+    "currentHighPaisePerKg": 25000,
+    "weekAgoMidPaisePerKg": 20000,
+    "source": "field_study",
+    "placeholder": true
+  }
+]
