@@ -40,6 +40,10 @@ SOURCES = {
               "Disassembled_mobile_phones"],
     # All plastic items count as mixed plastic (bottles, caps, containers).
     "PLASTIC_MIX": ["Plastic_bottles", "PET_bottles", "Plastic_containers", "Plastic_waste"],
+    # "Not scrap": everyday backgrounds and objects, so the model can say
+    # "none of these". The team's own photos of the demo place matter most.
+    "OTHER": ["Human_hands", "Wooden_tables", "Floors", "Mugs", "Books", "Shoes", "Backpacks",
+              "Tiled_floors", "Carpets"],
 }
 FREE = re.compile(r"^(cc[ -]by|cc[ -]by-sa|cc0|public domain|pd)", re.I)
 NOT_PHOTO = re.compile(r"diagram|schem|logo|icon|map|chart|graph|drawing|symbol|patent|"
@@ -105,9 +109,12 @@ def main() -> None:
         folder = PHOTOS / code
         folder.mkdir(parents=True, exist_ok=True)
         have = len([r for r in rows if r["class"] == code])
+        # Spread the photos over the categories (a mix, not 80 of one kind).
+        per_cat = -(-args.per_class // len(categories))
         for cat in categories:
+            from_cat = 0
             for title, url, author, lic, lic_url, page in files_in(cat):
-                if have >= args.per_class:
+                if have >= args.per_class or from_cat >= per_cat:
                     break
                 name = "wm_" + re.sub(r"[^A-Za-z0-9]+", "_", title[5:])[:60] + ".jpg"
                 if name in seen or not url:
@@ -123,6 +130,7 @@ def main() -> None:
                 rows.append({"file": name, "class": code, "title": title, "author": author,
                              "licence": lic, "licence_url": lic_url, "source": page})
                 have += 1
+                from_cat += 1
                 time.sleep(0.6)  # be polite to Wikimedia (it rate-limits)
             if have >= args.per_class:
                 break
