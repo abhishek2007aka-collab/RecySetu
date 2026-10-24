@@ -4,7 +4,7 @@ Smart India Hackathon 2026 · Problem statement SIH26229 · Ministry of Mines (C
 
 This document records everything the team built, step by step, in simple language: what the app does, how it works inside, the tools we used, the problems we hit and how we solved them. It is updated after every build phase.
 
-Last updated: 24 October 2026 (after Phase 2)
+Last updated: 24 October 2026 (after Phase 8 — the full core demo flow is built)
 
 ## 1. The problem in one page
 
@@ -208,9 +208,114 @@ Each language has one file, for example `assets/i18n/hi.json`. Text can have slo
 
 **`scripts/check_i18n.py`:** checks that every language file has every sentence, and lists which recorded clips are still missing.
 
+### Phase 3 — Onboarding and home ✓
+
+**Goal:** a first-time user can pick a language, log in, set a PIN and reach the home screen; after that the app opens **offline with just the PIN**.
+
+| Screen | What happens |
+|---|---|
+| S1 Language | Big buttons with each language's name in its own script. **Tap once to hear it, tap again to choose it** — so nobody has to read |
+| S2 Login | Phone number on a big number pad (+91 is fixed), then the 6-digit SMS code. For testing we use Firebase test numbers (no real SMS) |
+| S3 PIN | Make a 4-digit PIN (typed twice). Every time the app starts, it asks for the PIN — this works **without internet** |
+| S4 Role | Only shown if this phone number was invited by a recycler. Everyone else goes straight in as a collector |
+| S5 Home | Four big picture tiles: Sell scrap, Today's rates, My earnings, Safety |
+
+How it works inside:
+
+- **The app remembers the login.** Firebase keeps the signed-in user on the phone, so after the first online login the app never needs internet to open.
+- **The PIN is never stored.** Only a SHA-256 fingerprint of it (mixed with the user ID) is saved. A 4-digit PIN is a convenience lock for the phone, not strong security, and we say so.
+- **Every screen talks.** A shared screen frame speaks the screen's instruction when it opens, and has a speaker button to repeat it, plus a small **sync icon**: green cloud = everything sent, amber cloud = waiting to send, grey cloud = no internet (the app still works). Tapping the sync icon says what it means.
+- **Every big tile** speaks its name when tapped. Long-press only speaks (for "what is this?").
+- **Recycler invitation:** a recycler listing in the database has an `ownerPhone`. When that phone number logs in, it may choose recycler mode, and its login is linked to the listing. The security rules check the phone number on the server, so nobody can pretend to be a recycler.
+- To make phone login work on Android, we registered the app's signing fingerprints (SHA-1 and SHA-256) with Firebase from the terminal.
+
+### Phase 4 — Selling scrap (photo → category → weight → spoken price) ✓
+
+**Goal:** the heart of the demo. In airplane mode, a collector can photograph scrap, pick what it is, set the weight and **hear a fair price**.
+
+| Screen | What the collector does |
+|---|---|
+| S6 Photo | Big round camera button, up to 3 photos; a red X on a photo removes it to retake |
+| S7 Category | Picture tiles in 2 columns. Dangerous items (batteries, old TVs) have a **red border and warning icon** and say a warning out loud |
+| S8 Weight | A huge number with −1, −½, +½, +1, +5 kg buttons. Every change is spoken ("2.5 kilo") |
+| S9 Price | Says **"You will get about ₹300"** and shows the range (₹270–₹330). The lot is saved immediately, even offline |
+
+**The price formula** (from the plan, all in whole paise):
+
+- low = weight (g) × low rate (paise/kg) ÷ 1000
+- high = weight (g) × high rate (paise/kg) ÷ 1000
+- spoken price = middle of low and high, rounded to the nearest ₹10
+
+Example: 1.7 kg circuit board at ₹180–₹220/kg → ₹306–₹374 → **"about ₹340"**.
+
+**Photos — a decision we had to make:** the plan said to check whether Firebase's photo storage is free. We checked Firebase's official documentation: since **3 February 2026**, free-plan projects cannot use Cloud Storage at all. So we used the plan's backup method:
+
+- the full photo (1280 px, compressed) stays **on the phone**;
+- its **SHA-256 fingerprint** is taken the moment it is captured (this goes into the tamper-proof receipt);
+- a small thumbnail (480 px, under 200 KB) is saved in Firestore, which **queues it offline** and uploads it when internet returns — no extra upload code needed.
+
+### Phase 5 — Today's rates board ✓
+
+Shows every material with its ₹/kg range and a **trend arrow**: green ↑ (price went up more than 5% since last week), red ↓ (went down more than 5%), grey → (about the same). Tapping a tile says, for example, *"Circuit board: 180 to 220 rupees per kilo. Rate went up."* The arrow, colour and spoken word always go together, so colour is never the only signal. Works offline from the saved price list.
+
+### Phase 6 — Finding the best recycler ✓
+
+**Ranking formula** (PLAN.md §6.3), for one material:
+
+| Part | Weight | How it's measured |
+|---|---|---|
+| Rate | 45% | This recycler's rate ÷ the best rate on the list |
+| Distance | 35% | 1 − (distance in km, capped at 25) ÷ 25 |
+| Pickup | 20% | 1 if they collect from the collector, else 0 |
+
+- **Unauthorised recyclers are hidden.** The whole point is to move scrap into the formal, safe route.
+- Distance is the straight-line distance (haversine formula) — no maps SDK, so it works offline.
+- Ties are broken by higher rate, then nearer, then name, so the list never jumps around.
+- Each card shows: rank, **authorised** badge, distance, rate per kg, **how much you'll get for this lot**, a big **Call** button and a **Choose** button. Tapping the card reads it all out.
+
+**Location:** the app first explains out loud why it needs location. The collector can tap **My location** (GPS works without internet) or simply **pick their area** from a list if they don't want to share location.
+
+### Phase 7 — Tamper-proof handover with QR, and recycler mode ✓
+
+**Collector side (S11 Receipt):** when the collector chooses a recycler, the app creates a **handover record** (lot, weight, agreed price, time, GPS, photo fingerprints) and seals it with a **SHA-256 hash**:
+
+`v1 | id | collector | recycler | material | weight | price | time | lat | lng | photos-hash` → SHA-256 → 64-character fingerprint
+
+The screen shows this as a **QR code** plus a short reference like **A3F9-1C2B**, which is also spoken one character at a time so it can be read over the phone. A status card shows **amber clock = waiting** until the recycler confirms, then **green tick = confirmed**, with the amount and how it was paid.
+
+**Recycler side (recycler mode):**
+
+| Screen | What the recycler does |
+|---|---|
+| R1 Home | Three tiles: Scan QR, My rates, Recent deals |
+| R2 Scan + verify | Scans the collector's QR. The app **re-computes the hash from the QR's data**: green "Record is genuine", or red "Warning! The record was changed". Then the recycler enters the weight they measured and taps **Cash**, **UPI** or **Later** (money due) |
+| R3 My rates | Changes their ₹/kg per material with −10/−1/+1/+10 buttons |
+
+**Why it can't be cheated:** if anyone changes even one digit (for example the weight from 2 kg to 9 kg) the fingerprint no longer matches and the recycler's phone shows a red warning. This needs **no internet**, because the QR carries the whole record.
+
+**Automatic warning flags (rule-based):**
+
+| Flag | When |
+|---|---|
+| Record was changed | The hash doesn't match |
+| Weight mismatch | Measured weight differs from the declared weight by more than 10% |
+| Price far from market | Agreed price is below 0.7 × the board's low price or above 1.3 × its high price |
+
+**Design change from the plan:** the recycler writes a separate **Confirmation** record instead of editing the collector's handover. This works even when **both** phones are offline, and the collector's original record stays frozen (the security rules forbid changing it).
+
+### Phase 8 — Earnings ledger ✓
+
+**Goal:** the collector always knows what they earned and what they are still owed.
+
+- Three big totals at the top: **Got today**, **Due today**, **This week**; plus **Total still due** shown separately in amber.
+- The speaker reads: *"Today you got 640 rupees, 200 rupees still due. This week 1,100 rupees."*
+- Every confirmed handover automatically becomes a ledger entry (with an ID fixed to that handover, so it can never be counted twice).
+- **"Sold elsewhere"** button: pick what was sold, type the rupees on the big keypad, tap **Cash** or **UPI**. This keeps the record honest when scrap goes to a local dealer.
+- "Today" and "this week" use the phone's **local time** (weeks start on Monday), while everything is stored in UTC.
+
 ## 7. Testing
 
-Every important piece of logic has automatic tests that run with `flutter test`. Current status: **34 tests, all passing**.
+Every important piece of logic has automatic tests that run with `flutter test`. Current status: **88 tests, all passing**, and `flutter analyze` reports no issues.
 
 | What is tested | Examples |
 |---|---|
@@ -222,6 +327,26 @@ Every important piece of logic has automatic tests that run with `flutter test`.
 | Offline first run | With no database at all, the app still gets the material list |
 | NumberSpeaker | 0, 7, 40, 99, 100, 340, 1000, 1340, 99999, 1,50,000 and 1 crore |
 | Voice fallback | Recorded clips win; a missing number clip doesn't play half a sentence; Marathi TTS; Hindi fallback |
+| Onboarding | Fresh install → language (tap twice) → login; PIN survives a restart and only the right PIN unlocks; recycler mode only for invited numbers |
+| Home | 4 tiles, each at least 56 dp, instruction spoken on open |
+| Price | 1.7 kg × ₹180–220 = about ₹340; rounding to ₹10; no paisa lost; 500 kg lots stay exact |
+| Sell flow | Category → weight (+½) → "about ₹300" spoken, with no typing at all |
+| Trend | Up above +5%, down below −5%, exactly ±5% counts as flat |
+| Ranking | Unauthorised and missing rates hidden; formula checked; 25 km cap; ties stable; top 5 only |
+| Hash and QR | Same input = same hash; changing **any** field changes it; tampered weight or price is caught; random QR codes rejected |
+| Warning flags | Weight off by more than 10%; price outside 0.7×–1.3× of the board |
+| Recycler screens | Genuine QR shows green; tampered shows red; another recycler's deal cannot be confirmed |
+| Ledger | Paise totals; due shown separately; day starts at local midnight; week starts Monday; no double counting |
+
+### App size
+
+The plan's target is a release app under **30 MB**, so it downloads quickly on a cheap data pack. We build one APK per phone processor type ("split per ABI"), so each phone downloads only what it needs:
+
+| APK | For which phones | Size |
+|---|---|---|
+| `app-armeabi-v7a-release.apk` | Older and very cheap 32-bit phones | 22.8 MB |
+| `app-arm64-v8a-release.apk` | Most phones from the last ~7 years | 27.1 MB |
+| `app-x86_64-release.apk` | Emulators / Chromebooks | 29.6 MB |
 
 ## 8. Data honesty
 
@@ -244,15 +369,18 @@ Every important piece of logic has automatic tests that run with `flutter test`.
 | UUID | A random unique ID made on the phone |
 | Security rules | Server-side rules that decide who may read or change each record |
 | Git commit | A saved snapshot of the code we can always go back to |
+| Haversine | A formula for the straight-line distance between two GPS points on the Earth |
+| Ledger | A record of money earned, paid and still owed |
+| Thumbnail | A small, low-resolution copy of a photo |
 
 ## 10. What's next
 
 | Phase | What it adds |
 |---|---|
-| 3 | Language picker, phone login with OTP, 4-digit PIN for offline unlock, home screen with 4 big tiles |
-| 4 | Selling flow: photo → category → weight → spoken price, all offline |
-| 5 | Today's rates board with up/down trend arrows |
-| 6 | Recycler matching and ranking (best rate + nearest + pickup) |
-| 7 | Handover with tamper-proof QR; recycler mode to scan, verify and confirm payment |
-| 8 | Earnings ledger: today/this week, money still due, "sold elsewhere" |
-| 9–13 | Safety guide, sync robustness, polish, optional extras, demo mode |
+| Test on a real phone | Install the APK, log in with a test number, run the full demo in airplane mode, then two phones (collector + recycler) |
+| 9 | Safety guide: picture cards with audio (no burning cables, don't break TVs, batteries away from fire/water, gloves for circuit boards) |
+| 10 | Sync robustness checklist (airplane mode at each step, app killed mid-flow, phone restarted) |
+| 11 | Polish: check every screen against the design rules; largest font size; release APK size |
+| 12 | Optional: on-device scrap recogniser, admin price editor, recorded Garhwali audio, earnings comparison chart |
+| 13 | Demo mode and a 3-minute demo script |
+| Team (field study) | Replace placeholder prices and recyclers with real data; record Garhwali clips; test with a real collector |
