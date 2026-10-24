@@ -11,6 +11,7 @@ import '../debug/audio_debug_screen.dart';
 import '../ledger/ledger_providers.dart';
 import '../ledger/ledger_screen.dart';
 import '../prices/rates_board_screen.dart';
+import '../safety/safety_screen.dart';
 import '../sell_lot/photo_screen.dart';
 import '../sell_lot/sell_draft.dart';
 import 'coming_soon_screen.dart';
@@ -38,6 +39,7 @@ class HomeScreen extends ConsumerWidget {
       titleKey: 'app_name',
       instructionKey: 'home_instruction',
       onTitleLongPress: () => open(const AudioDebugScreen()),
+      logoTitle: true,
       extraActions: const [
         VoiceToggleButton(),
         ChangeLanguageButton(),
@@ -71,6 +73,7 @@ class HomeScreen extends ConsumerWidget {
     'tile_sell' => const PhotoScreen(),
     'tile_rates' => const RatesBoardScreen(),
     'tile_earnings' => const LedgerScreen(),
+    'tile_safety' => const SafetyScreen(),
     _ => ComingSoonScreen(titleKey: tileKey),
   };
 }

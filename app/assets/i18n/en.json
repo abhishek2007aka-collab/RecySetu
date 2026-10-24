@@ -153,5 +153,18 @@
   "apply_status_rejected": "Application not approved. Please contact us for help",
   "open_recycler": "Open recycler mode",
   "use_as_collector": "Use as kabadiwala for now",
-  "back": "Back"
+  "back": "Back",
+  "safety_instruction": "Safety rules. Tap a picture to hear it",
+  "safety_first": "Stop! Listen to this first",
+  "understood": "I understand",
+  "safety_no_burning_title": "Never burn cables",
+  "safety_no_burning_text": "Never burn wires to get the copper. The smoke is poisonous and damages your lungs. Strip them with a wire-stripping tool.",
+  "safety_no_break_crt_title": "Do not break old TVs",
+  "safety_no_break_crt_text": "Do not break the picture tube of an old TV. It contains lead and the glass can explode. Give the whole TV to the recycler.",
+  "safety_battery_fire_water_title": "Keep batteries away from fire and water",
+  "safety_battery_fire_water_text": "Keep batteries away from fire, strong sun and water. Do not press or puncture a swollen or broken battery, it can catch fire.",
+  "safety_gloves_pcb_title": "Wear gloves",
+  "safety_gloves_pcb_text": "Handle circuit boards and broken items only with gloves. Wash your hands with soap afterwards.",
+  "safety_no_acid_title": "Never use acid",
+  "safety_no_acid_text": "Do not use acid to take out gold or silver. It burns you and poisons the soil and water. Sell the boards to a recycler."
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app_providers.dart';
 import '../audio/audio_service.dart';
 import '../sync/sync_status.dart';
+import 'app_logo.dart';
 
 /// Every screen's frame: title, a speaker button that replays the screen's
 /// instruction, and the sync icon. The instruction is spoken once when the
@@ -18,6 +19,7 @@ class KScaffold extends ConsumerStatefulWidget {
     this.showSync = true,
     this.onTitleLongPress,
     this.extraActions = const [],
+    this.logoTitle = false,
   });
 
   final String titleKey;
@@ -29,6 +31,10 @@ class KScaffold extends ConsumerStatefulWidget {
 
   /// Extra top-bar buttons, e.g. "change language" on the home screens.
   final List<Widget> extraActions;
+
+  /// Show the small app logo instead of the title text (home screens, where
+  /// the top bar is full of buttons). The title is still read by TalkBack.
+  final bool logoTitle;
 
   @override
   ConsumerState<KScaffold> createState() => _KScaffoldState();
@@ -53,7 +59,16 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
       appBar: AppBar(
         title: GestureDetector(
           onLongPress: widget.onTitleLongPress,
-          child: Text(s.t(widget.titleKey)),
+          child: widget.logoTitle
+              ? Semantics(
+                  label: s.t(widget.titleKey),
+                  child: const AppLogo(size: 44),
+                )
+              : FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(s.t(widget.titleKey)),
+                ),
         ),
         actions: [
           ...widget.extraActions,

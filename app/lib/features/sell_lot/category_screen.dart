@@ -8,6 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/widgets/k_scaffold.dart';
 import '../../data/models/catalog.dart';
 import '../../data/providers.dart';
+import '../safety/safety_screen.dart';
 import 'sell_draft.dart';
 import 'weight_screen.dart';
 
@@ -63,8 +64,30 @@ class CategoryScreen extends ConsumerWidget {
               suggestedPercent: m == suggested ? percent : null,
               onTap: () {
                 ref.read(sellDraftProvider.notifier).chooseMaterial(m.code);
+                final nav = Navigator.of(context);
+                if (SafetyFirstScreen.shouldShow(ref, m)) {
+                  // First time with this dangerous item: safety card first.
+                  nav.push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => SafetyFirstScreen(
+                        card: SafetyFirstScreen.firstCard(m),
+                        onDone: () {
+                          ref
+                              .read(sharedPrefsProvider)
+                              .setBool(SafetyFirstScreen.seenKey(m.code), true);
+                          nav.pushReplacement(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const WeightScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                  return;
+                }
                 if (m.hazard == Hazard.high) ref.speak('hazard_warning');
-                Navigator.of(context).push(
+                nav.push(
                   MaterialPageRoute<void>(builder: (_) => const WeightScreen()),
                 );
               },

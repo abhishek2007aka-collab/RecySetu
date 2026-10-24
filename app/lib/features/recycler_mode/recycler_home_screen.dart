@@ -22,6 +22,7 @@ class RecyclerHomeScreen extends StatelessWidget {
     return KScaffold(
       titleKey: 'role_recycler',
       instructionKey: 'recycler_home_choose',
+      logoTitle: true,
       extraActions: const [
         VoiceToggleButton(),
         ChangeLanguageButton(),
