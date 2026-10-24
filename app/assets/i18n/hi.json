@@ -139,5 +139,19 @@
   "tagline": "हर कबाड़ का सही दाम",
   "developed_by": "द्वारा विकसित",
   "team_name": "ByteStorms",
-  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229",
+  "apply_title": "रीसाइक्लर के रूप में जुड़ें",
+  "apply_instruction": "आपका नंबर अभी किसी अधिकृत रीसाइक्लर से जुड़ा नहीं है। सूची में अपनी कंपनी चुनें, या नाम और पंजीकरण नंबर लिखें। हम जाँच करके आपको फ़ोन करेंगे",
+  "apply_pick": "मेरी कंपनी इस सरकारी सूची में है",
+  "apply_not_listed": "सूची में नहीं है? यहाँ लिखें",
+  "apply_business": "कंपनी का नाम",
+  "apply_reg": "पंजीकरण नंबर (CPCB / राज्य प्रदूषण बोर्ड)",
+  "apply_send": "आवेदन भेजें",
+  "apply_sent": "आवेदन भेज दिया। हम आपका पंजीकरण जाँच कर आपको फ़ोन करेंगे",
+  "apply_status_pending": "आपका आवेदन जाँच में है। मंज़ूर होने पर रीसाइक्लर मोड खुलेगा",
+  "apply_status_approved": "मंज़ूर हो गया! रीसाइक्लर मोड खोलें",
+  "apply_status_rejected": "आवेदन मंज़ूर नहीं हुआ। मदद के लिए हमसे बात करें",
+  "open_recycler": "रीसाइक्लर मोड खोलें",
+  "use_as_collector": "अभी कबाड़ी के रूप में चलाएँ",
+  "back": "वापस"
 }

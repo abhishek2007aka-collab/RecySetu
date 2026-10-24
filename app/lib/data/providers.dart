@@ -89,3 +89,13 @@ final mySavedLedgerProvider = StreamProvider<List<LedgerEntry>>((ref) {
   if (repo == null || uid == null) return Stream.value(const []);
   return repo.watchLedger(uid);
 });
+
+/// This user's recycler application, if any.
+final myRecyclerApplicationProvider = StreamProvider<RecyclerApplication?>((
+  ref,
+) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(null);
+  return repo.watchRecyclerApplication(uid);
+});

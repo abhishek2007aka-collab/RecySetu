@@ -140,5 +140,19 @@
   "tagline": "ہر کباڑ کا صحیح دام",
   "developed_by": "تیار کردہ",
   "team_name": "ByteStorms",
-  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229",
+  "apply_title": "ری سائیکلر کے طور پر جڑیں",
+  "apply_instruction": "آپ کا نمبر ابھی کسی منظور شدہ ری سائیکلر سے نہیں جڑا۔ فہرست سے اپنی کمپنی چنیں، یا نام اور رجسٹریشن نمبر لکھیں۔ ہم جانچ کر آپ کو فون کریں گے",
+  "apply_pick": "میری کمپنی اس سرکاری فہرست میں ہے",
+  "apply_not_listed": "فہرست میں نہیں؟ یہاں لکھیں",
+  "apply_business": "کمپنی کا نام",
+  "apply_reg": "رجسٹریشن نمبر (CPCB / ریاستی آلودگی بورڈ)",
+  "apply_send": "درخواست بھیجیں",
+  "apply_sent": "درخواست بھیج دی۔ ہم رجسٹریشن جانچ کر فون کریں گے",
+  "apply_status_pending": "آپ کی درخواست کی جانچ ہو رہی ہے۔ منظوری کے بعد ری سائیکلر موڈ کھلے گا",
+  "apply_status_approved": "منظور! ری سائیکلر موڈ کھولیں",
+  "apply_status_rejected": "درخواست منظور نہیں ہوئی۔ مدد کے لیے ہم سے بات کریں",
+  "open_recycler": "ری سائیکلر موڈ کھولیں",
+  "use_as_collector": "ابھی کباڑی کے طور پر چلائیں",
+  "back": "واپس"
 }

@@ -140,5 +140,19 @@
   "tagline": "ਹਰ ਕਬਾੜ ਦਾ ਸਹੀ ਮੁੱਲ",
   "developed_by": "ਵੱਲੋਂ ਤਿਆਰ",
   "team_name": "ByteStorms",
-  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229",
+  "apply_title": "ਰੀਸਾਈਕਲਰ ਵਜੋਂ ਜੁੜੋ",
+  "apply_instruction": "ਤੁਹਾਡਾ ਨੰਬਰ ਅਜੇ ਕਿਸੇ ਮਨਜ਼ੂਰਸ਼ੁਦਾ ਰੀਸਾਈਕਲਰ ਨਾਲ ਨਹੀਂ ਜੁੜਿਆ। ਸੂਚੀ ਵਿੱਚੋਂ ਆਪਣੀ ਕੰਪਨੀ ਚੁਣੋ, ਜਾਂ ਨਾਮ ਅਤੇ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ ਲਿਖੋ। ਅਸੀਂ ਜਾਂਚ ਕਰਕੇ ਫ਼ੋਨ ਕਰਾਂਗੇ",
+  "apply_pick": "ਮੇਰੀ ਕੰਪਨੀ ਇਸ ਸਰਕਾਰੀ ਸੂਚੀ ਵਿੱਚ ਹੈ",
+  "apply_not_listed": "ਸੂਚੀ ਵਿੱਚ ਨਹੀਂ? ਇੱਥੇ ਲਿਖੋ",
+  "apply_business": "ਕੰਪਨੀ ਦਾ ਨਾਮ",
+  "apply_reg": "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ (CPCB / ਰਾਜ ਪ੍ਰਦੂਸ਼ਣ ਬੋਰਡ)",
+  "apply_send": "ਅਰਜ਼ੀ ਭੇਜੋ",
+  "apply_sent": "ਅਰਜ਼ੀ ਭੇਜ ਦਿੱਤੀ। ਅਸੀਂ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਜਾਂਚ ਕੇ ਫ਼ੋਨ ਕਰਾਂਗੇ",
+  "apply_status_pending": "ਤੁਹਾਡੀ ਅਰਜ਼ੀ ਦੀ ਜਾਂਚ ਹੋ ਰਹੀ ਹੈ। ਮਨਜ਼ੂਰੀ ਤੋਂ ਬਾਅਦ ਰੀਸਾਈਕਲਰ ਮੋਡ ਖੁੱਲ੍ਹੇਗਾ",
+  "apply_status_approved": "ਮਨਜ਼ੂਰ! ਰੀਸਾਈਕਲਰ ਮੋਡ ਖੋਲ੍ਹੋ",
+  "apply_status_rejected": "ਅਰਜ਼ੀ ਮਨਜ਼ੂਰ ਨਹੀਂ ਹੋਈ। ਮਦਦ ਲਈ ਸਾਡੇ ਨਾਲ ਗੱਲ ਕਰੋ",
+  "open_recycler": "ਰੀਸਾਈਕਲਰ ਮੋਡ ਖੋਲ੍ਹੋ",
+  "use_as_collector": "ਹੁਣ ਕਬਾੜੀ ਵਜੋਂ ਵਰਤੋ",
+  "back": "ਵਾਪਸ"
 }

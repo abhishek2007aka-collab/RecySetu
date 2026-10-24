@@ -17,6 +17,7 @@ class Session {
     this.role,
     this.recyclerId,
     this.splashDone = false,
+    this.appliedAsRecycler = false,
   });
 
   final bool languageChosen;
@@ -31,6 +32,9 @@ class Session {
   /// right after the PIN.
   final bool splashDone;
 
+  /// Sent a recycler application that is still being checked.
+  final bool appliedAsRecycler;
+
   Session copyWith({
     bool? languageChosen,
     String? pinHash,
@@ -38,6 +42,7 @@ class Session {
     UserRole? role,
     String? recyclerId,
     bool? splashDone,
+    bool? appliedAsRecycler,
   }) => Session(
     languageChosen: languageChosen ?? this.languageChosen,
     pinHash: pinHash ?? this.pinHash,
@@ -45,6 +50,7 @@ class Session {
     role: role ?? this.role,
     recyclerId: recyclerId ?? this.recyclerId,
     splashDone: splashDone ?? this.splashDone,
+    appliedAsRecycler: appliedAsRecycler ?? this.appliedAsRecycler,
   );
 }
 
@@ -58,6 +64,7 @@ class SessionNotifier extends Notifier<Session> {
   static const _pin = 'pin_hash';
   static const _role = 'role';
   static const _recycler = 'recycler_id';
+  static const _applied = 'applied_as_recycler';
 
   SharedPreferences get _prefs => ref.read(sharedPrefsProvider);
 
@@ -70,6 +77,7 @@ class SessionNotifier extends Notifier<Session> {
       pinHash: p.getString(_pin),
       role: role == null ? null : UserRole.values.byName(role),
       recyclerId: p.getString(_recycler),
+      appliedAsRecycler: p.getBool(_applied) ?? false,
     );
   }
 
@@ -92,6 +100,12 @@ class SessionNotifier extends Notifier<Session> {
     return true;
   }
 
+  /// Recycler application sent (or withdrawn when [applied] is false).
+  void setApplied(bool applied) {
+    _prefs.setBool(_applied, applied);
+    state = state.copyWith(appliedAsRecycler: applied);
+  }
+
   void finishSplash() => state = state.copyWith(splashDone: true);
 
   void setRole(UserRole role, {String? recyclerId}) {
@@ -106,6 +120,7 @@ class SessionNotifier extends Notifier<Session> {
       _prefs.remove(_pin),
       _prefs.remove(_role),
       _prefs.remove(_recycler),
+      _prefs.remove(_applied),
     ]);
     state = Session(languageChosen: state.languageChosen);
   }

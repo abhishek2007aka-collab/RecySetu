@@ -139,5 +139,19 @@
   "tagline": "Fair price for every scrap",
   "developed_by": "Developed by",
   "team_name": "ByteStorms",
-  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229",
+  "apply_title": "Join as a recycler",
+  "apply_instruction": "Your number is not linked to an authorised recycler yet. Pick your business from the list, or type its name and registration number. We will check and call you",
+  "apply_pick": "My business is in this government list",
+  "apply_not_listed": "Not in the list? Type it here",
+  "apply_business": "Business name",
+  "apply_reg": "Registration number (CPCB / State Pollution Board)",
+  "apply_send": "Send application",
+  "apply_sent": "Application sent. We will check your registration and call you",
+  "apply_status_pending": "Your application is being checked. Recycler mode opens once it is approved",
+  "apply_status_approved": "Approved! Open recycler mode",
+  "apply_status_rejected": "Application not approved. Please contact us for help",
+  "open_recycler": "Open recycler mode",
+  "use_as_collector": "Use as kabadiwala for now",
+  "back": "Back"
 }

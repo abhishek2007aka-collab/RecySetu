@@ -140,5 +140,19 @@
   "tagline": "દરેક ભંગારનો સાચો ભાવ",
   "developed_by": "દ્વારા વિકસિત",
   "team_name": "ByteStorms",
-  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229",
+  "apply_title": "રિસાયકલર તરીકે જોડાઓ",
+  "apply_instruction": "તમારો નંબર હજુ કોઈ માન્ય રિસાયકલર સાથે જોડાયેલો નથી. યાદીમાંથી તમારી કંપની પસંદ કરો, અથવા નામ અને નોંધણી નંબર લખો. અમે તપાસીને ફોન કરીશું",
+  "apply_pick": "મારી કંપની આ સરકારી યાદીમાં છે",
+  "apply_not_listed": "યાદીમાં નથી? અહીં લખો",
+  "apply_business": "કંપનીનું નામ",
+  "apply_reg": "નોંધણી નંબર (CPCB / રાજ્ય પ્રદૂષણ બોર્ડ)",
+  "apply_send": "અરજી મોકલો",
+  "apply_sent": "અરજી મોકલાઈ. અમે નોંધણી તપાસીને ફોન કરીશું",
+  "apply_status_pending": "તમારી અરજી તપાસાઈ રહી છે. મંજૂરી પછી રિસાયકલર મોડ ખુલશે",
+  "apply_status_approved": "મંજૂર! રિસાયકલર મોડ ખોલો",
+  "apply_status_rejected": "અરજી મંજૂર થઈ નથી. મદદ માટે અમારો સંપર્ક કરો",
+  "open_recycler": "રિસાયકલર મોડ ખોલો",
+  "use_as_collector": "હમણાં કબાડી તરીકે વાપરો",
+  "back": "પાછા"
 }

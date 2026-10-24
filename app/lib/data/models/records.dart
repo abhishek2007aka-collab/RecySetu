@@ -338,3 +338,55 @@ class LedgerEntry {
     'note': note,
   };
 }
+
+enum ApplicationStatus { pending, approved, rejected }
+
+/// A recycler asking to use recycler mode (`recycler_applications/{uid}`).
+/// The team checks the authorisation number against the official CPCB/SPCB
+/// list and approves it with scripts/approve_recycler.py.
+class RecyclerApplication {
+  const RecyclerApplication({
+    required this.uid,
+    required this.phone,
+    required this.createdAt,
+    this.recyclerId,
+    this.businessName = '',
+    this.authorisationRef = '',
+    this.status = ApplicationStatus.pending,
+  });
+
+  final String uid;
+  final String phone;
+  final DateTime createdAt;
+
+  /// Set when the applicant picked their business from the official list.
+  final String? recyclerId;
+  final String businessName;
+  final String authorisationRef;
+  final ApplicationStatus status;
+
+  factory RecyclerApplication.fromMap(String uid, Map<String, dynamic> m) =>
+      RecyclerApplication(
+        uid: uid,
+        phone: m['phone'] as String? ?? '',
+        createdAt: readTime(m['createdAt']) ?? DateTime.utc(1970),
+        recyclerId: m['recyclerId'] as String?,
+        businessName: m['businessName'] as String? ?? '',
+        authorisationRef: m['authorisationRef'] as String? ?? '',
+        status: readEnum(
+          m['status'],
+          ApplicationStatus.values,
+          (a) => a.name,
+          ApplicationStatus.pending,
+        ),
+      );
+
+  Map<String, dynamic> toMap() => {
+    'phone': phone,
+    'createdAt': writeTime(createdAt),
+    'recyclerId': recyclerId,
+    'businessName': businessName,
+    'authorisationRef': authorisationRef,
+    'status': status.name,
+  };
+}

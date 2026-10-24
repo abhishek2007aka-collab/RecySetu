@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'data/models/records.dart';
 import 'data/providers.dart';
 import 'features/home/home_screen.dart';
+import 'features/onboarding/application_status_screen.dart';
 import 'features/onboarding/language_pick_screen.dart';
 import 'features/onboarding/login_screen.dart';
 import 'features/onboarding/pin_screen.dart';
@@ -37,7 +38,10 @@ class AppGate extends ConsumerWidget {
       );
     }
     if (session.role == null) {
-      return RoleScreen(uid: user.uid, phone: user.phoneNumber ?? '');
+      final phone = user.phoneNumber ?? '';
+      return session.appliedAsRecycler
+          ? ApplicationStatusScreen(uid: user.uid, phone: phone)
+          : RoleScreen(uid: user.uid, phone: phone);
     }
     return session.role == UserRole.recycler
         ? const RecyclerHomeScreen()

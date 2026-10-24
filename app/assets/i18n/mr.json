@@ -140,5 +140,19 @@
   "tagline": "प्रत्येक भंगाराला योग्य भाव",
   "developed_by": "विकसित केले",
   "team_name": "ByteStorms",
-  "hackathon_line": "Smart India Hackathon 2026 · SIH26229"
+  "hackathon_line": "Smart India Hackathon 2026 · SIH26229",
+  "apply_title": "रिसायकलर म्हणून जोडा",
+  "apply_instruction": "तुमचा नंबर अजून कोणत्याही अधिकृत रिसायकलरशी जोडलेला नाही. यादीतून तुमची कंपनी निवडा, किंवा नाव आणि नोंदणी नंबर लिहा. आम्ही तपासून तुम्हाला फोन करू",
+  "apply_pick": "माझी कंपनी या सरकारी यादीत आहे",
+  "apply_not_listed": "यादीत नाही? इथे लिहा",
+  "apply_business": "कंपनीचे नाव",
+  "apply_reg": "नोंदणी नंबर (CPCB / राज्य प्रदूषण मंडळ)",
+  "apply_send": "अर्ज पाठवा",
+  "apply_sent": "अर्ज पाठवला. आम्ही तुमची नोंदणी तपासून फोन करू",
+  "apply_status_pending": "तुमचा अर्ज तपासला जात आहे. मंजूर झाल्यावर रिसायकलर मोड उघडेल",
+  "apply_status_approved": "मंजूर झाले! रिसायकलर मोड उघडा",
+  "apply_status_rejected": "अर्ज मंजूर झाला नाही. मदतीसाठी आमच्याशी बोला",
+  "open_recycler": "रिसायकलर मोड उघडा",
+  "use_as_collector": "सध्या भंगारवाला म्हणून वापरा",
+  "back": "मागे"
 }

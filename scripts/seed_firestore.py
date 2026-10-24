@@ -32,8 +32,10 @@ def main() -> None:
             if name == "prices":
                 data = {**data, "updatedAt": now}
             if name == "recyclers":
-                # Never overwrite a recycler's login link made in the app.
-                data = {k: v for k, v in data.items() if k != "ownerUid"}
+                # Never overwrite a recycler's login link made in the app, or
+                # an owner phone set by scripts/approve_recycler.py.
+                data = {k: v for k, v in data.items()
+                        if k != "ownerUid" and not (k == "ownerPhone" and v is None)}
             batch.set(db.collection(name).document(doc_id), data, merge=True)
         batch.commit()
         print(f"{name}: wrote {len(rows)} docs")

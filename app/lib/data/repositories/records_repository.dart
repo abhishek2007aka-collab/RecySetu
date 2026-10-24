@@ -45,6 +45,17 @@ class RecordsRepository {
     'jpegBase64': thumbBase64,
   });
 
+  void saveRecyclerApplication(RecyclerApplication a) =>
+      _write('recycler_applications', a.uid, a.toMap());
+
+  Stream<RecyclerApplication?> watchRecyclerApplication(String uid) => _db
+      .collection('recycler_applications')
+      .doc(uid)
+      .snapshots()
+      .map(
+        (d) => d.exists ? RecyclerApplication.fromMap(uid, d.data()!) : null,
+      );
+
   /// An invited recycler links their login to their listing (allowed by
   /// firestore.rules only when the phone number matches `ownerPhone`).
   void claimRecycler(String recyclerId, String uid) =>

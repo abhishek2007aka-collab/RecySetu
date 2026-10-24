@@ -7,10 +7,14 @@ import '../../core/widgets/k_scaffold.dart';
 import '../../data/models/catalog.dart';
 import '../../data/models/records.dart';
 import '../../data/providers.dart';
+import 'recycler_apply_screen.dart';
 import 'session.dart';
 
-/// S4. Recycler mode is offered only when this phone number was invited by
-/// a recycler listing (`ownerPhone`). Everyone else is a collector.
+/// S4. Everyone chooses: Kabadiwala or Recycler. Recycler mode opens only
+/// for a phone number linked to an authorised recycler listing
+/// (`ownerPhone`); anyone else who taps Recycler can apply to join, and the
+/// team verifies the registration first. Recyclers can confirm payments and
+/// set rates, so this must never be open to anyone.
 class RoleScreen extends ConsumerWidget {
   const RoleScreen({super.key, required this.uid, required this.phone});
 
@@ -18,13 +22,20 @@ class RoleScreen extends ConsumerWidget {
   final String phone;
 
   static Recycler? invitedRecycler(List<Recycler> all, String phone) {
+    if (phone.isEmpty) return null;
     for (final r in all) {
       if (r.ownerPhone != null && r.ownerPhone == phone) return r;
     }
     return null;
   }
 
-  void _choose(WidgetRef ref, UserRole role, {Recycler? recycler}) {
+  static void choose(
+    WidgetRef ref, {
+    required String uid,
+    required String phone,
+    required UserRole role,
+    Recycler? recycler,
+  }) {
     final repo = ref.read(recordsRepositoryProvider);
     repo?.saveUser(
       AppUser(
@@ -37,23 +48,32 @@ class RoleScreen extends ConsumerWidget {
       ),
     );
     if (recycler != null) repo?.claimRecycler(recycler.id, uid);
-    ref.read(sessionProvider.notifier).setRole(role, recyclerId: recycler?.id);
+    ref.read(sessionProvider.notifier)
+      ..setApplied(false)
+      ..setRole(role, recyclerId: recycler?.id);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recyclers = ref.watch(recyclersProvider);
-    if (!recyclers.hasValue) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-    final invited = invitedRecycler(recyclers.value!, phone);
+    final recyclers = ref.watch(recyclersProvider).value ?? const <Recycler>[];
 
-    if (invited == null) {
-      // Not invited: no choice to make, go straight in as a collector.
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _choose(ref, UserRole.collector),
-      );
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    void recyclerTapped() {
+      final invited = invitedRecycler(recyclers, phone);
+      if (invited != null) {
+        choose(
+          ref,
+          uid: uid,
+          phone: phone,
+          role: UserRole.recycler,
+          recycler: invited,
+        );
+      } else {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => RecyclerApplyScreen(uid: uid, phone: phone),
+          ),
+        );
+      }
     }
 
     return KScaffold(
@@ -68,7 +88,12 @@ class RoleScreen extends ConsumerWidget {
               child: BigTile(
                 icon: Icons.person,
                 labelKey: 'role_collector',
-                onTap: () => _choose(ref, UserRole.collector),
+                onTap: () => choose(
+                  ref,
+                  uid: uid,
+                  phone: phone,
+                  role: UserRole.collector,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -76,7 +101,8 @@ class RoleScreen extends ConsumerWidget {
               child: BigTile(
                 icon: Icons.factory,
                 labelKey: 'role_recycler',
-                onTap: () => _choose(ref, UserRole.recycler, recycler: invited),
+                colour: const Color(0xFF0D47A1),
+                onTap: recyclerTapped,
               ),
             ),
           ],
