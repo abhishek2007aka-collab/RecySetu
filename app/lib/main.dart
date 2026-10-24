@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'core/app_providers.dart';
@@ -10,15 +11,20 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final firebaseReady = await _initFirebase();
-  // Hindi is the default language (PLAN.md §2). Phase 3 reads the saved choice.
-  final strings = await AppStrings.load('hi');
+  final results = await Future.wait([
+    _initFirebase(),
+    SharedPreferences.getInstance(),
+    AppStrings.loadAll(),
+  ]);
 
   runApp(
     ProviderScope(
       overrides: [
-        appStringsProvider.overrideWithValue(strings),
-        firebaseReadyProvider.overrideWithValue(firebaseReady),
+        firebaseReadyProvider.overrideWithValue(results[0] as bool),
+        sharedPrefsProvider.overrideWithValue(results[1] as SharedPreferences),
+        allStringsProvider.overrideWithValue(
+          results[2] as Map<String, AppStrings>,
+        ),
       ],
       child: const KabadiwalaApp(),
     ),

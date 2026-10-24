@@ -1,6 +1,5 @@
 {
   "app_name": "कबाड़ीवाला कनेक्ट",
-  "home_placeholder": "जल्द आ रहा है",
   "firebase_ready": "सर्वर जुड़ा",
   "firebase_not_ready": "सर्वर अभी नहीं जुड़ा",
   "mat_PCB": "सर्किट बोर्ड",
@@ -14,5 +13,10 @@
   "area_1": "इलाका 1",
   "area_2": "इलाका 2",
   "area_3": "इलाका 3",
-  "per_kg": "प्रति किलो"
+  "per_kg": "प्रति किलो",
+  "lang_name": "हिन्दी",
+  "price_estimate": "लगभग {amount} रुपये मिलेंगे",
+  "price_per_kg": "{material}: {low} से {high} रुपये किलो",
+  "debug_audio_title": "आवाज़ जाँच",
+  "tap_to_hear": "सुनने के लिए दबाएँ"
 }

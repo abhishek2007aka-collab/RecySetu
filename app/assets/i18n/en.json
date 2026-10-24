@@ -1,6 +1,5 @@
 {
   "app_name": "Kabadiwala Connect",
-  "home_placeholder": "Coming soon",
   "firebase_ready": "Server connected",
   "firebase_not_ready": "Server not set up yet",
   "mat_PCB": "Circuit board",
@@ -14,5 +13,10 @@
   "area_1": "Area 1",
   "area_2": "Area 2",
   "area_3": "Area 3",
-  "per_kg": "per kg"
+  "per_kg": "per kg",
+  "lang_name": "English",
+  "price_estimate": "You will get about {amount} rupees",
+  "price_per_kg": "{material}: {low} to {high} rupees per kilo",
+  "debug_audio_title": "Audio check",
+  "tap_to_hear": "Tap to hear"
 }

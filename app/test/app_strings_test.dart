@@ -2,6 +2,12 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kabadiwala_connect/core/i18n/app_strings.dart';
+import 'package:kabadiwala_connect/core/i18n/languages.dart';
+
+Set<String> _keys(String code) => AppStrings.fromJson(
+  code,
+  File('assets/i18n/$code.json').readAsStringSync(),
+).keysForTest.where((k) => !k.startsWith('_')).toSet();
 
 void main() {
   test('returns the text for a known key', () {
@@ -14,11 +20,14 @@ void main() {
     expect(s.t('nope'), 'nope');
   });
 
-  test('hi.json and en.json have the same keys', () {
-    Set<String> keys(String code) => AppStrings.fromJson(
-      code,
-      File('assets/i18n/$code.json').readAsStringSync(),
-    ).keysForTest;
-    expect(keys('en'), keys('hi'));
+  test('fills {slots} from params', () {
+    final s = AppStrings('hi', const {'p': 'लगभग {amount} रुपये'});
+    expect(s.t('p', {'amount': 340}), 'लगभग 340 रुपये');
+  });
+
+  test('every language file has exactly the Hindi keys', () {
+    for (final lang in appLanguages) {
+      expect(_keys(lang.code), _keys('hi'), reason: lang.code);
+    }
   });
 }

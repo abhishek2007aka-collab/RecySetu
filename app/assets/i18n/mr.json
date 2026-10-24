@@ -1,0 +1,22 @@
+{
+  "app_name": "कबाडीवाला कनेक्ट",
+  "firebase_ready": "सर्व्हर जोडला",
+  "firebase_not_ready": "सर्व्हर अजून जोडला नाही",
+  "mat_PCB": "सर्किट बोर्ड",
+  "mat_CABLE_CU": "तांब्याची तार",
+  "mat_BATTERY_LI": "मोबाईल बॅटरी",
+  "mat_BATTERY_PB": "गाडीची बॅटरी",
+  "mat_CRT": "जुना टीव्ही",
+  "mat_MOTOR": "मोटर",
+  "mat_PLASTIC_MIX": "मिश्र प्लास्टिक",
+  "mat_PHONE": "जुना फोन",
+  "area_1": "भाग 1",
+  "area_2": "भाग 2",
+  "area_3": "भाग 3",
+  "per_kg": "प्रति किलो",
+  "lang_name": "मराठी",
+  "price_estimate": "सुमारे {amount} रुपये मिळतील",
+  "price_per_kg": "{material}: {low} ते {high} रुपये किलो",
+  "debug_audio_title": "आवाज तपासणी",
+  "tap_to_hear": "ऐकण्यासाठी दाबा"
+}
