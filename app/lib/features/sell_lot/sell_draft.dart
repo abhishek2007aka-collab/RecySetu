@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../core/hash/handover_hasher.dart';
 import '../../core/sync/photo_store.dart';
 import '../../core/valuation/valuation.dart';
 import '../../data/models/catalog.dart';
@@ -15,6 +16,7 @@ class SellDraft {
     this.materialCode,
     this.weightGrams = 1000,
     this.saved = false,
+    this.handover,
   }) : lotId = lotId ?? const Uuid().v4();
 
   /// Made on the phone at the start, so saving twice never makes two lots.
@@ -24,6 +26,9 @@ class SellDraft {
   final int weightGrams;
   final bool saved;
 
+  /// Set once the collector chose a recycler and the record was sealed.
+  final Handover? handover;
+
   static const maxPhotos = 3;
   static const maxWeightGrams = 1000 * 1000; // 1 tonne
 
@@ -32,12 +37,14 @@ class SellDraft {
     String? materialCode,
     int? weightGrams,
     bool? saved,
+    Handover? handover,
   }) => SellDraft(
     lotId: lotId,
     photos: photos ?? this.photos,
     materialCode: materialCode ?? this.materialCode,
     weightGrams: weightGrams ?? this.weightGrams,
     saved: saved ?? this.saved,
+    handover: handover ?? this.handover,
   );
 }
 
@@ -94,6 +101,40 @@ class SellDraftNotifier extends Notifier<SellDraft> {
     }
     state = state.copyWith(saved: true);
     return lot;
+  }
+
+  /// Seals the handover for [recyclerId] (PLAN.md §6.4), saves it offline
+  /// and marks the lot as handed over. Choosing the same recycler again
+  /// reuses the same record.
+  Handover? handOver({
+    required String collectorUid,
+    required String recyclerId,
+    required int agreedPaise,
+    required double lat,
+    required double lng,
+  }) {
+    final existing = state.handover;
+    if (existing != null && existing.recyclerId == recyclerId) return existing;
+    final code = state.materialCode;
+    final repo = ref.read(recordsRepositoryProvider);
+    if (code == null || repo == null) return null;
+    final h = HandoverHasher.create(
+      id: const Uuid().v4(),
+      lotId: state.lotId,
+      collectorUid: collectorUid,
+      recyclerId: recyclerId,
+      materialCode: code,
+      weightGrams: state.weightGrams,
+      agreedPaise: agreedPaise,
+      createdAt: DateTime.now(),
+      lat: lat,
+      lng: lng,
+      photoHashes: [for (final p in state.photos) p.sha256Hex],
+    );
+    repo.saveHandover(h);
+    repo.setLotStatus(state.lotId, collectorUid, LotStatus.handedOver);
+    state = state.copyWith(handover: h);
+    return h;
   }
 }
 

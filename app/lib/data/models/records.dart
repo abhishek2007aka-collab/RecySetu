@@ -221,6 +221,7 @@ class Confirmation {
     required this.recyclerId,
     required this.confirmedAt,
     required this.measuredWeightGrams,
+    required this.amountPaise,
     required this.paidPaise,
     required this.paymentMode,
     this.flags = const [],
@@ -231,6 +232,11 @@ class Confirmation {
   final String recyclerId;
   final DateTime confirmedAt;
   final int measuredWeightGrams;
+
+  /// Value of the deal for the measured weight.
+  final int amountPaise;
+
+  /// Money handed over now (0 when the mode is `due`).
   final int paidPaise;
   final PaymentMode paymentMode;
 
@@ -246,6 +252,7 @@ class Confirmation {
         recyclerId: m['recyclerId'] as String? ?? '',
         confirmedAt: readTime(m['confirmedAt']) ?? DateTime.utc(1970),
         measuredWeightGrams: readInt(m['measuredWeightGrams']) ?? 0,
+        amountPaise: readInt(m['amountPaise']) ?? readInt(m['paidPaise']) ?? 0,
         paidPaise: readInt(m['paidPaise']) ?? 0,
         paymentMode: readEnum(
           m['paymentMode'],
@@ -261,6 +268,7 @@ class Confirmation {
     'recyclerId': recyclerId,
     'confirmedAt': writeTime(confirmedAt),
     'measuredWeightGrams': measuredWeightGrams,
+    'amountPaise': amountPaise,
     'paidPaise': paidPaise,
     'paymentMode': paymentMode.name,
     'flags': flags,

@@ -10,7 +10,9 @@ import '../../core/widgets/action_button.dart';
 import '../../core/widgets/k_scaffold.dart';
 import '../../data/models/catalog.dart';
 import '../../data/providers.dart';
-import '../home/coming_soon_screen.dart';
+import '../../core/geo/location.dart';
+import '../../core/geo/recycler_ranking.dart';
+import '../handover/handover_screen.dart';
 import '../recyclers/recyclers_screen.dart';
 import 'sell_draft.dart';
 
@@ -40,6 +42,31 @@ class _EstimateScreenState extends ConsumerState<EstimateScreen> {
     ref
         .read(sellDraftProvider.notifier)
         .save(collectorUid: uid, estimate: Valuation.estimate(grams, price));
+  }
+
+  void _openHandover(BuildContext context, RankedRecycler choice) {
+    final uid = ref.read(currentUidProvider);
+    if (uid == null) return;
+    final where = ref.read(myLocationProvider);
+    final h = ref
+        .read(sellDraftProvider.notifier)
+        .handOver(
+          collectorUid: uid,
+          recyclerId: choice.recycler.id,
+          agreedPaise: Valuation.paiseFor(
+            ref.read(sellDraftProvider).weightGrams,
+            choice.ratePaisePerKg,
+          ),
+          lat: where?.lat ?? 0,
+          lng: where?.lng ?? 0,
+        );
+    if (h == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            HandoverScreen(handover: h, recyclerName: choice.recycler.name),
+      ),
+    );
   }
 
   @override
@@ -152,16 +179,8 @@ class _EstimateScreenState extends ConsumerState<EstimateScreen> {
                   ? null
                   : () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) => RecyclersScreen(
-                          onSelect: (context, choice) => Navigator.of(context)
-                              .push(
-                                MaterialPageRoute<void>(
-                                  builder: (_) => const ComingSoonScreen(
-                                    titleKey: 'select',
-                                  ),
-                                ),
-                              ),
-                        ),
+                        builder: (_) =>
+                            RecyclersScreen(onSelect: _openHandover),
                       ),
                     ),
             ),

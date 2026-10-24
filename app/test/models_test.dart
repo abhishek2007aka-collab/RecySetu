@@ -97,6 +97,7 @@ void main() {
         recyclerId: 'r1',
         confirmedAt: _t,
         measuredWeightGrams: 2400,
+        amountPaise: 50000,
         paidPaise: 50000,
         paymentMode: PaymentMode.upi,
         flags: const ['hash_mismatch'],

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/app_providers.dart';
 import 'models/catalog.dart';
+import 'models/records.dart';
 import 'repositories/catalog_repository.dart';
 import 'repositories/records_repository.dart';
 import 'seed/seed_loader.dart';
@@ -60,3 +61,23 @@ final recyclersProvider = StreamProvider<List<Recycler>>(
 final areasProvider = StreamProvider<List<Area>>(
   (ref) => ref.watch(catalogRepositoryProvider).watchAreas(),
 );
+
+/// Recycler confirmations for this collector, by handover id.
+final myConfirmationsProvider = StreamProvider<Map<String, Confirmation>>((
+  ref,
+) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(const {});
+  return repo
+      .watchConfirmations(uid)
+      .map((list) => {for (final c in list) c.handoverId: c});
+});
+
+/// This collector's handovers.
+final myHandoversProvider = StreamProvider<List<Handover>>((ref) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(const []);
+  return repo.watchHandovers(uid);
+});

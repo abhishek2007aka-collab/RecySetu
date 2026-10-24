@@ -21,6 +21,17 @@ class RecordsRepository {
       _write('confirmations', c.handoverId, c.toMap());
   void saveLedgerEntry(LedgerEntry e) => _write('ledger', e.id, e.toMap());
 
+  void setLotStatus(String lotId, String collectorUid, LotStatus status) =>
+      _write('lots', lotId, {
+        'collectorUid': collectorUid,
+        'status': status == LotStatus.handedOver ? 'handed_over' : status.name,
+      });
+
+  /// The recycler's own rates (screen R3). Firestore merges the map, so
+  /// only the listed materials change.
+  void saveRecyclerRates(String recyclerId, Map<String, int> rates) =>
+      _write('recyclers', recyclerId, {'ratesPaisePerKg': rates});
+
   /// Small photo thumbnail stored as `lots/{lotId}/photos/{index}`.
   void savePhotoThumb({
     required String lotId,

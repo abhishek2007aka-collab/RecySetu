@@ -76,9 +76,9 @@ List _catalog() => [
 
 /// The collector already chose "circuit board" before reaching S10.
 Future<void> choosePcb(WidgetTester tester) async {
-  ProviderScope.containerOf(
-    tester.element(find.byType(RecyclersScreen)),
-  ).read(sellDraftProvider.notifier).chooseMaterial('PCB');
+  ProviderScope.containerOf(tester.element(find.byType(RecyclersScreen)))
+      .read(sellDraftProvider.notifier)
+      .chooseMaterial('PCB');
   await tester.pump();
 }
 
