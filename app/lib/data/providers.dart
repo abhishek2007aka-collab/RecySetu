@@ -38,12 +38,20 @@ final currentUidProvider = Provider<String?>(
   (ref) => ref.watch(authUserProvider).value?.uid,
 );
 
-/// True while this collector has writes not yet on the server.
+/// Number of this collector's records waiting to reach the server.
+final pendingCountProvider = StreamProvider<int>((ref) {
+  final repo = ref.watch(recordsRepositoryProvider);
+  final uid = ref.watch(currentUidProvider);
+  if (repo == null || uid == null) return Stream.value(0);
+  return repo.watchPendingCount(uid);
+});
+
+/// True while some of this collector's records are not on the server yet.
 final pendingWritesProvider = StreamProvider<bool>((ref) {
   final repo = ref.watch(recordsRepositoryProvider);
   final uid = ref.watch(currentUidProvider);
   if (repo == null || uid == null) return Stream.value(false);
-  return repo.watchHasPendingWrites(uid);
+  return repo.watchPendingCount(uid).map((n) => n > 0);
 });
 
 final materialsProvider = StreamProvider<List<ScrapMaterial>>(

@@ -55,6 +55,9 @@ Widget testApp(
     audioServiceProvider.overrideWithValue(audio ?? FakeAudio()),
     onlineProvider.overrideWith((ref) => Stream.value(true)),
     pendingWritesProvider.overrideWith((ref) => Stream.value(unsentData)),
+    pendingCountProvider.overrideWith(
+      (ref) => Stream.value(unsentData ? 2 : 0),
+    ),
     ...overrides.cast(),
   ],
   child: MaterialApp(home: child),

@@ -47,8 +47,15 @@ class SyncIcon extends ConsumerWidget {
         'sync_offline',
       ),
     };
+    final count = ref.watch(pendingCountProvider).value ?? 0;
     return IconButton(
-      icon: Icon(icon, color: colour),
+      // Pending: the number of records still waiting to be sent.
+      icon: Badge(
+        isLabelVisible: count > 0,
+        label: Text('$count'),
+        backgroundColor: AppColors.pending,
+        child: Icon(icon, color: colour),
+      ),
       onPressed: () => ref.speak(key, const {}, true),
     );
   }

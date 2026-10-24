@@ -78,4 +78,19 @@ void main() {
     await tester.pumpAndSettle();
     expect(stops, 1);
   });
+
+  testWidgets('sync icon shows how many records wait to be sent', (
+    tester,
+  ) async {
+    phoneScreen(tester);
+    await tester.pumpWidget(
+      testApp(
+        const HomeScreen(),
+        prefs: await freshPrefs({'language': 'en'}),
+        unsentData: true,
+      ),
+    );
+    await tester.pump();
+    expect(find.text('2'), findsOneWidget);
+  });
 }

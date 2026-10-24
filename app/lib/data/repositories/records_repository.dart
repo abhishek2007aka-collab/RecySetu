@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -91,13 +93,41 @@ class RecordsRepository {
             ],
           );
 
-  /// True while this collector's lots have writes not yet on the server.
-  /// Used by the sync icon.
-  Stream<bool> watchHasPendingWrites(String collectorUid) => _db
-      .collection('lots')
-      .where('collectorUid', isEqualTo: collectorUid)
-      .snapshots(includeMetadataChanges: true)
-      .map((s) => s.metadata.hasPendingWrites);
+  /// How many of this collector's records (lots, handovers, ledger entries)
+  /// are saved on the phone but not yet on the server. Used by the sync icon
+  /// and by logout (which must not lose unsent records).
+  Stream<int> watchPendingCount(String collectorUid) {
+    const collections = ['lots', 'handovers', 'ledger'];
+    final latest = <String, int>{};
+    late final StreamController<int> out;
+    final subs = <StreamSubscription<int>>[];
+    out = StreamController<int>(
+      onListen: () {
+        for (final c in collections) {
+          subs.add(
+            _db
+                .collection(c)
+                .where('collectorUid', isEqualTo: collectorUid)
+                .snapshots(includeMetadataChanges: true)
+                .map(
+                  (s) =>
+                      s.docs.where((d) => d.metadata.hasPendingWrites).length,
+                )
+                .listen((n) {
+                  latest[c] = n;
+                  out.add(latest.values.fold(0, (a, b) => a + b));
+                }, onError: (Object e) => debugPrint('pending $c: $e')),
+          );
+        }
+      },
+      onCancel: () async {
+        for (final sub in subs) {
+          await sub.cancel();
+        }
+      },
+    );
+    return out.stream;
+  }
 
   Stream<List<T>> _mine<T>(
     String collection,
