@@ -132,5 +132,8 @@
   "yes": "Yes",
   "no": "No",
   "voice_on": "Voice on",
-  "voice_off": "Voice off"
+  "voice_off": "Voice off",
+  "grams": "grams",
+  "type_weight": "Type the weight. First choose kilo or gram, then tap the numbers",
+  "weight_spoken_g": "{weight} grams"
 }

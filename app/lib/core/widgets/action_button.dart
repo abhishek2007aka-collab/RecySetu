@@ -14,6 +14,7 @@ class ActionButton extends ConsumerWidget {
     required this.onPressed,
     this.colour,
     this.speakLabel = true,
+    this.extra,
   });
 
   final IconData icon;
@@ -21,6 +22,9 @@ class ActionButton extends ConsumerWidget {
   final VoidCallback? onPressed;
   final Color? colour;
   final bool speakLabel;
+
+  /// Shown after the label, e.g. the live price "~₹300".
+  final String? extra;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +36,9 @@ class ActionButton extends ConsumerWidget {
       child: FilledButton.icon(
         style: FilledButton.styleFrom(backgroundColor: colour),
         icon: Icon(icon, size: 32),
-        label: Text(s.t(labelKey)),
+        label: Text(
+          extra == null ? s.t(labelKey) : '${s.t(labelKey)} · $extra',
+        ),
         onPressed: onPressed == null
             ? null
             : () {

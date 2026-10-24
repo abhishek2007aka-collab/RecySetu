@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kabadiwala_connect/core/format.dart';
@@ -98,12 +99,63 @@ void main() {
     expect(find.text('1.5'), findsOneWidget);
     expect(audio.spoken.last, 'weight_spoken');
 
-    await tester.tap(find.text('Next'));
+    // Live price on the weight screen and on the Next button.
+    expect(find.text('Next · ~₹300'), findsOneWidget);
+    await tester.tap(find.text('Next · ~₹300'));
     await tester.pumpAndSettle();
     expect(find.byType(EstimateScreen), findsOneWidget);
     // 1.5 kg × ₹180–220 = ₹270–330 -> about ₹300
     expect(find.text('~₹300'), findsOneWidget);
     expect(find.text('₹270 – ₹330'), findsOneWidget);
     expect(audio.spoken, contains('price_estimate'));
+  });
+
+  testWidgets('type the weight in grams or kilos', (tester) async {
+    phoneScreen(tester);
+    final audio = FakeAudio();
+    await tester.pumpWidget(
+      testApp(
+        const WeightScreen(),
+        prefs: await freshPrefs({'language': 'en'}),
+        audio: audio,
+        overrides: [
+          pricesProvider.overrideWith((ref) => Stream.value(const <Price>[])),
+        ],
+      ),
+    );
+    await tester.pump();
+
+    // Grams: 350 g.
+    await tester.tap(find.text('grams'));
+    await tester.tap(find.byIcon(Icons.keyboard));
+    await tester.pump();
+    expect(audio.spoken.last, 'type_weight');
+    for (final d in ['3', '5', '0']) {
+      await tester.tap(find.text(d).last);
+      await tester.pump();
+    }
+    await tester.tap(find.byIcon(Icons.check));
+    await tester.pump();
+    expect(find.text('350'), findsOneWidget);
+    expect(audio.spoken.last, 'weight_spoken_g');
+
+    // Kilos: 12 kg.
+    await tester.tap(find.text('kg'));
+    await tester.tap(find.byIcon(Icons.keyboard));
+    await tester.pump();
+    await tester.tap(find.text('1').last);
+    await tester.pump();
+    await tester.tap(find.text('2').last);
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.check));
+    await tester.pump();
+    expect(find.text('12'), findsOneWidget);
+    expect(audio.spoken.last, 'weight_spoken');
+  });
+
+  test('weight shows grams below 1 kg, kilos from 1 kg', () {
+    expect(WeightScreen.display(350), ('350', 'grams'));
+    expect(WeightScreen.display(1000), ('1', 'kg'));
+    expect(WeightScreen.display(2500), ('2.5', 'kg'));
   });
 }
