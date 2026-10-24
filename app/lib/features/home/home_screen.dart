@@ -7,7 +7,7 @@ import '../../core/widgets/k_scaffold.dart';
 import '../../core/widgets/voice_toggle.dart';
 import '../onboarding/language_pick_screen.dart';
 import '../onboarding/logout_button.dart';
-import '../debug/audio_debug_screen.dart';
+import '../debug/demo_tools_screen.dart';
 import '../ledger/ledger_providers.dart';
 import '../ledger/ledger_screen.dart';
 import '../prices/rates_board_screen.dart';
@@ -38,7 +38,7 @@ class HomeScreen extends ConsumerWidget {
     return KScaffold(
       titleKey: 'app_name',
       instructionKey: 'home_instruction',
-      onTitleLongPress: () => open(const AudioDebugScreen()),
+      onTitleLongPress: () => open(const DemoToolsScreen()),
       logoTitle: true,
       extraActions: const [
         VoiceToggleButton(),

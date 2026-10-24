@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kabadiwala_connect/data/models/catalog.dart';
 import 'package:kabadiwala_connect/data/providers.dart';
+import 'package:kabadiwala_connect/features/debug/demo_tools_screen.dart';
 import 'package:kabadiwala_connect/features/safety/safety_cards.dart';
 import 'package:kabadiwala_connect/features/safety/safety_screen.dart';
 import 'package:kabadiwala_connect/features/sell_lot/category_screen.dart';
@@ -101,4 +102,21 @@ void main() {
       expect(audio.spoken, contains('hazard_warning'));
     },
   );
+
+  testWidgets('demo tools: reset safety cards so they play again', (
+    tester,
+  ) async {
+    phoneScreen(tester);
+    final prefs = await freshPrefs({
+      'language': 'en',
+      'safety_seen_CRT': true,
+      'safety_seen_BATTERY_LI': true,
+    });
+    await tester.pumpWidget(testApp(const DemoToolsScreen(), prefs: prefs));
+    await tester.pump();
+    await tester.tap(find.text('Show safety cards again'));
+    await tester.pump();
+    expect(prefs.getBool('safety_seen_CRT'), isNull);
+    expect(prefs.getBool('safety_seen_BATTERY_LI'), isNull);
+  });
 }

@@ -166,5 +166,8 @@
   "safety_gloves_pcb_title": "Wear gloves",
   "safety_gloves_pcb_text": "Handle circuit boards and broken items only with gloves. Wash your hands with soap afterwards.",
   "safety_no_acid_title": "Never use acid",
-  "safety_no_acid_text": "Do not use acid to take out gold or silver. It burns you and poisons the soil and water. Sell the boards to a recycler."
+  "safety_no_acid_text": "Do not use acid to take out gold or silver. It burns you and poisons the soil and water. Sell the boards to a recycler.",
+  "demo_tools": "Demo tools",
+  "demo_reset_safety": "Show safety cards again",
+  "demo_set_location": "Location: Roorkee (demo)"
 }
