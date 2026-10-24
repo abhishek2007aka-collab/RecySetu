@@ -139,21 +139,35 @@ class _MaterialTile extends ConsumerWidget {
         child: Stack(
           children: [
             Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppIcons.material(
-                    material.iconAsset,
-                    size: 64,
-                    color: colour,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    s.t(material.nameKey),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: FittedBox(
+                        child: AppIcons.material(
+                          material.iconAsset,
+                          size: 64,
+                          color: colour,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Flexible(
+                      flex: 2,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          s.t(material.nameKey),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             if (suggested)

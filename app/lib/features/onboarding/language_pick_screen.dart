@@ -125,24 +125,43 @@ class _LanguageTile extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              heard ? Icons.check_circle : Icons.volume_up,
-              size: 40,
-              color: heard ? AppColors.confirmed : scheme.primary,
-            ),
-            const SizedBox(height: 8),
-            FittedBox(
-              child: Text(
-                name,
-                style: Theme.of(context).textTheme.headlineMedium,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: FittedBox(
+                  child: Icon(
+                    heard ? Icons.check_circle : Icons.volume_up,
+                    size: 40,
+                    color: heard ? AppColors.confirmed : scheme.primary,
+                  ),
+                ),
               ),
-            ),
-            if (heard)
-              Text(okLabel, style: Theme.of(context).textTheme.titleLarge),
-          ],
+              const SizedBox(height: 8),
+              Flexible(
+                flex: 2,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    name,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ),
+              ),
+              if (heard)
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      okLabel,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -162,17 +181,28 @@ class _MoreTile extends StatelessWidget {
     child: InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.language, size: 48),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Flexible(
+              child: FittedBox(child: Icon(Icons.language, size: 48)),
+            ),
+            const SizedBox(height: 8),
+            Flexible(
+              flex: 2,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );

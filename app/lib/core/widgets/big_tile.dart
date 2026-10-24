@@ -54,10 +54,16 @@ class BigTile extends ConsumerWidget {
                       child: FittedBox(child: Icon(icon, size: 72, color: c)),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      s.t(labelKey),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge,
+                    // Shrinks rather than overflowing at very large font sizes.
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          s.t(labelKey),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
                     ),
                   ],
                 ),

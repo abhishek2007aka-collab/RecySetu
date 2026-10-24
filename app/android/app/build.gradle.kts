@@ -33,6 +33,13 @@ android {
         versionName = flutter.versionName
     }
 
+    packaging {
+        jniLibs {
+            // The on-phone AI runs on the CPU; the GPU helper (2.5 MB) is unused.
+            excludes += "**/libtensorflowlite_gpu_jni.so"
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
