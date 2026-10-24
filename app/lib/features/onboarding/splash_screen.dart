@@ -91,15 +91,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         children: [
                           FittedBox(
                             child: Text(
-                              s.t('app_name'),
+                              s.t('brand'),
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 38,
+                                fontSize: 46,
                                 fontWeight: FontWeight.w900,
-                                letterSpacing: 0.5,
+                                letterSpacing: 1,
                               ),
                             ),
                           ),
+                          // The name in the user's own script (helps TTS
+                          // and readers of that script).
+                          if (s.t('app_name') != s.t('brand'))
+                            Text(
+                              s.t('app_name'),
+                              style: TextStyle(
+                                color: AppLogo.gold,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           const SizedBox(height: 8),
                           Text(
                             s.t('tagline'),

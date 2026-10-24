@@ -1,6 +1,6 @@
-# Kabadiwala Connect — Project Record
+# RecySetu — Project Record
 
-Smart India Hackathon 2026 · Problem statement SIH26229 · Ministry of Mines (Clean & Green Technology)
+Smart India Hackathon 2026 · Problem statement SIH26229 · Ministry of Mines (Clean & Green Technology) · Team ByteStorms
 
 This document records everything the team built, step by step, in simple language: what the app does, how it works inside, the tools we used, the problems we hit and how we solved them. It is updated after every build phase.
 
@@ -21,6 +21,8 @@ Last updated: 24 October 2026, 11:30 pm. **Final hackathon build (version 1.0.0)
 | Still to do by the team | Field study (check prices with local dealers), native-speaker check of translations, more training photos for batteries and motors |
 
 
+**About the name:** the app was first called *Kabadiwala Connect*. Its final name is **RecySetu**: *Recy* (recycle) + *Setu* (Hindi for bridge), a bridge between the kabadiwala and the authorised recycler. The logo shows exactly that: recycling arrows over a bridge. (The internal Android package name stays `in.kabadiwalaconnect...`, because changing it would break the Firebase setup and app updates; users never see it.)
+
 ## 1. The problem in one page
 
 India produces a huge amount of electronic waste (old phones, TVs, wires, batteries, circuit boards). Most of it is collected by informal scrap collectors called **kabadiwalas**. They usually:
@@ -34,7 +36,7 @@ Meanwhile, **authorised recyclers** (registered with the government to recycle e
 
 ## 2. Our solution
 
-**Kabadiwala Connect** is an Android app that works **without internet** and **without needing to read**. A collector can:
+**RecySetu** (*Recycle + Setu*, a bridge) is an Android app that works **without internet** and **without needing to read**. A collector can:
 
 1. Take a photo of the scrap.
 2. Pick what it is by tapping a picture (circuit board, copper wire, battery...).
@@ -435,7 +437,7 @@ We tested this end to end on the real phone with a clearly labelled **fake test 
 
 ### Loading screen and app icon
 
-After the PIN, a 2-second **branded loading screen** shows the **logo** (green recycling arrows with a gold ₹ coin, "recycle e-waste, get a fair price"), the app name, a tagline (*"हर कबाड़ का सही दाम"*, Fair price for every scrap) and the credit **"Developed by ⚡ ByteStorms"**, Smart India Hackathon 2026 · SIH26229. A tap skips it. The same logo is the **phone's app icon**, in classic and adaptive versions for Android 8+.
+After the PIN, a 2-second **branded loading screen** shows the **logo** (green recycling arrows above a gold **arch bridge**, the *setu* between kabadiwalas and authorised recyclers), the name **RecySetu** (and the name in the user's own script, e.g. रीसाइसेतु), a tagline (*"हर कबाड़ का सही दाम"*, Fair price for every scrap) and the credit **"Developed by ⚡ ByteStorms"**, Smart India Hackathon 2026 · SIH26229. A tap skips it. The same logo is the **phone's app icon**, in classic and adaptive versions for Android 8+.
 
 ![The app icon: classic round (left) and how Android 8+ shows it as a circle or rounded square.](images/app_icon_preview.png)
 
@@ -471,7 +473,7 @@ The cloud icon on every screen now shows **how many records are waiting** to be 
 ### Release: a real app, no cables
 
 - **Signing:** release builds are signed with the team's own key ("CN=ByteStorms"). The key and its password are kept **outside git**; the team must keep a private backup, because Android only accepts updates signed with the same key. Its fingerprints are registered with Firebase so phone login works.
-- **Sharing:** `release/KabadiwalaConnect-most-phones.apk` (34.6 MB) and `...-old-phones.apk` (28.7 MB) can be sent by WhatsApp or Drive and installed like any app.
+- **Sharing:** `release/RecySetu-most-phones.apk` (34.6 MB) and `...-old-phones.apk` (28.7 MB) can be sent by WhatsApp or Drive and installed like any app.
 - **Updates over the internet:** version **1.0.0** is uploaded to **Firebase App Distribution**. Testers added in the Firebase console get an email and can install and update it without cables.
 - After installing, the app needs **no cable and no laptop**: it talks to Firebase over the internet, and works offline in between.
 

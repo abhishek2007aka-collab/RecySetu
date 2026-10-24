@@ -1,4 +1,4 @@
-# Kabadiwala Connect — Full Build Plan
+# RecySetu (formerly Kabadiwala Connect) — Full Build Plan
 
 SIH26229 · Offline-first, multilingual, low-literacy e-waste app for informal collectors.
 Read `CLAUDE.md` first. Build phases in order. Each phase lists: goal, tasks,

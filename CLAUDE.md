@@ -1,4 +1,4 @@
-# Kabadiwala Connect — project rules for Claude Code
+# RecySetu (formerly Kabadiwala Connect) — project rules for Claude Code
 
 ## What this is
 SIH 2026 problem statement SIH26229 (Ministry of Mines, Clean & Green Technology).

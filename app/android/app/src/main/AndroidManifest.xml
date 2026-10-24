@@ -7,7 +7,7 @@
     <!-- Camera: photos of scrap (collector) and QR scanning (recycler). -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <application
-        android:label="Kabadiwala Connect"
+        android:label="RecySetu"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">

@@ -25,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PHOTOS = ROOT / "data" / "photos"
 API = "https://commons.wikimedia.org/w/api.php"
-UA = "KabadiwalaConnect-SIH/0.1 (student hackathon project; training data collection)"
+UA = "RecySetu-SIH/0.1 (student hackathon project; training data collection)"
 
 # Material code -> Wikimedia Commons categories (checked to contain photos).
 SOURCES = {

@@ -21,7 +21,7 @@ class _KabadiwalaAppState extends ConsumerState<KabadiwalaApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorObservers: [_stopOnBack],
-      onGenerateTitle: (_) => ref.read(appStringsProvider).t('app_name'),
+      onGenerateTitle: (_) => ref.read(appStringsProvider).t('brand'),
       theme: AppTheme.light(),
       // Urdu is written right-to-left: mirror the whole layout.
       builder: (context, child) => Directionality(

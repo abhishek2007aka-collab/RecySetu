@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Urdu speaker before field use.",
-  "app_name": "کباڑی والا کنیکٹ",
+  "app_name": "ریسائی سیتو",
   "firebase_ready": "سرور جڑ گیا",
   "firebase_not_ready": "سرور ابھی نہیں جڑا",
   "mat_PCB": "سرکٹ بورڈ",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "سونا یا چاندی نکالنے کے لیے تیزاب نہ ڈالیں۔ اس سے جلن ہوتی ہے اور زمین اور پانی زہریلے ہوتے ہیں۔ بورڈ ری سائیکلر کو بیچیں۔",
   "demo_tools": "ڈیمو کے اوزار",
   "demo_reset_safety": "حفاظتی کارڈ دوبارہ دکھائیں",
-  "demo_set_location": "جگہ: روڑکی (ڈیمو)"
+  "demo_set_location": "جگہ: روڑکی (ڈیمو)",
+  "brand": "RecySetu"
 }

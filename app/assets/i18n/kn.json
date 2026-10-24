@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Kannada speaker before field use.",
-  "app_name": "ಕಬಾಡಿವಾಲಾ ಕನೆಕ್ಟ್",
+  "app_name": "ರೀಸೈಸೇತು",
   "firebase_ready": "ಸರ್ವರ್ ಸಂಪರ್ಕಗೊಂಡಿದೆ",
   "firebase_not_ready": "ಸರ್ವರ್ ಇನ್ನೂ ಸಂಪರ್ಕಗೊಂಡಿಲ್ಲ",
   "mat_PCB": "ಸರ್ಕ್ಯೂಟ್ ಬೋರ್ಡ್",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "ಚಿನ್ನ ಅಥವಾ ಬೆಳ್ಳಿ ತೆಗೆಯಲು ಆಮ್ಲ ಬಳಸಬೇಡಿ. ಅದು ಸುಡುತ್ತದೆ, ಮಣ್ಣು ಮತ್ತು ನೀರನ್ನು ವಿಷಮಯ ಮಾಡುತ್ತದೆ. ಬೋರ್ಡ್‌ಗಳನ್ನು ಮರುಬಳಕೆದಾರರಿಗೆ ಮಾರಿ.",
   "demo_tools": "ಡೆಮೊ ಉಪಕರಣಗಳು",
   "demo_reset_safety": "ಸುರಕ್ಷತಾ ಕಾರ್ಡ್ ಮತ್ತೆ ತೋರಿಸಿ",
-  "demo_set_location": "ಸ್ಥಳ: ರೂರ್ಕಿ (ಡೆಮೊ)"
+  "demo_set_location": "ಸ್ಥಳ: ರೂರ್ಕಿ (ಡೆಮೊ)",
+  "brand": "RecySetu"
 }

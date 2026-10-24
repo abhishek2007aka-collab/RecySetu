@@ -1,6 +1,6 @@
 # Developer setup (Mac)
 
-What each teammate needs installed to build and run Kabadiwala Connect.
+What each teammate needs installed to build and run RecySetu.
 Versions below are what we use; newer patch versions are fine.
 
 | Tool | Why we need it | Install |

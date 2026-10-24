@@ -1,4 +1,4 @@
-# Kabadiwala Connect — 3-minute demo script (SIH26229)
+# RecySetu — 3-minute demo script (SIH26229)
 
 **Team ByteStorms.** Two phones. Airplane mode ON for the whole demo until the last step.
 
@@ -44,7 +44,7 @@
 - Phone A's receipt turns **green "Confirmed"** and speaks the payment. **मेरी कमाई (My earnings)** shows today's total and money due.
 
 **2:55 — Close (5 s)**
-"Offline, spoken, 12 languages, AI on the phone, real authorised recyclers, tamper-proof receipts. Kabadiwala Connect, by ByteStorms."
+"Offline, spoken, 12 languages, AI on the phone, real authorised recyclers, tamper-proof receipts. RecySetu, by ByteStorms."
 
 ## If something goes wrong
 | Problem | Do this |

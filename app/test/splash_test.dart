@@ -16,7 +16,8 @@ void main() {
       ),
     );
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Kabadiwala Connect'), findsOneWidget);
+    // English: the brand only (no second line in another script).
+    expect(find.text('RecySetu'), findsOneWidget);
     expect(find.text('Fair price for every scrap'), findsOneWidget);
     expect(find.text('Developed by'), findsOneWidget);
     expect(find.text('ByteStorms'), findsOneWidget);
@@ -37,7 +38,9 @@ void main() {
       ),
     );
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('कबाड़ीवाला कनेक्ट'), findsOneWidget);
+    // Hindi: the brand plus the name in Devanagari.
+    expect(find.text('RecySetu'), findsOneWidget);
+    expect(find.text('रीसाइसेतु'), findsOneWidget);
     await tester.tap(find.text('ByteStorms'));
     expect(done, 1);
     await tester.pump(const Duration(seconds: 3));

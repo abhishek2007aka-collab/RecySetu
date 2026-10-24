@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Bhojpuri speaker before field use.",
-  "app_name": "कबाड़ीवाला कनेक्ट",
+  "app_name": "रीसाइसेतु",
   "firebase_ready": "सर्वर जुड़ गइल",
   "firebase_not_ready": "सर्वर अबहीं ना जुड़ल",
   "mat_PCB": "सर्किट बोर्ड",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "सोना भा चाँदी निकाले खातिर तेजाब मत डालीं। एह से जरेला आ माटी पानी जहरीला हो जाला। बोर्ड रीसाइक्लर के बेचीं।",
   "demo_tools": "डेमो के औजार",
   "demo_reset_safety": "सुरक्षा कार्ड फेर देखाईं",
-  "demo_set_location": "जगह: रुड़की (डेमो)"
+  "demo_set_location": "जगह: रुड़की (डेमो)",
+  "brand": "RecySetu"
 }

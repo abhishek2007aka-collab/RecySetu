@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Tamil speaker before field use.",
-  "app_name": "கபாடிவாலா கனெக்ட்",
+  "app_name": "ரீசைசேது",
   "firebase_ready": "சர்வர் இணைந்தது",
   "firebase_not_ready": "சர்வர் இன்னும் இணையவில்லை",
   "mat_PCB": "சர்க்யூட் போர்டு",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "தங்கம் அல்லது வெள்ளி எடுக்க அமிலம் பயன்படுத்தாதீர்கள். அது சுடும், மண்ணையும் நீரையும் நச்சாக்கும். போர்டுகளை மறுசுழற்சியாளரிடம் விற்கவும்.",
   "demo_tools": "டெமோ கருவிகள்",
   "demo_reset_safety": "பாதுகாப்பு அட்டைகளை மீண்டும் காட்டு",
-  "demo_set_location": "இடம்: ரூர்க்கி (டெமோ)"
+  "demo_set_location": "இடம்: ரூர்க்கி (டெமோ)",
+  "brand": "RecySetu"
 }

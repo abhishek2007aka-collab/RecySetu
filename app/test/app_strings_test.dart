@@ -12,8 +12,8 @@ Set<String> _keys(String code) => AppStrings.fromJson(
 
 void main() {
   test('returns the text for a known key', () {
-    final s = AppStrings.fromJson('en', '{"app_name": "Kabadiwala Connect"}');
-    expect(s.t('app_name'), 'Kabadiwala Connect');
+    final s = AppStrings.fromJson('en', '{"app_name": "RecySetu"}');
+    expect(s.t('app_name'), 'RecySetu');
   });
 
   test('falls back to the key when text is missing', () {

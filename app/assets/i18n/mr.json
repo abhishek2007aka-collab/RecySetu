@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Marathi speaker before field use.",
-  "app_name": "कबाडीवाला कनेक्ट",
+  "app_name": "रीसाइसेतु",
   "firebase_ready": "सर्व्हर जोडला",
   "firebase_not_ready": "सर्व्हर अजून जोडला नाही",
   "mat_PCB": "सर्किट बोर्ड",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "सोने किंवा चांदी काढण्यासाठी आम्ल वापरू नका. त्याने भाजते आणि माती व पाणी विषारी होते. बोर्ड रिसायकलरला विका.",
   "demo_tools": "डेमो साधने",
   "demo_reset_safety": "सुरक्षा कार्ड पुन्हा दाखवा",
-  "demo_set_location": "ठिकाण: रुडकी (डेमो)"
+  "demo_set_location": "ठिकाण: रुडकी (डेमो)",
+  "brand": "RecySetu"
 }

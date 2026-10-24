@@ -1,5 +1,5 @@
 {
-  "app_name": "Kabadiwala Connect",
+  "app_name": "RecySetu",
   "firebase_ready": "Server connected",
   "firebase_not_ready": "Server not set up yet",
   "mat_PCB": "Circuit board",
@@ -169,5 +169,6 @@
   "safety_no_acid_text": "Do not use acid to take out gold or silver. It burns you and poisons the soil and water. Sell the boards to a recycler.",
   "demo_tools": "Demo tools",
   "demo_reset_safety": "Show safety cards again",
-  "demo_set_location": "Location: Roorkee (demo)"
+  "demo_set_location": "Location: Roorkee (demo)",
+  "brand": "RecySetu"
 }

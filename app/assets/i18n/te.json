@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Telugu speaker before field use.",
-  "app_name": "కబాడీవాలా కనెక్ట్",
+  "app_name": "రీసైసేతు",
   "firebase_ready": "సర్వర్ కలిసింది",
   "firebase_not_ready": "సర్వర్ ఇంకా కలవలేదు",
   "mat_PCB": "సర్క్యూట్ బోర్డు",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "బంగారం లేదా వెండి తీయడానికి ఆమ్లం వాడవద్దు. అది కాలుస్తుంది, నేల, నీటిని విషపూరితం చేస్తుంది. బోర్డులను రీసైక్లర్‌కు అమ్మండి.",
   "demo_tools": "డెమో సాధనాలు",
   "demo_reset_safety": "భద్రతా కార్డులు మళ్ళీ చూపించు",
-  "demo_set_location": "స్థలం: రూర్కీ (డెమో)"
+  "demo_set_location": "స్థలం: రూర్కీ (డెమో)",
+  "brand": "RecySetu"
 }

@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Gujarati speaker before field use.",
-  "app_name": "કબાડીવાલા કનેક્ટ",
+  "app_name": "રીસાઇસેતુ",
   "firebase_ready": "સર્વર જોડાયું",
   "firebase_not_ready": "સર્વર હજુ જોડાયું નથી",
   "mat_PCB": "સર્કિટ બોર્ડ",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "સોનું કે ચાંદી કાઢવા એસિડ વાપરશો નહીં. તેનાથી દાઝી જવાય છે અને જમીન તથા પાણી ઝેરી થાય છે. બોર્ડ રિસાયકલરને વેચો.",
   "demo_tools": "ડેમો સાધનો",
   "demo_reset_safety": "સલામતી કાર્ડ ફરી બતાવો",
-  "demo_set_location": "જગ્યા: રૂડકી (ડેમો)"
+  "demo_set_location": "જગ્યા: રૂડકી (ડેમો)",
+  "brand": "RecySetu"
 }

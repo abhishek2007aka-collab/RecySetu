@@ -1,6 +1,6 @@
 {
   "_review": "Draft translation written by the developers. Check every line with a native Punjabi speaker before field use.",
-  "app_name": "ਕਬਾੜੀਵਾਲਾ ਕਨੈਕਟ",
+  "app_name": "ਰੀਸਾਈਸੇਤੂ",
   "firebase_ready": "ਸਰਵਰ ਜੁੜ ਗਿਆ",
   "firebase_not_ready": "ਸਰਵਰ ਅਜੇ ਨਹੀਂ ਜੁੜਿਆ",
   "mat_PCB": "ਸਰਕਟ ਬੋਰਡ",
@@ -170,5 +170,6 @@
   "safety_no_acid_text": "ਸੋਨਾ ਜਾਂ ਚਾਂਦੀ ਕੱਢਣ ਲਈ ਤੇਜ਼ਾਬ ਨਾ ਵਰਤੋ। ਇਸ ਨਾਲ ਸਾੜ ਪੈਂਦਾ ਹੈ ਅਤੇ ਮਿੱਟੀ ਤੇ ਪਾਣੀ ਜ਼ਹਿਰੀਲੇ ਹੁੰਦੇ ਹਨ। ਬੋਰਡ ਰੀਸਾਈਕਲਰ ਨੂੰ ਵੇਚੋ।",
   "demo_tools": "ਡੈਮੋ ਸੰਦ",
   "demo_reset_safety": "ਸੁਰੱਖਿਆ ਕਾਰਡ ਫਿਰ ਦਿਖਾਓ",
-  "demo_set_location": "ਥਾਂ: ਰੁੜਕੀ (ਡੈਮੋ)"
+  "demo_set_location": "ਥਾਂ: ਰੁੜਕੀ (ਡੈਮੋ)",
+  "brand": "RecySetu"
 }
